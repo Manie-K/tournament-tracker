@@ -8,7 +8,7 @@
   <groupId>goralczyk.maciej</groupId>
   <artifactId>tournament-tracker</artifactId>
   <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
 
   <name>tournament-tracker</name>
   <description>Simple tournament tracker.</description>
@@ -20,6 +20,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <jakartaee.version>10.0.0</jakartaee.version>
     <lombok.version>1.18.26</lombok.version>
+    <junit.version>5.9.3</junit.version>
+    <jassert.version>3.24.2</jassert.version>
   </properties>
 
   <dependencies>
@@ -36,6 +38,33 @@
       <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${jassert.version}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
+
+  <developers>
+    <developer>
+      <id>ManieK</id>
+      <name>Maciej Góralczyk</name>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+
 
 </project>
