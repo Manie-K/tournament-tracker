@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.model;
+package goralczyk.maciej.model;
 
 /**
  * Enum representing possible users' roles.

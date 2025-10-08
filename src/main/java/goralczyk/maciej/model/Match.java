@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.model;
+package goralczyk.maciej.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
