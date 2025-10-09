@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * Model class representing a single match.
@@ -43,4 +44,12 @@ public class Match {
      * 1  -> participant B won.
      */
     private int result = -1;
+
+    /**
+     * Returns null if the match hasn't concluded, User who won otherwise.
+     */
+    public Optional<User> getWinner()
+    {
+        return result == -1 ? Optional.empty() : (result == 0 ? Optional.of(participantA) : Optional.of(participantB));
+    }
 }
