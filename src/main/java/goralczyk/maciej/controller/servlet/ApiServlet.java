@@ -1,9 +1,9 @@
-﻿package goralczyk.maciej.controller.servlet;
+package goralczyk.maciej.controller.servlet;
 
 import goralczyk.maciej.controller.servlet.exception.BadRequestException;
 import goralczyk.maciej.controller.servlet.exception.NotFoundException;
 import goralczyk.maciej.controller.user.api.UserController;
-import goralczyk.maciej.controller.user.implementation.UserSimpleController;
+import goralczyk.maciej.controller.user.implementation.UserControllerImplementation;
 import goralczyk.maciej.dto.user.PatchUserRequest;
 import goralczyk.maciej.dto.user.PutUserRequest;
 import jakarta.json.bind.Jsonb;
@@ -102,7 +102,7 @@ public class ApiServlet extends HttpServlet
     @Override
     public void init() throws ServletException {
         super.init();
-        userController = (UserSimpleController) getServletContext().getAttribute("userController");
+        userController = (UserControllerImplementation) getServletContext().getAttribute("userController");
     }
 
     //region HTTP METHODS
@@ -212,7 +212,7 @@ public class ApiServlet extends HttpServlet
                 UUID uuid = extractUuid(Patterns.USER, path);
                 try {
                     userController.deleteUser(uuid);
-                    response.addHeader("Location", createUrl(request, Paths.API, "users", uuid.toString()));
+                    response.addHeader("Location", createUrl(request, Paths.API, "users"));
                     response.setStatus(HttpServletResponse.SC_NO_CONTENT);
                 }catch (NotFoundException ex){
                     response.setStatus(HttpServletResponse.SC_NO_CONTENT); //It is non-existent after all.

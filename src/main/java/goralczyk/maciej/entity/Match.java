@@ -14,8 +14,6 @@ import java.util.UUID;
  * Model class representing a single match.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class Match implements Serializable {
     /**

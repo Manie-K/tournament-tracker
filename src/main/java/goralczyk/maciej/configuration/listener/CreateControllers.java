@@ -1,7 +1,7 @@
-﻿package goralczyk.maciej.configuration.listener;
+package goralczyk.maciej.configuration.listener;
 
 import goralczyk.maciej.configuration.StringConstants;
-import goralczyk.maciej.controller.user.implementation.UserSimpleController;
+import goralczyk.maciej.controller.user.implementation.UserControllerImplementation;
 import goralczyk.maciej.dto.DtoFunctionFactory;
 import goralczyk.maciej.service.user.api.UserService;
 import jakarta.servlet.ServletContextListener;
@@ -20,7 +20,7 @@ public class CreateControllers implements ServletContextListener
     {
         UserService userService = (UserService) event.getServletContext().getAttribute(StringConstants.USER_SERVICE);
 
-        event.getServletContext().setAttribute(StringConstants.USER_CONTROLLER, new UserSimpleController(
+        event.getServletContext().setAttribute(StringConstants.USER_CONTROLLER, new UserControllerImplementation(
                 userService,
                 new DtoFunctionFactory()
         ));

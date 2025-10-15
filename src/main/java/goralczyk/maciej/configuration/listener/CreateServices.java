@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.configuration.listener;
+package goralczyk.maciej.configuration.listener;
 
 import goralczyk.maciej.configuration.StringConstants;
 import goralczyk.maciej.data.DataStore;
@@ -21,7 +21,9 @@ public class CreateServices implements ServletContextListener {
         DataStore dataSource = (DataStore) event.getServletContext().getAttribute(StringConstants.DATA_SOURCE);
         UserRepository userRepository = new UserInMemoryRepository(dataSource);
 
-        event.getServletContext().setAttribute(StringConstants.USER_SERVICE, new UserServiceImplementation(userRepository));
+        String photoDir = event.getServletContext().getInitParameter(StringConstants.PHOTO_DIR);
+
+        event.getServletContext().setAttribute(StringConstants.USER_SERVICE, new UserServiceImplementation(userRepository, photoDir));
     }
 
 }

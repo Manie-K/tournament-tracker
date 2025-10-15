@@ -1,15 +1,13 @@
-﻿package goralczyk.maciej.dto.user;
+package goralczyk.maciej.dto.user;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Request for updating a user.
  */
 @Data
-@AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-@NoArgsConstructor
+@Builder
 public class PatchUserRequest
 {
     /**

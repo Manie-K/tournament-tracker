@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.data;
+package goralczyk.maciej.data;
 
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.utility.serialization.CloningUtility;

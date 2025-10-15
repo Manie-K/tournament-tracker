@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.dto.user;
+package goralczyk.maciej.dto.user;
 
 import lombok.*;
 
@@ -10,14 +10,10 @@ import java.util.UUID;
  * Response DTO for retrieving user details.
  */
 @Data
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor
 @Builder
 public class GetUserResponse
 {
     @Data
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @NoArgsConstructor
     @Builder
     public static class MatchSummary {
         private UUID id;

@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.controller.servlet.exception;
+package goralczyk.maciej.controller.servlet.exception;
 
 /**
  * Exception indicates that requested resource was not found and 404 status code should be returned.

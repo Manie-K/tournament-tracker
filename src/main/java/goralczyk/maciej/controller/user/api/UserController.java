@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.controller.user.api;
+package goralczyk.maciej.controller.user.api;
 
 import goralczyk.maciej.dto.user.GetUserResponse;
 import goralczyk.maciej.dto.user.GetUsersResponse;
@@ -53,15 +53,15 @@ public interface UserController
 
     /**
      * @param id       user's id.
-     * @param portrait user's new photo.
+     * @param photo user's new photo.
      */
-    void putUserPhoto(UUID id, InputStream portrait);
+    void putUserPhoto(UUID id, InputStream photo);
 
     /**
      * @param id       user's id.
-     * @param portrait user's updated photo.
+     * @param photo user's updated photo.
      */
-    void patchUserPhoto(UUID id, InputStream portrait);
+    void patchUserPhoto(UUID id, InputStream photo);
 
     /**
      * @param id       user's id.

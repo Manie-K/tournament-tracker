@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.dto;
+package goralczyk.maciej.dto;
 
 import goralczyk.maciej.dto.user.GetUserResponse;
 import goralczyk.maciej.dto.user.GetUsersResponse;

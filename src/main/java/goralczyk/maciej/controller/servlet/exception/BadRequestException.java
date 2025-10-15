@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.controller.servlet.exception;
+package goralczyk.maciej.controller.servlet.exception;
 
 /**
  * Exception indicates that client made bad request and 400 status code should be returned.

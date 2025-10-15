@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.configuration.listener;
+package goralczyk.maciej.configuration.listener;
 
 import goralczyk.maciej.configuration.StringConstants;
 import goralczyk.maciej.data.DataStore;

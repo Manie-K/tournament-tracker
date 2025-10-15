@@ -1,9 +1,6 @@
 package goralczyk.maciej.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,8 +11,6 @@ import java.util.UUID;
  * Model class representing a single tournament.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class Tournament implements Serializable {
     /**
@@ -36,5 +31,6 @@ public class Tournament implements Serializable {
     /**
      * List of matches in this tournament.
      */
+    @EqualsAndHashCode.Exclude
     private List<Match> matches; //TODO: include format e.g. single elimination bracket, List<List<Matches>>
 }

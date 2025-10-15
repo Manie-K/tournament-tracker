@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.dto.user;
+package goralczyk.maciej.dto.user;
 
 import lombok.*;
 
@@ -11,13 +11,9 @@ import java.util.UUID;
  */
 @Data
 @Builder
-@AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-@NoArgsConstructor
 public class GetUsersResponse
 {
     @Data
-    @AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-    @NoArgsConstructor
     @Builder
     public static class SingleUser
     {

@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.utility.serialization;
+package goralczyk.maciej.utility.serialization;
 
 import goralczyk.maciej.entity.User;
 import lombok.SneakyThrows;

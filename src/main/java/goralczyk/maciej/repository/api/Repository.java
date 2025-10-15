@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.repository.api;
+package goralczyk.maciej.repository.api;
 
 import java.util.List;
 import java.util.Optional;

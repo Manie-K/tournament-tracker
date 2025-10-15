@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.service.user.api;
+package goralczyk.maciej.service.user.api;
 
 import goralczyk.maciej.entity.User;
 

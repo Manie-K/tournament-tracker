@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.controller.servlet.exception;
+package goralczyk.maciej.controller.servlet.exception;
 
 import lombok.Getter;
 

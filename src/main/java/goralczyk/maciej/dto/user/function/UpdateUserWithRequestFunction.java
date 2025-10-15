@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.dto.user.function;
+package goralczyk.maciej.dto.user.function;
 
 import goralczyk.maciej.dto.user.PatchUserRequest;
 import goralczyk.maciej.entity.User;

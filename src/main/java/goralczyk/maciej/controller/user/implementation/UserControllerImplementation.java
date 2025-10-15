@@ -1,17 +1,16 @@
-﻿package goralczyk.maciej.controller.user.implementation;
+package goralczyk.maciej.controller.user.implementation;
 
 import goralczyk.maciej.controller.servlet.exception.*;
 import goralczyk.maciej.controller.user.api.UserController;
 import goralczyk.maciej.dto.DtoFunctionFactory;
 import goralczyk.maciej.dto.user.*;
-import goralczyk.maciej.entity.User;
 import goralczyk.maciej.service.user.api.UserService;
 
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.UUID;
 
-public class UserSimpleController implements UserController
+public class UserControllerImplementation implements UserController
 {
     /**
      * User service.
@@ -27,7 +26,7 @@ public class UserSimpleController implements UserController
      * @param service user service
      * @param factory factory producing functions for conversion between DTO and entities
      */
-    public UserSimpleController(UserService service, DtoFunctionFactory factory) {
+    public UserControllerImplementation(UserService service, DtoFunctionFactory factory) {
         this.service = service;
         this.dtoFactory = factory;
     }
@@ -81,15 +80,13 @@ public class UserSimpleController implements UserController
 
     @Override
     public Optional<byte[]> getUserPhoto(UUID id) {
-        return service.find(id)
-                .orElseThrow(NotFoundException::new)
-                .getPhoto();
+        return service.getPhoto(id);
     }
 
     @Override
-    public void putUserPhoto(UUID id, InputStream portrait) {
+    public void putUserPhoto(UUID id, InputStream photo) {
         service.find(id).ifPresentOrElse(
-                u -> service.createPhoto(id, portrait),
+                u -> service.createPhoto(id, photo),
                 () -> {
                     throw new NotFoundException();
                 }
@@ -97,9 +94,9 @@ public class UserSimpleController implements UserController
     }
 
     @Override
-    public void patchUserPhoto(UUID id, InputStream portrait) {
+    public void patchUserPhoto(UUID id, InputStream photo) {
         service.find(id).ifPresentOrElse(
-                u -> service.updatePhoto(id, portrait),
+                u -> service.updatePhoto(id, photo),
                 () -> {
                     throw new NotFoundException();
                 }

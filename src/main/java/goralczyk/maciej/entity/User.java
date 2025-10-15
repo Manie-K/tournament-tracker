@@ -13,8 +13,6 @@ import java.util.UUID;
  * Model class representing user.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class User implements Serializable {
     /**
@@ -40,6 +38,7 @@ public class User implements Serializable {
     /**
      * Matches in which the user participated.
      */
+    @EqualsAndHashCode.Exclude
     private List<Match> matches;
 
     /**
@@ -47,7 +46,7 @@ public class User implements Serializable {
      */
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Optional<byte[]> photo;
+    private byte[] photo;
 
     /**
      * Returns the age of the user based on the date of birth.

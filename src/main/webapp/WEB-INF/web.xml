@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
@@ -6,15 +6,20 @@
          metadata-complete="false">
 
     <listener>
-        <listener-class>pl.edu.pg.eti.kask.rpg.configuration.listener.CreateDataSource</listener-class>
+        <listener-class>goralczyk.maciej.configuration.listener.CreateDataSource</listener-class>
     </listener>
 
     <listener>
-        <listener-class>pl.edu.pg.eti.kask.rpg.configuration.listener.CreateServices</listener-class>
+        <listener-class>goralczyk.maciej.configuration.listener.CreateServices</listener-class>
     </listener>
 
     <listener>
-        <listener-class>pl.edu.pg.eti.kask.rpg.configuration.listener.CreateControllers</listener-class>
+        <listener-class>goralczyk.maciej.configuration.listener.CreateControllers</listener-class>
     </listener>
+
+    <context-param>
+        <param-name>photos.dir</param-name>
+        <param-value>C:/temp/tournament-tracker/photos</param-value>
+    </context-param>
 
 </web-app>

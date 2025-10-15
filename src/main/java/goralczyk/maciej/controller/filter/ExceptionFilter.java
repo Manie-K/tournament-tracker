@@ -1,4 +1,4 @@
-﻿package goralczyk.maciej.controller.filter;
+package goralczyk.maciej.controller.filter;
 
 import goralczyk.maciej.controller.servlet.ApiServlet;
 import goralczyk.maciej.controller.servlet.exception.HttpRequestException;

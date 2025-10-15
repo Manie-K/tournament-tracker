@@ -1,10 +1,11 @@
-﻿package goralczyk.maciej.dto.user.function;
+package goralczyk.maciej.dto.user.function;
 
 import goralczyk.maciej.dto.user.PutUserRequest;
 import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
@@ -17,7 +18,7 @@ public class RequestToUserFunction implements BiFunction<UUID, PutUserRequest, U
                 .dateOfBirth(request.getDateOfBirth())
                 .role(Role.valueOf(request.getRole()))
                 .matches(List.of()) // New user has no matches
-                .photo((byte[]) null) // New user has no photo
+                .photo(null) // New user has no photo
                 .build();
     }
 }

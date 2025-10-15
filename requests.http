@@ -1,0 +1,17 @@
+@api = http://localhost:9080/tournament-tracker/api
+@userId = 00000000-0000-0000-0000-000000000001
+
+### GET all users
+GET {api}/users
+###
+
+### GET specific user
+GET {api}/users/{userId}
+###
+
+### Get specific user photo
+GET {api}/users/{userId}/photo
+###
+
+### Update specific user photo
+PATCH {api}/users/{userId}/photo

@@ -1,12 +1,17 @@
-﻿package goralczyk.maciej.service.user.implementation;
+package goralczyk.maciej.service.user.implementation;
 
 
+import goralczyk.maciej.controller.servlet.exception.BadRequestException;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.user.api.UserRepository;
 import goralczyk.maciej.service.user.api.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,13 +26,15 @@ public class UserServiceImplementation implements UserService
      * Repository for user.
      */
     private final UserRepository userRepository;
+    private final String photoDir;
 
     /**
      * @param userRepository repository for user entity
      */
-    public UserServiceImplementation(UserRepository userRepository)
+    public UserServiceImplementation(UserRepository userRepository, String photoDir)
     {
         this.userRepository = userRepository;
+        this.photoDir = photoDir;
     }
 
     @Override
@@ -57,15 +64,43 @@ public class UserServiceImplementation implements UserService
 
     @Override
     public Optional<byte[]> getPhoto(UUID id) {
-        return userRepository.find(id).orElseThrow().getPhoto();
+        //TEMP, while we store it in files not db
+        Path path = GetUserPhotoPath(id);
+        try {
+            if (Files.exists(path)) {
+                return Optional.of(Files.readAllBytes(path));
+            } else {
+                return Optional.empty();
+            }
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+
+        /*
+        byte[] photo = userRepository.find(id).orElseThrow().getPhoto();
+        if (photo == null || photo.length == 0) {
+            return Optional.empty();
+        }
+
+        return Optional.of(photo);
+        */
     }
+
 
     @Override
     public void createPhoto(UUID id, InputStream is) {
         userRepository.find(id).ifPresent(user -> {
             try {
-                user.setPhoto(Optional.of(is.readAllBytes()));
+                if(user.getPhoto() != null) {
+                    throw new BadRequestException("Photo already exists. Use patch to update.");
+                }
+                user.setPhoto(is.readAllBytes());
                 userRepository.update(user);
+
+                //TEMP, while we store it in files not db
+                Path path = GetUserPhotoPath(id);
+                Files.write(path, user.getPhoto(), StandardOpenOption.CREATE_NEW);
+
             } catch (IOException ex) {
                 throw new IllegalStateException(ex);
             }
@@ -76,8 +111,13 @@ public class UserServiceImplementation implements UserService
     public void updatePhoto(UUID id, InputStream is) {
         userRepository.find(id).ifPresent(user -> {
             try {
-                user.setPhoto(Optional.of(is.readAllBytes()));
+                user.setPhoto(is.readAllBytes());
                 userRepository.update(user);
+
+                //TEMP, while we store it in files not db
+                Path path = GetUserPhotoPath(id);
+                Files.write(path, user.getPhoto(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
             } catch (IOException ex) {
                 throw new IllegalStateException(ex);
             }
@@ -87,8 +127,20 @@ public class UserServiceImplementation implements UserService
     @Override
     public void deletePhoto(UUID id) {
         userRepository.find(id).ifPresent(user -> {
-            user.setPhoto(Optional.empty());
+            user.setPhoto(null);
             userRepository.update(user);
+
+            //TEMP, while we store it in files not db
+            Path path = GetUserPhotoPath(id);
+            try {
+                Files.deleteIfExists(path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
+    }
+
+    private Path GetUserPhotoPath(UUID id) {
+        return Paths.get(photoDir, id.toString() + ".png");
     }
 }
