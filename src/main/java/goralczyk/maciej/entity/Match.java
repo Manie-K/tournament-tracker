@@ -1,11 +1,13 @@
-package goralczyk.maciej.model;
+package goralczyk.maciej.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Model class representing a single match.
@@ -13,11 +15,12 @@ import java.util.Optional;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Match {
     /**
      * Unique ID (primary key)
      */
-    private int id;
+    private UUID id;
 
     /**
      * First participant.

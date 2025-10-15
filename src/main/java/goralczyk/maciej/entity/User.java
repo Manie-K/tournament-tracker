@@ -1,10 +1,10 @@
-package goralczyk.maciej.model;
+package goralczyk.maciej.entity;
 
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -13,11 +13,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User {
     /**
      * Unique ID (primary key)
      */
-    private int id;
+    private UUID id;
 
     /**
      * Name of the user.
@@ -45,4 +46,12 @@ public class User {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private byte[] photo;
+
+    /**
+     * Returns the age of the user based on the date of birth.
+     * @return age in years
+     */
+    public int getAge() {
+        return LocalDate.now().getYear() - dateOfBirth.getYear();
+    }
 }

@@ -1,10 +1,12 @@
-package goralczyk.maciej.model;
+package goralczyk.maciej.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -13,11 +15,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Tournament {
     /**
      * Unique ID (primary key)
      */
-    private int id;
+    private UUID id;
 
     /**
      * Name of the tournament.
