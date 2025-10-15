@@ -1,6 +1,7 @@
 package goralczyk.maciej.service.user.implementation;
 
 
+import goralczyk.maciej.configuration.StringConstants;
 import goralczyk.maciej.controller.servlet.exception.BadRequestException;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.user.api.UserRepository;
@@ -8,10 +9,7 @@ import goralczyk.maciej.service.user.api.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -94,13 +92,13 @@ public class UserServiceImplementation implements UserService
                 if(user.getPhoto() != null) {
                     throw new BadRequestException("Photo already exists. Use patch to update.");
                 }
-                user.setPhoto(is.readAllBytes());
+                byte[] photoBytes = is.readAllBytes();
+                user.setPhoto(photoBytes);
                 userRepository.update(user);
 
                 //TEMP, while we store it in files not db
                 Path path = GetUserPhotoPath(id);
                 Files.write(path, user.getPhoto(), StandardOpenOption.CREATE_NEW);
-
             } catch (IOException ex) {
                 throw new IllegalStateException(ex);
             }
@@ -111,7 +109,8 @@ public class UserServiceImplementation implements UserService
     public void updatePhoto(UUID id, InputStream is) {
         userRepository.find(id).ifPresent(user -> {
             try {
-                user.setPhoto(is.readAllBytes());
+                byte[] photoBytes = is.readAllBytes();
+                user.setPhoto(photoBytes);
                 userRepository.update(user);
 
                 //TEMP, while we store it in files not db
@@ -141,6 +140,6 @@ public class UserServiceImplementation implements UserService
     }
 
     private Path GetUserPhotoPath(UUID id) {
-        return Paths.get(photoDir, id.toString() + ".png");
+        return Paths.get(photoDir, id.toString() + StringConstants.PHOTO_EXT);
     }
 }

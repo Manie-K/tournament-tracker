@@ -5,6 +5,8 @@ public class StringConstants {
     public static final String USER_CONTROLLER = "userController";
     public static final String DATA_SOURCE = "dataSource";
     public static final String PHOTO_DIR = "photos.dir";
+    public static final String PHOTO_EXT = ".png";
+
 
     private StringConstants() {
     }

@@ -1,17 +1,48 @@
 @api = http://localhost:9080/tournament-tracker/api
-@userId = 00000000-0000-0000-0000-000000000001
+@userId = 00000000-0000-0000-0000-000000000004
 
 ### GET all users
-GET {api}/users
+GET {{api}}/users
 ###
+
 
 ### GET specific user
-GET {api}/users/{userId}
+GET {{api}}/users/{{userId}}
 ###
 
-### Get specific user photo
-GET {api}/users/{userId}/photo
+
+### Get specific user's photo
+GET {{api}}/users/{{userId}}/photo
+Accept: image/png
 ###
 
-### Update specific user photo
-PATCH {api}/users/{userId}/photo
+
+### Create specific user's photo
+PUT {{api}}/users/{{userId}}/photo
+Content-Type: multipart/form-data; boundary=Boundary
+
+--Boundary
+Content-Disposition: form-data; name="photo"; filename="awatar.png"
+Content-Type: image/png
+
+< C:/DEV/tournament-tracker/src/main/resources/goralczyk/maciej/configuration/photos/awatar.png
+--Boundary--
+###
+
+
+### Update specific user's photo
+PATCH {{api}}/users/{{userId}}/photo
+Content-Type: multipart/form-data; boundary=Boundary
+
+--Boundary
+Content-Disposition: form-data; name="photo"; filename="awatar_2.png"
+Content-Type: image/png
+
+< C:/DEV/tournament-tracker/src/main/resources/goralczyk/maciej/configuration/photos/awatar_2.png
+--Boundary--
+###
+
+
+### Delete specific user's photo
+DELETE {{api}}/users/{{userId}}/photo
+###

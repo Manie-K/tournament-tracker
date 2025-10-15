@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -187,6 +189,7 @@ public class ApiServlet extends HttpServlet
                 UUID uuid = extractUuid(Patterns.USER_PHOTO, path);
                 try {
                     userController.putUserPhoto(uuid, request.getPart("photo").getInputStream());
+
                     response.setStatus(HttpServletResponse.SC_CREATED);
                     response.addHeader("Location", createUrl(request, Paths.API, "users", uuid.toString()));
                 } catch (NotFoundException ex)
