@@ -1,5 +1,6 @@
 ﻿package goralczyk.maciej.repository.user.memory;
 
+import goralczyk.maciej.data.DataStore;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.user.api.UserRepository;
 
