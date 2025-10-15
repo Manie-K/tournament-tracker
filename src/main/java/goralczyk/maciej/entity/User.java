@@ -5,6 +5,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -46,7 +47,7 @@ public class User implements Serializable {
      */
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private byte[] photo;
+    private Optional<byte[]> photo;
 
     /**
      * Returns the age of the user based on the date of birth.

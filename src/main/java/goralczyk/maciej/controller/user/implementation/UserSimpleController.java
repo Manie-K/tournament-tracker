@@ -1,13 +1,14 @@
-﻿package goralczyk.maciej.controller.user.simple;
+﻿package goralczyk.maciej.controller.user.implementation;
 
 import goralczyk.maciej.controller.servlet.exception.*;
 import goralczyk.maciej.controller.user.api.UserController;
 import goralczyk.maciej.dto.DtoFunctionFactory;
 import goralczyk.maciej.dto.user.*;
 import goralczyk.maciej.entity.User;
-import goralczyk.maciej.service.user.UserService;
+import goralczyk.maciej.service.user.api.UserService;
 
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.UUID;
 
 public class UserSimpleController implements UserController
@@ -79,16 +80,36 @@ public class UserSimpleController implements UserController
     }
 
     @Override
-    public byte[] getUserPhoto(UUID id) {
+    public Optional<byte[]> getUserPhoto(UUID id) {
         return service.find(id)
-                .map(User::getPhoto)
-                .orElseThrow(NotFoundException::new);
+                .orElseThrow(NotFoundException::new)
+                .getPhoto();
     }
 
     @Override
     public void putUserPhoto(UUID id, InputStream portrait) {
         service.find(id).ifPresentOrElse(
-                entity -> service.updatePhoto(id, portrait),
+                u -> service.createPhoto(id, portrait),
+                () -> {
+                    throw new NotFoundException();
+                }
+        );
+    }
+
+    @Override
+    public void patchUserPhoto(UUID id, InputStream portrait) {
+        service.find(id).ifPresentOrElse(
+                u -> service.updatePhoto(id, portrait),
+                () -> {
+                    throw new NotFoundException();
+                }
+        );
+    }
+
+    @Override
+    public void deleteUserPhoto(UUID id) {
+        service.find(id).ifPresentOrElse(
+                u -> service.deletePhoto(id),
                 () -> {
                     throw new NotFoundException();
                 }

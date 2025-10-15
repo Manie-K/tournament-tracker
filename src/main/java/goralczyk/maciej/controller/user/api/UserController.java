@@ -5,6 +5,7 @@ import goralczyk.maciej.dto.user.GetUsersResponse;
 import goralczyk.maciej.dto.user.PutUserRequest;
 import goralczyk.maciej.dto.user.PatchUserRequest;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.io.InputStream;
 
@@ -48,7 +49,7 @@ public interface UserController
      * @param id user's id.
      * @return user's photo.
      */
-    byte[] getUserPhoto(UUID id);
+    Optional<byte[]> getUserPhoto(UUID id);
 
     /**
      * @param id       user's id.
@@ -56,4 +57,14 @@ public interface UserController
      */
     void putUserPhoto(UUID id, InputStream portrait);
 
+    /**
+     * @param id       user's id.
+     * @param portrait user's updated photo.
+     */
+    void patchUserPhoto(UUID id, InputStream portrait);
+
+    /**
+     * @param id       user's id.
+     */
+    void deleteUserPhoto(UUID id);
 }

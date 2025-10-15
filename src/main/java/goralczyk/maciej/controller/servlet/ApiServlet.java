@@ -1,7 +1,9 @@
 ﻿package goralczyk.maciej.controller.servlet;
 
+import goralczyk.maciej.controller.servlet.exception.BadRequestException;
+import goralczyk.maciej.controller.servlet.exception.NotFoundException;
 import goralczyk.maciej.controller.user.api.UserController;
-import goralczyk.maciej.controller.user.simple.UserSimpleController;
+import goralczyk.maciej.controller.user.implementation.UserSimpleController;
 import goralczyk.maciej.dto.user.PatchUserRequest;
 import goralczyk.maciej.dto.user.PutUserRequest;
 import jakarta.json.bind.Jsonb;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -102,6 +105,8 @@ public class ApiServlet extends HttpServlet
         userController = (UserSimpleController) getServletContext().getAttribute("userController");
     }
 
+    //region HTTP METHODS
+
     @SuppressWarnings("RedundantThrows")
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -113,25 +118,46 @@ public class ApiServlet extends HttpServlet
             if (path.matches(Patterns.USERS.pattern()))
             {
                 response.setContentType("application/json");
-                response.getWriter().write(jsonb.toJson(userController.getUsers()));
+                try {
+                    response.getWriter().write(jsonb.toJson(userController.getUsers()));
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }catch (NotFoundException ex){
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
                 return;
             }
             else if (path.matches(Patterns.USER.pattern()))
             {
                 response.setContentType("application/json");
                 UUID uuid = extractUuid(Patterns.USER, path);
-                response.getWriter().write(jsonb.toJson(userController.getUser(uuid)));
+
+                try {
+                    response.getWriter().write(jsonb.toJson(userController.getUser(uuid)));
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } catch (NotFoundException ex){
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
                 return;
             }
             else if (path.matches(Patterns.USER_PHOTO.pattern()))
             {
-                response.setContentType("image/png"); //could be dynamic but atm we support only one format
-
                 UUID uuid = extractUuid(Patterns.USER_PHOTO, path);
-                byte[] portrait = userController.getUserPhoto(uuid);
 
-                response.setContentLength(portrait.length);
-                response.getOutputStream().write(portrait);
+                try {
+                    Optional<byte[]> photoOptional = userController.getUserPhoto(uuid);
+                    if(photoOptional.isEmpty()){
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                        return;
+                    }
+
+                    byte[] photo = photoOptional.get();
+                    response.setContentType("image/png"); //could be dynamic but atm we support only one format
+                    response.setContentLength(photo.length);
+                    response.getOutputStream().write(photo);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } catch (NotFoundException ex){
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
                 return;
             }
         }
@@ -147,14 +173,26 @@ public class ApiServlet extends HttpServlet
             if (path.matches(Patterns.USER.pattern()))
             {
                 UUID uuid = extractUuid(Patterns.USER, path);
-                userController.putUser(uuid, jsonb.fromJson(request.getReader(), PutUserRequest.class));
-                response.addHeader("Location", createUrl(request, Paths.API, "users", uuid.toString()));
+                try {
+                    userController.putUser(uuid, jsonb.fromJson(request.getReader(), PutUserRequest.class));
+                    response.addHeader("Location", createUrl(request, Paths.API, "users"));
+                    response.setStatus(HttpServletResponse.SC_CREATED);
+                } catch (BadRequestException ex){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
                 return;
             }
             else if (path.matches(Patterns.USER_PHOTO.pattern()))
             {
                 UUID uuid = extractUuid(Patterns.USER_PHOTO, path);
-                userController.putUserPhoto(uuid, request.getPart("photo").getInputStream());
+                try {
+                    userController.putUserPhoto(uuid, request.getPart("photo").getInputStream());
+                    response.setStatus(HttpServletResponse.SC_CREATED);
+                    response.addHeader("Location", createUrl(request, Paths.API, "users", uuid.toString()));
+                } catch (NotFoundException ex)
+                {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
                 return;
             }
         }
@@ -172,12 +210,32 @@ public class ApiServlet extends HttpServlet
             if (path.matches(Patterns.USER.pattern()))
             {
                 UUID uuid = extractUuid(Patterns.USER, path);
-                userController.deleteUser(uuid);
+                try {
+                    userController.deleteUser(uuid);
+                    response.addHeader("Location", createUrl(request, Paths.API, "users", uuid.toString()));
+                    response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                }catch (NotFoundException ex){
+                    response.setStatus(HttpServletResponse.SC_NO_CONTENT); //It is non-existent after all.
+                }
+                return;
+            }
+            else if(path.matches(Patterns.USER_PHOTO.pattern()))
+            {
+                UUID uuid = extractUuid(Patterns.USER_PHOTO, path);
+                try {
+                    userController.deleteUserPhoto(uuid);
+                    response.addHeader("Location", createUrl(request, Paths.API, "users", uuid.toString()));
+                    response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                } catch (NotFoundException ex)
+                {
+                    response.setStatus(HttpServletResponse.SC_NO_CONTENT);//It is non-existent after all.
+                }
                 return;
             }
         }
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }
+
 
     /**
      * Called by the server (via the <code>service</code> method) to allow a servlet to handle a PATCH request.
@@ -197,14 +255,34 @@ public class ApiServlet extends HttpServlet
             if (path.matches(Patterns.USER.pattern()))
             {
                 UUID uuid = extractUuid(Patterns.USER, path);
-                userController.patchUser(uuid, jsonb.fromJson(request.getReader(), PatchUserRequest.class));
+                try {
+                    userController.patchUser(uuid, jsonb.fromJson(request.getReader(), PatchUserRequest.class));
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } catch (NotFoundException ex){
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
+
+                return;
+            }
+            else if (path.matches(Patterns.USER_PHOTO.pattern()))
+            {
+                UUID uuid = extractUuid(Patterns.USER_PHOTO, path);
+                try {
+                    userController.patchUserPhoto(uuid, request.getPart("photo").getInputStream());
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } catch (NotFoundException ex)
+                {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                }
                 return;
             }
         }
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }
 
+    //endregion
 
+    //region HELPERS
 
     /**
      * Extracts UUID from path using provided pattern. Pattern needs to contain UUID in first regular expression group.
@@ -255,4 +333,6 @@ public class ApiServlet extends HttpServlet
         }
         return builder.toString();
     }
+
+    //endregion
 }

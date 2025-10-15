@@ -1,8 +1,9 @@
-﻿package goralczyk.maciej.service.user;
+﻿package goralczyk.maciej.service.user.implementation;
 
 
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.user.api.UserRepository;
+import goralczyk.maciej.service.user.api.UserService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +15,7 @@ import java.util.UUID;
  * Service layer for all business actions regarding user.
  */
 
-public class UserService
+public class UserServiceImplementation implements UserService
 {
     /**
      * Repository for user.
@@ -24,69 +25,70 @@ public class UserService
     /**
      * @param userRepository repository for user entity
      */
-    public UserService(UserRepository userRepository)
+    public UserServiceImplementation(UserRepository userRepository)
     {
         this.userRepository = userRepository;
     }
 
-    /**
-     * Finds single user.
-     *
-     * @param id user's id.
-     * @return container with user.
-     */
+    @Override
     public Optional<User> find(UUID id) {
         return userRepository.find(id);
     }
 
-    /**
-     * @return all available users.
-     */
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    /**
-     * Creates new user.
-     *
-     * @param user user.
-     */
+    @Override
     public void create(User user) {
         userRepository.create(user);
     }
 
-    /**
-     * Updates existing user.
-     *
-     * @param user user to be updated
-     */
+    @Override
     public void update(User user) {
         userRepository.update(user);
     }
 
-    /**
-     * Deletes existing user.
-     *
-     * @param id existing user's id to be deleted
-     */
+    @Override
     public void delete(UUID id) {
         userRepository.delete(userRepository.find(id).orElseThrow());
     }
 
-    /**
-     * Updates photo of the user.
-     *
-     * @param id user's id.
-     * @param is input stream containing new photo.
-     */
-    public void updatePhoto(UUID id, InputStream is) {
+    @Override
+    public Optional<byte[]> getPhoto(UUID id) {
+        return userRepository.find(id).orElseThrow().getPhoto();
+    }
+
+    @Override
+    public void createPhoto(UUID id, InputStream is) {
         userRepository.find(id).ifPresent(user -> {
             try {
-                user.setPhoto(is.readAllBytes());
+                user.setPhoto(Optional.of(is.readAllBytes()));
                 userRepository.update(user);
             } catch (IOException ex) {
                 throw new IllegalStateException(ex);
             }
+        });
+    }
+
+    @Override
+    public void updatePhoto(UUID id, InputStream is) {
+        userRepository.find(id).ifPresent(user -> {
+            try {
+                user.setPhoto(Optional.of(is.readAllBytes()));
+                userRepository.update(user);
+            } catch (IOException ex) {
+                throw new IllegalStateException(ex);
+            }
+        });
+    }
+
+    @Override
+    public void deletePhoto(UUID id) {
+        userRepository.find(id).ifPresent(user -> {
+            user.setPhoto(Optional.empty());
+            userRepository.update(user);
         });
     }
 }
