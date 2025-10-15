@@ -22,6 +22,10 @@
     <lombok.version>1.18.26</lombok.version>
     <junit.version>5.9.3</junit.version>
     <jassert.version>3.24.2</jassert.version>
+    <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
+    <liberty-maven-plugin.version>3.7.1</liberty-maven-plugin.version>
+
+    <liberty.server.name>TournamentTrackerServer</liberty.server.name>
   </properties>
 
   <dependencies>
@@ -55,6 +59,35 @@
 
   </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${maven-war-plugin.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>liberty</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.openliberty.tools</groupId>
+            <artifactId>liberty-maven-plugin</artifactId>
+            <version>${liberty-maven-plugin.version}</version>
+            <configuration>
+              <serverName>${liberty.server.name}</serverName>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+
   <developers>
     <developer>
       <id>ManieK</id>
@@ -62,6 +95,7 @@
       <roles>
         <role>architect</role>
         <role>developer</role>
+        <role>tester</role>
       </roles>
     </developer>
   </developers>
