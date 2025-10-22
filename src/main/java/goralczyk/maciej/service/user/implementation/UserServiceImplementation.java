@@ -35,10 +35,10 @@ public class UserServiceImplementation implements UserService
      * @param userRepository repository for user entity
      */
     @Inject
-    public UserServiceImplementation(UserRepository userRepository, @Named("photoDirectory") String photoDir)
+    public UserServiceImplementation(UserRepository userRepository)//, @Named("photoDirectory") String photoDir)
     {
         this.userRepository = userRepository;
-        this.photoDir = photoDir;
+        this.photoDir = "C:/temp/tournament-tracker/photos";//photoDir;
     }
 
     @Override

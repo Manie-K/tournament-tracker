@@ -34,7 +34,6 @@ import java.util.regex.Matcher;
         ApiServlet.Paths.API + "/*"
 })
 @MultipartConfig(maxFileSize = 200 * 1024)
-
 public class ApiServlet extends HttpServlet
 {
     /**
@@ -88,12 +87,14 @@ public class ApiServlet extends HttpServlet
     /**
      * Controller for managing users.
      */
+    @Inject
     private UserController userController;
 
+    /*
     @Inject
     public ApiServlet(UserController userController){
         this.userController = userController;
-    }
+    }*/
 
     /**
      * Add support for HTTP PATCH method.

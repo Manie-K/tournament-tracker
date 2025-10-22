@@ -2,6 +2,7 @@ package goralczyk.maciej.controller.tournament.api;
 
 import goralczyk.maciej.dto.tournament.GetTournamentResponse;
 import goralczyk.maciej.dto.tournament.GetTournamentsResponse;
+import goralczyk.maciej.dto.tournament.PatchTournamentRequest;
 import goralczyk.maciej.dto.tournament.PutTournamentRequest;
 import goralczyk.maciej.dto.user.GetUserResponse;
 import goralczyk.maciej.dto.user.GetUsersResponse;
