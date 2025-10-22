@@ -6,6 +6,7 @@ import goralczyk.maciej.controller.user.api.UserController;
 import goralczyk.maciej.controller.user.implementation.UserControllerImplementation;
 import goralczyk.maciej.dto.user.PatchUserRequest;
 import goralczyk.maciej.dto.user.PutUserRequest;
+import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 
@@ -88,6 +89,11 @@ public class ApiServlet extends HttpServlet
      * Controller for managing users.
      */
     private UserController userController;
+
+    @Inject
+    public ApiServlet(UserController userController){
+        this.userController = userController;
+    }
 
     /**
      * Add support for HTTP PATCH method.

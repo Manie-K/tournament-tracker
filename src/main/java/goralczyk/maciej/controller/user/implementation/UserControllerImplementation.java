@@ -5,11 +5,14 @@ import goralczyk.maciej.controller.user.api.UserController;
 import goralczyk.maciej.dto.DtoFunctionFactory;
 import goralczyk.maciej.dto.user.*;
 import goralczyk.maciej.service.user.api.UserService;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequestScoped
 public class UserControllerImplementation implements UserController
 {
     /**
@@ -26,6 +29,7 @@ public class UserControllerImplementation implements UserController
      * @param service user service
      * @param factory factory producing functions for conversion between DTO and entities
      */
+    @Inject
     public UserControllerImplementation(UserService service, DtoFunctionFactory factory) {
         this.service = service;
         this.dtoFactory = factory;

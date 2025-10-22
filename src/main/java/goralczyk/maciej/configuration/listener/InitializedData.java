@@ -1,9 +1,18 @@
 package goralczyk.maciej.configuration.listener;
 
 import goralczyk.maciej.configuration.StringConstants;
+import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Role;
+import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
+import goralczyk.maciej.service.match.api.MatchService;
+import goralczyk.maciej.service.tournament.api.TournamentService;
 import goralczyk.maciej.service.user.api.UserService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.context.control.RequestContextController;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -11,6 +20,7 @@ import lombok.SneakyThrows;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,17 +31,37 @@ import java.util.UUID;
  * cases of empty database. When using persistence storage application instance should be initialized only during first
  * run in order to init database with starting data. Good place to create first default admin user.
  */
-@WebListener//using annotation does not allow configuring order
-public class InitializedData implements ServletContextListener
+
+@ApplicationScoped
+public class InitializedData
 {
     /**
      * User service.
      */
     private UserService userService;
 
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
-        userService = (UserService) event.getServletContext().getAttribute(StringConstants.USER_SERVICE);
+    /**
+     * Match service.
+     */
+    private MatchService matchService;
+
+    /**
+     * Tournament service.
+     */
+    private TournamentService tournamentService;
+
+    private RequestContextController requestContextController;
+
+    @Inject
+    public InitializedData(RequestContextController requestContextController, UserService userService, MatchService matchService, TournamentService tournamentService)
+    {
+        this.requestContextController = requestContextController;
+        this.userService = userService;
+        this.matchService = matchService;
+        this.tournamentService = tournamentService;
+    }
+
+    public void onStart(@Observes @Initialized(ApplicationScoped.class) Object init) {
         init();
     }
 
@@ -42,6 +72,8 @@ public class InitializedData implements ServletContextListener
     @SneakyThrows
     private void init()
     {
+        requestContextController.activate();
+
         User admin = User.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
                 .name("Admin")
@@ -82,6 +114,34 @@ public class InitializedData implements ServletContextListener
         userService.create(user);
         userService.create(me);
         userService.create(lewandowski);
+
+        Tournament championsLeague = Tournament.builder()
+                .id(UUID.fromString("10000000-0000-0000-0000-000000000001"))
+                .name("Champions League")
+                .location("Wembley, London")
+                .build();
+
+        Tournament euro = Tournament.builder()
+                .id(UUID.fromString("10000000-0000-0000-0000-000000000002"))
+                .name("Euro")
+                .location("Europe")
+                .build();
+
+        tournamentService.create(championsLeague);
+        tournamentService.create(euro);
+
+        Match finalMatch = Match.builder()
+                .id(UUID.fromString("20000000-0000-0000-0000-000000000001"))
+                .startDateTime(LocalDateTime.now())
+                .participantA(lewandowski)
+                .participantB(me)
+                .tournament(championsLeague)
+                .result(1)
+                .build();
+
+        matchService.create(finalMatch);
+
+        requestContextController.deactivate();
     }
 
     /**

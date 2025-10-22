@@ -6,6 +6,10 @@ import goralczyk.maciej.controller.servlet.exception.BadRequestException;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.user.api.UserRepository;
 import goralczyk.maciej.service.user.api.UserService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +21,8 @@ import java.util.UUID;
 /**
  * Service layer for all business actions regarding user.
  */
-
+@ApplicationScoped
+@NoArgsConstructor(force = true)
 public class UserServiceImplementation implements UserService
 {
     /**
@@ -29,7 +34,8 @@ public class UserServiceImplementation implements UserService
     /**
      * @param userRepository repository for user entity
      */
-    public UserServiceImplementation(UserRepository userRepository, String photoDir)
+    @Inject
+    public UserServiceImplementation(UserRepository userRepository, @Named("photoDirectory") String photoDir)
     {
         this.userRepository = userRepository;
         this.photoDir = photoDir;

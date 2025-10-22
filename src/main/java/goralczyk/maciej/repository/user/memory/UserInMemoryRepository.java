@@ -3,6 +3,9 @@ package goralczyk.maciej.repository.user.memory;
 import goralczyk.maciej.data.DataStore;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.user.api.UserRepository;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +14,7 @@ import java.util.UUID;
 /**
  * Simple in-memory repository for User entity. Used in business layer.
  */
+@RequestScoped
 public class UserInMemoryRepository implements UserRepository
 {
     /**
@@ -21,6 +25,7 @@ public class UserInMemoryRepository implements UserRepository
     /**
      * @param store data store
      */
+    @Inject
     public UserInMemoryRepository(DataStore store) {
         this.store = store;
     }

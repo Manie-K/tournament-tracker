@@ -1,6 +1,7 @@
 package goralczyk.maciej.utility.serialization;
 
 import goralczyk.maciej.entity.User;
+import jakarta.enterprise.context.Dependent;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
@@ -19,6 +20,7 @@ import java.io.Serializable;
  * without external libraries is serialization mechanism.
  */
 @Log
+@Dependent
 public class CloningUtility
 {
 
