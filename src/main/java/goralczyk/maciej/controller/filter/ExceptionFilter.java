@@ -24,6 +24,8 @@ public class ExceptionFilter extends HttpFilter {
         try {
             super.doFilter(request, response, chain);
         } catch (HttpRequestException ex) {
+            System.out.println("[FILTER] Request exception: " + ex);
+            System.out.println("[FILTER] Stack trace: " + ex.getStackTrace());
             response.sendError(ex.getResponseCode());
         }
     }

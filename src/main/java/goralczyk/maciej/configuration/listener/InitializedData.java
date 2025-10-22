@@ -119,12 +119,14 @@ public class InitializedData
                 .id(UUID.fromString("10000000-0000-0000-0000-000000000001"))
                 .name("Champions League")
                 .location("Wembley, London")
+                .matches(List.of())
                 .build();
 
         Tournament euro = Tournament.builder()
                 .id(UUID.fromString("10000000-0000-0000-0000-000000000002"))
                 .name("Euro")
                 .location("Europe")
+                .matches(List.of())
                 .build();
 
         tournamentService.create(championsLeague);
@@ -140,6 +142,10 @@ public class InitializedData
                 .build();
 
         matchService.create(finalMatch);
+
+        System.out.println("[AFTER INIT DATA] Success");
+        System.out.println("[AFTER INIT DATA] Tournaments: " + tournamentService.findAll());
+        System.out.println("[AFTER INIT DATA] Matches: " + matchService.findAll());
 
         requestContextController.deactivate();
     }

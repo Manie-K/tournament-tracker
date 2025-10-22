@@ -4,8 +4,17 @@ import goralczyk.maciej.controller.servlet.exception.BadRequestException;
 import goralczyk.maciej.controller.servlet.exception.NotFoundException;
 import goralczyk.maciej.controller.user.api.UserController;
 import goralczyk.maciej.controller.user.implementation.UserControllerImplementation;
+import goralczyk.maciej.dto.DtoFunctionFactory;
+import goralczyk.maciej.dto.match.GetMatchesResponse;
+import goralczyk.maciej.dto.match.function.MatchesToResponseFunction;
+import goralczyk.maciej.dto.tournament.GetTournamentResponse;
+import goralczyk.maciej.dto.tournament.GetTournamentsResponse;
 import goralczyk.maciej.dto.user.PatchUserRequest;
 import goralczyk.maciej.dto.user.PutUserRequest;
+import goralczyk.maciej.entity.Tournament;
+import goralczyk.maciej.service.match.api.MatchService;
+import goralczyk.maciej.service.tournament.api.TournamentService;
+import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -87,14 +96,12 @@ public class ApiServlet extends HttpServlet
     /**
      * Controller for managing users.
      */
-    @Inject
     private UserController userController;
 
-    /*
     @Inject
-    public ApiServlet(UserController userController){
+    public ApiServlet(UserController userController) {
         this.userController = userController;
-    }*/
+    }
 
     /**
      * Add support for HTTP PATCH method.
@@ -106,12 +113,6 @@ public class ApiServlet extends HttpServlet
         } else {
             super.service(request, response);
         }
-    }
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        userController = (UserControllerImplementation) getServletContext().getAttribute("userController");
     }
 
     //region HTTP METHODS
@@ -169,6 +170,7 @@ public class ApiServlet extends HttpServlet
                 }
                 return;
             }
+
         }
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }

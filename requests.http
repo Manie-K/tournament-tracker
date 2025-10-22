@@ -1,6 +1,7 @@
 @api = http://localhost:9080/tournament-tracker/api
 @userId = 00000000-0000-0000-0000-000000000004
 
+
 ### GET all users
 GET {{api}}/users
 ###

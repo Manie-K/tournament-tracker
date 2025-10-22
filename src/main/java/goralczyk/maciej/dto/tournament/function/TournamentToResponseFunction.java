@@ -10,6 +10,7 @@ import java.util.function.Function;
 public class TournamentToResponseFunction implements Function<Tournament, GetTournamentResponse> {
     @Override
     public GetTournamentResponse apply(Tournament tournament) {
+
         return GetTournamentResponse.builder()
                 .id(tournament.getId())
                 .name(tournament.getName())
