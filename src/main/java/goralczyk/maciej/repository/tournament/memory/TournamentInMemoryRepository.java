@@ -30,12 +30,6 @@ public class TournamentInMemoryRepository implements TournamentRepository {
     }
     @Override
     public Optional<Tournament> find(UUID id) {
-        System.out.println("[REPOSITORY] Fetching tournament with UUID: " + id);
-        System.out.println("[REPOSITORY] All tournaments in store: " + store.findAllTournaments());
-        System.out.println("[REPOSITORY] Found tournament: " + store.findAllTournaments().stream()
-                .filter(tournament -> tournament.getId().equals(id))
-                .findFirst());
-
         return store.findAllTournaments().stream()
                 .filter(tournament -> tournament.getId().equals(id))
                 .findFirst();

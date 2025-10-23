@@ -35,7 +35,6 @@ public class TournamentServiceImplementation implements TournamentService {
     }
     @Override
     public Optional<Tournament> find(UUID id) {
-        System.out.println("[SERVICE] Fetching tournament with UUID: " + id);
         return tournamentRepository.find(id);
     }
 

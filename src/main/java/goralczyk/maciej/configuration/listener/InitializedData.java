@@ -147,13 +147,22 @@ public class InitializedData
         lewandowski.setMatches(List.of(finalMatch));
         me.setMatches(List.of(finalMatch));
 
+
+        System.out.println("Champions League matches: " + tournamentService.find(championsLeague.getId()).get().getMatches());
+        System.out.println("Lewandowski matches: " + userService.find(lewandowski.getId()).get().getMatches());
+
         tournamentService.update(championsLeague);
-        //userService.update(lewandowski);
-        //userService.update(me);
+        userService.update(lewandowski);
+        userService.update(me);
+
+
 
         System.out.println("[AFTER INIT DATA] Success");
         System.out.println("[AFTER INIT DATA] Tournaments: " + tournamentService.findAll());
         System.out.println("[AFTER INIT DATA] Matches: " + matchService.findAll());
+
+        System.out.println("Champions League matches: " + tournamentService.find(championsLeague.getId()).get().getMatches());
+        System.out.println("Lewandowski matches: " + userService.find(lewandowski.getId()).get().getMatches());
 
         requestContextController.deactivate();
     }
