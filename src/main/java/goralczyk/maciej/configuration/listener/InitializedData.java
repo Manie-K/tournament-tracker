@@ -147,7 +147,7 @@ public class InitializedData
         lewandowski.setMatches(List.of(finalMatch));
         me.setMatches(List.of(finalMatch));
 
-        //tournamentService.update(championsLeague);
+        tournamentService.update(championsLeague);
         //userService.update(lewandowski);
         //userService.update(me);
 

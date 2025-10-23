@@ -38,6 +38,7 @@ public class User implements Serializable {
     /**
      * Matches in which the user participated.
      */
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Match> matches;
 

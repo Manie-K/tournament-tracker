@@ -31,6 +31,7 @@ public class Tournament implements Serializable {
     /**
      * List of matches in this tournament.
      */
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Match> matches; //TODO: include format e.g. single elimination bracket, List<List<Matches>>
 }
