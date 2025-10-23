@@ -143,6 +143,14 @@ public class InitializedData
 
         matchService.create(finalMatch);
 
+        championsLeague.setMatches(List.of(finalMatch));
+        lewandowski.setMatches(List.of(finalMatch));
+        me.setMatches(List.of(finalMatch));
+
+        //tournamentService.update(championsLeague);
+        //userService.update(lewandowski);
+        //userService.update(me);
+
         System.out.println("[AFTER INIT DATA] Success");
         System.out.println("[AFTER INIT DATA] Tournaments: " + tournamentService.findAll());
         System.out.println("[AFTER INIT DATA] Matches: " + matchService.findAll());

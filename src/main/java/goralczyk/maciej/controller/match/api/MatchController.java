@@ -4,8 +4,6 @@ import goralczyk.maciej.dto.match.GetMatchResponse;
 import goralczyk.maciej.dto.match.GetMatchesResponse;
 import goralczyk.maciej.dto.match.PatchMatchRequest;
 import goralczyk.maciej.dto.match.PutMatchRequest;
-import goralczyk.maciej.dto.user.GetUserResponse;
-import goralczyk.maciej.dto.user.GetUsersResponse;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
 
