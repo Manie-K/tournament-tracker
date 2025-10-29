@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core">
+
+<ui:composition template="/WEB-INF/templates/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="matchId" value="#{matchDetailView.carId}" converter="uuidConverter" />
+        <f:viewAction action="#{matchDetailView.init}" />
+    </f:metadata>
+
+    <ui:define name="title">Match details</ui:define>
+    <ui:define name="content">
+        <h:link outcome="/tournament/tournament_list" value="Go back to tournaments" styleClass="btn" />
+
+        <h:panelGroup rendered="#{empty matchDetailView.match}">
+            <p>Car not found</p>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{not empty matchDetailView.match}">
+            <h2>Match details</h2>
+            <p><strong>ID:</strong> #{matchDetailView.match.id}</p>
+            <p><strong>Participant A:</strong> #{matchDetailView.match.participantA.name}</p>
+            <p><strong>Participant B:</strong> #{matchDetailView.match.participantB.name}</p>
+            <p><strong>Start datetime:</strong> #{matchDetailView.match.startDateTime}</p>
+
+            <h3>Tournament Information</h3>
+
+            <h:panelGroup rendered="#{empty matchDetailView.match.tournament}">
+                <p>No tournament information</p>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{not empty matchDetailView.match.tournament}">
+                <p><strong>Name:</strong> #{matchDetailView.match.tournament.Name}</p>
+
+                <h:link outcome="/tournament/tournament_detail" value="Go to tournament details" styleClass="btn">
+                    <f:param name="tournamentId" value="#{matchDetailView.match.tournament.id}" />
+                </h:link>
+            </h:panelGroup>
+
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
+
+</html>

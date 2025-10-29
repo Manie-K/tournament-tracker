@@ -54,7 +54,12 @@ public class TournamentServiceImplementation implements TournamentService {
     }
 
     @Override
-    public void delete(UUID id) {
-        tournamentRepository.delete(tournamentRepository.find(id).orElseThrow());
+    public boolean delete(UUID id) {
+        Optional<Tournament> tournament = tournamentRepository.find(id);
+        if (tournament.isEmpty()) {
+            return false;
+        }
+        tournamentRepository.delete(tournament.get());
+        return true;
     }
 }

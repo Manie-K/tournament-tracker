@@ -4,8 +4,6 @@ import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.match.api.MatchRepository;
-import goralczyk.maciej.repository.tournament.api.TournamentRepository;
-import goralczyk.maciej.repository.user.api.UserRepository;
 import goralczyk.maciej.service.match.api.MatchService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -28,20 +26,14 @@ public class MatchServiceImplementation implements MatchService
      * Repository for match.
      */
     private final MatchRepository matchRepository;
-    private final UserRepository userRepository;
-    private final TournamentRepository tournamentRepository;
 
     /**
      * @param matchRepository repository for match entity
-     * @param userRepository repository for user entity
-     * @param tournamentRepository repository for tournament entity
      */
     @Inject
-    public MatchServiceImplementation(MatchRepository matchRepository, UserRepository userRepository, TournamentRepository tournamentRepository)
+    public MatchServiceImplementation(MatchRepository matchRepository)
     {
         this.matchRepository = matchRepository;
-        this.userRepository = userRepository;
-        this.tournamentRepository = tournamentRepository;
     }
 
     @Override
@@ -55,12 +47,12 @@ public class MatchServiceImplementation implements MatchService
     }
 
     @Override
-    public List<Match> findAll(User user) {
+    public List<Match> findAllByUser(User user) {
         return matchRepository.findAll().stream().filter(match -> match.getParticipantA().equals(user) || match.getParticipantB().equals(user)).collect(Collectors.toList());
     }
 
     @Override
-    public List<Match> findAll(Tournament tournament) {
+    public List<Match> findAllByTournament(Tournament tournament) {
         return matchRepository.findAll().stream().filter(match -> match.getTournament().equals(tournament)).collect(Collectors.toList());
     }
 
@@ -75,7 +67,12 @@ public class MatchServiceImplementation implements MatchService
     }
 
     @Override
-    public void delete(UUID id) {
-        matchRepository.delete(matchRepository.find(id).orElseThrow());
+    public boolean delete(UUID id) {
+        Optional<Match> match = matchRepository.find(id);
+        if (match.isEmpty()) {
+            return false;
+        }
+        matchRepository.delete(match.get());
+        return true;
     }
 }

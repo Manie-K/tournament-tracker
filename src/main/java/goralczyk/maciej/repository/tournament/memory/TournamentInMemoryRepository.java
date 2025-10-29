@@ -47,7 +47,7 @@ public class TournamentInMemoryRepository implements TournamentRepository {
 
     @Override
     public void delete(Tournament entity) {
-        throw new UnsupportedOperationException("Not implemented in in-memory tournament repository.");
+        store.deleteTournament(entity.getId());
     }
 
     @Override

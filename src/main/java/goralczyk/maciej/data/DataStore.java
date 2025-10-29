@@ -12,6 +12,7 @@ import lombok.extern.java.Log;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -137,6 +138,25 @@ public class DataStore
         }
     }
 
+    /**
+     * Deletes existing tournament.
+     *
+     * @param id id of the tournament to be deleted
+     * @throws IllegalArgumentException if tournament with the same id does not exist
+     */
+    public synchronized void deleteTournament(UUID id) throws IllegalArgumentException
+    {
+        Tournament toDelete = tournaments.stream()
+                .filter(tournament -> tournament.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("The tournament with id \"%s\" does not exist".formatted(id)));
+
+        List<Match> matchesToDelete = matches.stream().filter(match -> match.getTournament().equals(toDelete)).collect(Collectors.toList());
+        for (Match match : matchesToDelete) {
+            matches.remove(match);
+        }
+        tournaments.remove(toDelete);
+    }
 
     /**
      * Seeks for all matches.
@@ -178,6 +198,20 @@ public class DataStore
         } else {
             throw new IllegalArgumentException("The match with id \"%s\" does not exist".formatted(value.getId()));
         }
+    }
+
+    /**
+     * Deletes existing match.
+     *
+     * @param id id of the match to be deleted
+     * @throws IllegalArgumentException if match with the same id does not exist
+     */
+    public synchronized void deleteMatch(UUID id) throws IllegalArgumentException
+    {
+        if (!matches.removeIf(match -> match.getId().equals(id))) {
+            throw new IllegalArgumentException("The match with id \"%s\" does not exist".formatted(id));
+        }
+
     }
 
 

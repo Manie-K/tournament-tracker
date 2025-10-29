@@ -28,14 +28,14 @@ public interface MatchService {
      *
      * @param user user.
      */
-    List<Match> findAll(User user);
+    List<Match> findAllByUser(User user);
 
     /**
      * @return all available matches of given tournament.
      *
      * @param tournament tournament.
      */
-    List<Match> findAll(Tournament tournament);
+    List<Match> findAllByTournament(Tournament tournament);
 
     /**
      * Creates new match.
@@ -56,5 +56,5 @@ public interface MatchService {
      *
      * @param id existing match's id to be deleted
      */
-    void delete(UUID id);
+    boolean delete(UUID id);
 }

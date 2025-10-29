@@ -39,6 +39,5 @@ public interface TournamentService {
      * Deletes existing tournament.
      *
      * @param id existing tournament's id to be deleted
-     */
-    void delete(UUID id);
+     */boolean delete(UUID id);
 }

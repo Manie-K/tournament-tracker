@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core">
+
+<ui:composition template="/WEB-INF/templates/main.xhtml">
+    <ui:define name="title">Tournaments</ui:define>
+    <ui:define name="content">
+        <h2>Tournaments</h2>
+
+        <h:panelGroup id="tournamentListPanel">
+
+            <h:panelGroup rendered="#{empty tournamentListView.tournaments}">
+                <p>No tournaments!</p>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{not empty tournamentListView.tournaments}">
+                <h:dataTable value="#{tournamentListView.tournaments}" var="tournament">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{tournament.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        #{tournament.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Location</f:facet>
+                        #{tournament.location}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Matches</f:facet>
+                        #{tournamentListView.getMatchesCountForTournament(tournament.id)}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:link outcome="match_detail" value="View" styleClass="btn">
+                            <f:param name="tournamentId" value="#{tournament.id}" />
+                        </h:link>
+                        <h:form style="display:inline;">
+                            <h:commandButton value="Delete" styleClass="btn"
+                                             action="#{tournamentListView.deleteTournament(tournament.id)}">
+                                <f:ajax execute="@form"/>
+                            </h:commandButton>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGroup>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>
+
+</html>

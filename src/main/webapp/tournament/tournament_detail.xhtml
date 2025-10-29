@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core">
+
+<ui:composition template="/WEB-INF/templates/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="tournamentId" value="#{tournamentDetailView.tournamentId}" converter="uuidConverter" />
+        <f:viewAction action="#{tournamentDetailView.init}" />
+    </f:metadata>
+
+    <ui:define name="title">Tournament - Details</ui:define>
+    <ui:define name="content">
+        <h:link outcome="tournament_list" value="Back to tournament list" styleClass="btn" />
+
+        <h:panelGroup rendered="#{empty tournamentDetailView.tournament}">
+            <p>Tournament not found!</p>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{not empty tournamentDetailView.tournament}">
+            <h2>Tournament details</h2>
+            <p><strong>ID:</strong> #{tournamentDetailView.tournament.id}</p>
+            <p><strong>Name:</strong> #{tournamentDetailView.tournament.name}</p>
+            <p><strong>Location:</strong> #{tournamentDetailView.tournament.location}</p>
+
+            <h3>Matches from this tournament</h3>
+            <h:link outcome="/match/match_add_form" value="Add new match" styleClass="btn">
+                <f:param name="tournamentId" value="#{tournamentDetailView.tournament.id}" />
+            </h:link>
+
+            <h:panelGroup id="matchListPanel">
+                <h:panelGroup rendered="#{empty tournamentDetailView.matches}">
+                    <p>No matches found for this tournament</p>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{not empty tournamentDetailView.matches}">
+                    <p>Total matches: #{tournamentDetailView.matches.size()}</p>
+
+                    <h:dataTable value="#{tournamentDetailView.matches}" var="match">
+
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            #{match.id}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Participant A</f:facet>
+                            #{empty match.participantA ? 'No participant A' : match.participantA.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Participant B</f:facet>
+                            #{empty match.participantB ? 'No participant B' : match.participantB.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Action</f:facet>
+
+                            <h:link outcome="/match/match_detail" value="View" styleClass="btn">
+                                <f:param name="matchId" value="#{match.id}" />
+                            </h:link>
+
+                            <h:link outcome="/match/match_edit_form" value="Edit" styleClass="btn">
+                                <f:param name="matchId" value="#{match.id}" />
+                                <f:param name="tournamentId" value="#{tournamentDetailView.tournament.id}" />
+                            </h:link>
+
+                            <h:form style="display:inline;">
+                                <h:commandButton value="Delete" styleClass="btn"
+                                                 action="#{tournamentDetailView.deleteMatch(match.id)}">
+                                </h:commandButton>
+                            </h:form>
+
+                        </h:column>
+
+                    </h:dataTable>
+
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
+
+</html>
