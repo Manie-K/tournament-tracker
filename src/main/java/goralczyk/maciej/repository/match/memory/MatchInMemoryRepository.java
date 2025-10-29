@@ -64,7 +64,7 @@ public class MatchInMemoryRepository implements MatchRepository {
 
     @Override
     public void delete(Match entity) {
-        throw new UnsupportedOperationException("Not implemented in in-memory tournament repository.");
+        store.deleteMatch(entity.getId());
     }
 
     @Override

@@ -50,8 +50,9 @@ public class TournamentDetailView implements Serializable
         }
     }
 
-    public void deleteMatch(UUID matchId)
+    public String deleteMatch(UUID matchId)
     {
         matchService.delete(matchId);
+        return "tournament_detail?faces-redirect=true&amp;tournamentId=" + tournamentId;
     }
 }

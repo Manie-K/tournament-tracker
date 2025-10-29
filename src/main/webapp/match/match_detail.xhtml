@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core">
 
-<ui:composition template="/WEB-INF/templates/main.xhtml">
+<ui:composition template="/WEB-INF/template/main.xhtml">
     <f:metadata>
-        <f:viewParam name="matchId" value="#{matchDetailView.carId}" converter="uuidConverter" />
+        <f:viewParam name="matchId" value="#{matchDetailView.matchId}"/>
         <f:viewAction action="#{matchDetailView.init}" />
     </f:metadata>
 
@@ -12,7 +12,7 @@
         <h:link outcome="/tournament/tournament_list" value="Go back to tournaments" styleClass="btn" />
 
         <h:panelGroup rendered="#{empty matchDetailView.match}">
-            <p>Car not found</p>
+            <p>Match not found!</p>
         </h:panelGroup>
 
         <h:panelGroup rendered="#{not empty matchDetailView.match}">
@@ -29,7 +29,7 @@
             </h:panelGroup>
 
             <h:panelGroup rendered="#{not empty matchDetailView.match.tournament}">
-                <p><strong>Name:</strong> #{matchDetailView.match.tournament.Name}</p>
+                <p><strong>Name:</strong> #{matchDetailView.match.tournament.name}</p>
 
                 <h:link outcome="/tournament/tournament_detail" value="Go to tournament details" styleClass="btn">
                     <f:param name="tournamentId" value="#{matchDetailView.match.tournament.id}" />

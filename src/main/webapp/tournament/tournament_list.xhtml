@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core">
 
-<ui:composition template="/WEB-INF/templates/main.xhtml">
+<ui:composition template="/WEB-INF/template/main.xhtml">
     <ui:define name="title">Tournaments</ui:define>
     <ui:define name="content">
         <h2>Tournaments</h2>
@@ -27,12 +27,8 @@
                         #{tournament.location}
                     </h:column>
                     <h:column>
-                        <f:facet name="header">Matches</f:facet>
-                        #{tournamentListView.getMatchesCountForTournament(tournament.id)}
-                    </h:column>
-                    <h:column>
                         <f:facet name="header">Action</f:facet>
-                        <h:link outcome="match_detail" value="View" styleClass="btn">
+                        <h:link outcome="tournament_detail" value="View details" styleClass="btn">
                             <f:param name="tournamentId" value="#{tournament.id}" />
                         </h:link>
                         <h:form style="display:inline;">

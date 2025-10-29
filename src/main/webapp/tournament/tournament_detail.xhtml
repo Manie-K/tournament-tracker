@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core">
 
-<ui:composition template="/WEB-INF/templates/main.xhtml">
+<ui:composition template="/WEB-INF/template/main.xhtml">
     <f:metadata>
-        <f:viewParam name="tournamentId" value="#{tournamentDetailView.tournamentId}" converter="uuidConverter" />
+        <f:viewParam name="tournamentId" value="#{tournamentDetailView.tournamentId}"/>
         <f:viewAction action="#{tournamentDetailView.init}" />
     </f:metadata>
 
@@ -32,8 +32,6 @@
                 </h:panelGroup>
 
                 <h:panelGroup rendered="#{not empty tournamentDetailView.matches}">
-                    <p>Total matches: #{tournamentDetailView.matches.size()}</p>
-
                     <h:dataTable value="#{tournamentDetailView.matches}" var="match">
 
                         <h:column>
@@ -63,6 +61,7 @@
                             <h:form style="display:inline;">
                                 <h:commandButton value="Delete" styleClass="btn"
                                                  action="#{tournamentDetailView.deleteMatch(match.id)}">
+                                    <f:ajax execute="@form"/>
                                 </h:commandButton>
                             </h:form>
 

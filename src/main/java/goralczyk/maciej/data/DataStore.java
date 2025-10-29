@@ -154,8 +154,10 @@ public class DataStore
         List<Match> matchesToDelete = matches.stream().filter(match -> match.getTournament().equals(toDelete)).collect(Collectors.toList());
         for (Match match : matchesToDelete) {
             matches.remove(match);
+            System.out.println("Deleted match with id: " + match.getId() + " due to tournament deletion.");
         }
         tournaments.remove(toDelete);
+        System.out.println("Tournament " + toDelete.getId() + " deleted.");
     }
 
     /**
@@ -211,7 +213,7 @@ public class DataStore
         if (!matches.removeIf(match -> match.getId().equals(id))) {
             throw new IllegalArgumentException("The match with id \"%s\" does not exist".formatted(id));
         }
-
+        System.out.println("Match " + id + " deleted.");
     }
 
 
