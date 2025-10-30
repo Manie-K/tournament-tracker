@@ -13,7 +13,7 @@ import jakarta.inject.Named;
 
 import java.util.UUID;
 
-@FacesConverter(managed = true, value = "tournamentConverter")
+@FacesConverter(value = "tournamentConverter", managed = true)
 @ApplicationScoped
 public class TournamentConverter implements Converter<Tournament>
 {

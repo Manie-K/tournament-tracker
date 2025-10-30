@@ -13,11 +13,15 @@ import java.util.function.BiFunction;
 
 public class EditMatchToEntityFunction implements BiFunction<Match, EditMatchModel, Match>, Serializable
 {
-    @Inject
-    private TournamentService tournamentService;
 
-    @Inject
-    private UserService userService;
+    private final TournamentService tournamentService;
+    private final UserService userService;
+
+    public EditMatchToEntityFunction(TournamentService tournamentService, UserService userService) {
+        this.tournamentService = tournamentService;
+        this.userService = userService;
+    }
+
     @Override
     public Match apply(Match entity, EditMatchModel editMatch) {
         User userA = userService.findByName(editMatch.getParticipantAName()).orElse(null);

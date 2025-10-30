@@ -11,8 +11,11 @@ import java.util.function.Function;
 
 public class CreateMatchToEntityFunction implements Function<CreateMatchModel, Match>, Serializable
 {
-    @Inject
-    private UserService userService;
+    private final UserService userService;
+
+    public CreateMatchToEntityFunction(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public Match apply(CreateMatchModel createMatch) {

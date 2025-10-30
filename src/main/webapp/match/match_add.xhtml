@@ -28,7 +28,8 @@
                     <f:converter converterId="localDateTimeConverter" />
                 </h:inputText>
 
-                <h:selectOneMenu id="tournament" value="#{matchAddView.match.tournament}" required="true" requiredMessage="Tournament is required">
+                <h:selectOneMenu id="tournament" value="#{matchAddView.match.tournament}" required="true" requiredMessage="Tournament is required"
+                                 converter="tournamentConverter">
                     <f:selectItem itemLabel=" Select tournament " itemValue="#{null}" noSelectionOption="true" />
                     <f:selectItems value="#{matchAddView.tournaments}" var="tournament"
                                    itemLabel="#{tournament.name}" itemValue="#{tournament}"

@@ -11,8 +11,6 @@ body {
 }
 
 header, footer {
-    background-color: #007baa;
-    color: #fff;
     padding: 1rem;
     text-align: center;
 }

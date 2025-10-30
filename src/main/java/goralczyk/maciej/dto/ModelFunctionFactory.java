@@ -1,7 +1,10 @@
 package goralczyk.maciej.dto;
 
 import goralczyk.maciej.entity.models.functions.match.*;
+import goralczyk.maciej.service.tournament.api.TournamentService;
+import goralczyk.maciej.service.user.api.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.util.function.Function;
 
@@ -10,8 +13,13 @@ import java.util.function.Function;
  * Instead of injecting multiple function objects single factory is injected.
  */
 @ApplicationScoped
-
 public class ModelFunctionFactory {
+    @Inject
+    UserService userService;
+
+    @Inject
+    TournamentService tournamentService;
+
     public MatchToModelFunction matchToModel() {
         return new MatchToModelFunction();
     }
@@ -21,11 +29,11 @@ public class ModelFunctionFactory {
     }
 
     public CreateMatchToEntityFunction createMatchToEntity() {
-        return new CreateMatchToEntityFunction();
+        return new CreateMatchToEntityFunction(userService);
     }
 
     public EditMatchToEntityFunction editMatchToEntity() {
-        return new EditMatchToEntityFunction();
+        return new EditMatchToEntityFunction(tournamentService, userService);
     }
 
     public MatchToEditModelFunction entityToEditModel() {

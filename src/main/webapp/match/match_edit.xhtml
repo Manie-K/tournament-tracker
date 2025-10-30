@@ -24,7 +24,8 @@
                     <f:validateLength minimum="2" maximum="50" />
                 </h:inputText>
 
-                <h:selectOneMenu id="tournament" value="#{matchEditView.match.tournament}" required="true" requiredMessage="Tournament is required">
+                <h:selectOneMenu id="tournament" value="#{matchEditView.match.tournament}" required="true" requiredMessage="Tournament is required"
+                    converter="tournamentConverter">
                     <f:selectItem itemLabel=" Select tournament " itemValue="#{null}" noSelectionOption="true" />
                     <f:selectItems value="#{matchEditView.tournaments}" var="tournament"
                                    itemLabel="#{tournament.name}" itemValue="#{tournament}"
