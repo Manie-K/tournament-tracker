@@ -3,6 +3,7 @@ package goralczyk.maciej.repository.user.api;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.api.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -11,5 +12,5 @@ import java.util.UUID;
 
 public interface UserRepository extends Repository<User, UUID>
 {
-
+    public Optional<User> findByName(String username);
 }

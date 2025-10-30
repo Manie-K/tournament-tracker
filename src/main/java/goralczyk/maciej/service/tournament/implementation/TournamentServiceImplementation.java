@@ -39,6 +39,11 @@ public class TournamentServiceImplementation implements TournamentService {
     }
 
     @Override
+    public Optional<Tournament> findByName(String name) {
+        return tournamentRepository.findByName(name);
+    }
+
+    @Override
     public List<Tournament> findAll() {
         return tournamentRepository.findAll();
     }

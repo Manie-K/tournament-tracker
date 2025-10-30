@@ -36,6 +36,12 @@ public class TournamentInMemoryRepository implements TournamentRepository {
     }
 
     @Override
+    public Optional<Tournament> findByName(String name) {
+        return store.findAllTournaments().stream()
+                .filter(tournament -> tournament.getName().equals(name))
+                .findFirst();
+    }
+    @Override
     public List<Tournament> findAll() {
         return store.findAllTournaments();
     }
@@ -54,4 +60,5 @@ public class TournamentInMemoryRepository implements TournamentRepository {
     public void update(Tournament entity) {
         store.updateTournament(entity);
     }
+
 }

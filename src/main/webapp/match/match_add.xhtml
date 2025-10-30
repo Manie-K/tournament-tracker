@@ -3,13 +3,42 @@
 
 <ui:composition template="/WEB-INF/template/main.xhtml">
     <f:metadata>
-        <f:viewParam name="matchId" value="#{matchDetailView.matchId}"/>
-        <f:viewAction action="#{matchDetailView.init}" />
+        <f:viewAction action="#{matchAddView.init}" />
     </f:metadata>
 
     <ui:define name="title">Match creation form</ui:define>
     <ui:define name="content">
+        <h:link outcome="/tournament/tournament_list" value="Go back to tournaments" styleClass="btn" />
+        <h:form>
+            <header><h2>Add New Match</h2></header>
+            <h:panelGrid columns="2" cellpadding="5">
 
+                <h:outputLabel for="participantA" value="Participant A:" />
+                <h:inputText id="participantA" value="#{matchAddView.match.participantAName}" required="true" requiredMessage="Participant A name is required">
+                    <f:validateLength minimum="2" maximum="50" />
+                </h:inputText>
+
+                <h:outputLabel for="participantB" value="Participant B:" />
+                <h:inputText id="participantB" value="#{matchAddView.match.participantBName}" required="true"  requiredMessage="Participant B name is required">
+                    <f:validateLength minimum="2" maximum="50" />
+                </h:inputText>
+
+                <h:outputLabel for="startDateTime" value="Start DateTime [dd-MM-yyyy HH:mm]:" />
+                <h:inputText id="startDateTime" value="#{matchAddView.match.startDateTime}" required="true" >
+                    <f:converter converterId="localDateTimeConverter" />
+                </h:inputText>
+
+                <h:selectOneMenu id="tournament" value="#{matchAddView.match.tournament}" required="true" requiredMessage="Tournament is required">
+                    <f:selectItem itemLabel=" Select tournament " itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{matchAddView.tournaments}" var="tournament"
+                                   itemLabel="#{tournament.name}" itemValue="#{tournament}"
+                                   converter="tournamentConverter"/>
+                </h:selectOneMenu>
+
+            </h:panelGrid>
+
+            <h:commandButton value="Add Match" action="#{matchAddView.addMatch}" styleClass="btn" />
+        </h:form>
     </ui:define>
 </ui:composition>
 

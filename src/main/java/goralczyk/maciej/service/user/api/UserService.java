@@ -18,6 +18,14 @@ public interface UserService
     Optional<User> find(UUID id);
 
     /**
+     * Finds single user by username.
+     *
+     * @param name user's name.
+     * @return container with user.
+     */
+    Optional<User> findByName(String name);
+
+    /**
      * @return all available users.
      */
     List<User> findAll();

@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface TournamentService {
+public interface TournamentService
+{
     /**
      * Finds single tournament.
      *
@@ -15,6 +16,14 @@ public interface TournamentService {
      * @return container with tournament.
      */
     Optional<Tournament> find(UUID id);
+
+    /**
+     * Finds single tournament by name.
+     *
+     * @param name tournament's name.
+     * @return container with tournament.
+     */
+    Optional<Tournament> findByName(String name);
 
     /**
      * @return all available tournaments.

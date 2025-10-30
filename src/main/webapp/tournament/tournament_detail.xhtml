@@ -22,7 +22,7 @@
             <p><strong>Location:</strong> #{tournamentDetailView.tournament.location}</p>
 
             <h3>Matches from this tournament</h3>
-            <h:link outcome="/match/match_add_form" value="Add new match" styleClass="btn">
+            <h:link outcome="/match/match_add" value="Add new match" styleClass="btn">
                 <f:param name="tournamentId" value="#{tournamentDetailView.tournament.id}" />
             </h:link>
 
@@ -53,7 +53,7 @@
                                 <f:param name="matchId" value="#{match.id}" />
                             </h:link>
 
-                            <h:link outcome="/match/match_edit_form" value="Edit" styleClass="btn">
+                            <h:link outcome="/match/match_edit" value="Edit" styleClass="btn">
                                 <f:param name="matchId" value="#{match.id}" />
                                 <f:param name="tournamentId" value="#{tournamentDetailView.tournament.id}" />
                             </h:link>

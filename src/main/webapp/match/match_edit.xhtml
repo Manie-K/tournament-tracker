@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core">
+
+<ui:composition template="/WEB-INF/template/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="matchId" value="#{matchEditView.matchId}"/>
+        <f:viewAction action="#{matchEditView.init}" />
+    </f:metadata>
+
+    <ui:define name="title">Match edition form</ui:define>
+    <ui:define name="content">
+        <h:link outcome="/tournament/tournament_list" value="Go back to tournaments" styleClass="btn" />
+        <h:form>
+            <header><h2>Add New Match</h2></header>
+            <h:panelGrid columns="2" cellpadding="5">
+
+                <h:outputLabel for="participantA" value="Participant A:" />
+                <h:inputText id="participantA" value="#{matchEditView.match.participantAName}" required="true" requiredMessage="Participant A name is required">
+                    <f:validateLength minimum="2" maximum="50" />
+                </h:inputText>
+
+                <h:outputLabel for="participantB" value="Participant B:" />
+                <h:inputText id="participantB" value="#{matchEditView.match.participantBName}" required="true"  requiredMessage="Participant B name is required">
+                    <f:validateLength minimum="2" maximum="50" />
+                </h:inputText>
+
+                <h:selectOneMenu id="tournament" value="#{matchEditView.match.tournament}" required="true" requiredMessage="Tournament is required">
+                    <f:selectItem itemLabel=" Select tournament " itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{matchEditView.tournaments}" var="tournament"
+                                   itemLabel="#{tournament.name}" itemValue="#{tournament}"
+                                   converter="tournamentConverter"/>
+                </h:selectOneMenu>
+
+            </h:panelGrid>
+
+            <h:commandButton value="Save Match" action="#{matchEditView.saveMatch}" styleClass="btn" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+
+</html>

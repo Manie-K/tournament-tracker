@@ -3,7 +3,9 @@ package goralczyk.maciej.view.match;
 import java.io.IOException;
 import java.io.Serializable;
 
+import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.entity.Match;
+import goralczyk.maciej.entity.models.MatchModel;
 import goralczyk.maciej.service.match.api.MatchService;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -23,19 +25,22 @@ public class MatchDetailView implements Serializable
     @Inject
     private MatchService matchService;
 
+    @Inject
+    private ModelFunctionFactory modelFunctionFactory;
+
     @Getter
     @Setter
     private UUID matchId;
 
     @Getter
-    private Match match;
+    private MatchModel match;
 
     public void init() throws IOException {
         Optional<Match> matchOptional = matchService.find(matchId);
 
         if (matchOptional.isPresent())
         {
-            this.match = matchOptional.get();
+            this.match = modelFunctionFactory.matchToModel().apply(matchOptional.get());
         } else {
             FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Match not found");
         }
