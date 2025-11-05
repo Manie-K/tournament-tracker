@@ -2,13 +2,13 @@ package goralczyk.maciej.service.user.implementation;
 
 
 import goralczyk.maciej.configuration.StringConstants;
-import goralczyk.maciej.controller.servlet.exception.BadRequestException;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.user.api.UserRepository;
 import goralczyk.maciej.service.user.api.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.ws.rs.BadRequestException;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;

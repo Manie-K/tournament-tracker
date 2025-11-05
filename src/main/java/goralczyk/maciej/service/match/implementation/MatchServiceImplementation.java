@@ -5,8 +5,11 @@ import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.match.api.MatchRepository;
 import goralczyk.maciej.service.match.api.MatchService;
+import goralczyk.maciej.service.tournament.api.TournamentService;
+import goralczyk.maciej.service.user.api.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -23,17 +26,29 @@ import java.util.stream.Collectors;
 public class MatchServiceImplementation implements MatchService
 {
     /**
-     * Repository for match.
+     * Repository for matches.
      */
     private final MatchRepository matchRepository;
+
+    /**
+     * Service for users.
+     */
+    private final UserService userService;
+
+    /**
+     * Service for users.
+     */
+    private final TournamentService tournamentService;
 
     /**
      * @param matchRepository repository for match entity
      */
     @Inject
-    public MatchServiceImplementation(MatchRepository matchRepository)
+    public MatchServiceImplementation(MatchRepository matchRepository, UserService userService, TournamentService tournamentService)
     {
         this.matchRepository = matchRepository;
+        this.userService = userService;
+        this.tournamentService = tournamentService;
     }
 
     @Override
@@ -47,12 +62,14 @@ public class MatchServiceImplementation implements MatchService
     }
 
     @Override
-    public List<Match> findAllByUser(User user) {
+    public List<Match> findAllByUser(UUID userId) {
+        User user = userService.find(userId).orElseThrow(NotFoundException::new);
         return matchRepository.findAll().stream().filter(match -> match.getParticipantA().equals(user) || match.getParticipantB().equals(user)).collect(Collectors.toList());
     }
 
     @Override
-    public List<Match> findAllByTournament(Tournament tournament) {
+    public List<Match> findAllByTournament(UUID tournamentId) {
+        Tournament tournament = tournamentService.find(tournamentId).orElseThrow(NotFoundException::new);
         return matchRepository.findAll().stream().filter(match -> match.getTournament().equals(tournament)).collect(Collectors.toList());
     }
 

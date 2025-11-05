@@ -4,22 +4,23 @@ import goralczyk.maciej.dto.tournament.GetTournamentResponse;
 import goralczyk.maciej.dto.tournament.GetTournamentsResponse;
 import goralczyk.maciej.dto.tournament.PatchTournamentRequest;
 import goralczyk.maciej.dto.tournament.PutTournamentRequest;
-import goralczyk.maciej.dto.user.GetUserResponse;
-import goralczyk.maciej.dto.user.GetUsersResponse;
-import goralczyk.maciej.dto.user.PatchUserRequest;
-import goralczyk.maciej.dto.user.PutUserRequest;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
 import java.util.UUID;
 
 /**
  * Controller for managing tournaments.
  */
-
+@Path("")
 public interface TournamentController
 {
     /**
      * @return all tournaments representations.
      */
+    @GET
+    @Path("/tournaments")
+    @Produces(MediaType.APPLICATION_JSON)
     GetTournamentsResponse getTournaments();
 
 
@@ -27,22 +28,31 @@ public interface TournamentController
      * @param uuid tournament's id.
      * @return tournaments representation.
      */
-    GetTournamentResponse getTournament(UUID uuid);
+    @GET
+    @Path("/tournaments/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetTournamentResponse getTournament(@PathParam("id") UUID uuid);
 
     /**
      * @param id      tournament's id.
      * @param request new tournament representation.
      */
+    @PUT
+    @Path("/tournaments/{id}")
     void putTournament(UUID id, PutTournamentRequest request);
 
     /**
      * @param id      tournament's id.
      * @param request tournament update representation.
      */
+    @PATCH
+    @Path("/tournaments/{id}")
     void patchTournament(UUID id, PatchTournamentRequest request);
 
     /**
      * @param id tournament's id.
      */
-    void deleteTournament(UUID id);
+    @DELETE
+    @Path("/tournaments/{id}")
+    void deleteTournament(@PathParam("id") UUID id);
 }

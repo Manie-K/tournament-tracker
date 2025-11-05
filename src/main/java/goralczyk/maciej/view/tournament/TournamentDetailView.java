@@ -44,7 +44,7 @@ public class TournamentDetailView implements Serializable
         if (tournamentOptional.isPresent())
         {
             this.tournament = tournamentOptional.get();
-            this.matches = matchService.findAllByTournament(tournament);
+            this.matches = matchService.findAllByTournament(tournament.getId());
         } else {
             FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Tournament not found");
         }

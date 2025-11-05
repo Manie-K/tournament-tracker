@@ -6,6 +6,8 @@ import goralczyk.maciej.dto.match.PatchMatchRequest;
 import goralczyk.maciej.dto.match.PutMatchRequest;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
 import java.util.UUID;
 
@@ -18,39 +20,57 @@ public interface MatchController
     /**
      * @return all matches representations.
      */
+    @GET
+    @Path("/matches")
+    @Produces(MediaType.APPLICATION_JSON)
     GetMatchesResponse getMatches();
 
     /**
      * @return all matches of user representations.
      */
-    GetMatchesResponse getUserMatches(User user);
+    @GET
+    @Path("/users/{id}/matches")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetMatchesResponse getUserMatches(@PathParam("id") UUID id);
 
     /**
      * @return all matches of tournament representations.
      */
-    GetMatchesResponse getTournamentMatches(Tournament tournament);
+    @GET
+    @Path("/tournaments/{id}/matches")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetMatchesResponse getTournamentMatches(@PathParam("id") UUID id);
 
 
     /**
      * @param uuid match's id.
      * @return match representation.
      */
-    GetMatchResponse getMatch(UUID uuid);
+    @GET
+    @Path("/matches/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetMatchResponse getMatch(@PathParam("id") UUID id);
 
     /**
      * @param id      match's id.
      * @param request new match representation.
      */
-    void putMatch(UUID id, PutMatchRequest request);
+    @PUT
+    @Path("/matches/{id}")
+    void putMatch(@PathParam("id") UUID id, PutMatchRequest request);
 
     /**
      * @param id      match's id.
      * @param request match update representation.
      */
-    void patchMatch(UUID id, PatchMatchRequest request);
+    @PATCH
+    @Path("/matches/{id}")
+    void patchMatch(@PathParam("id") UUID id, PatchMatchRequest request);
 
     /**
      * @param id match's id.
      */
-    void deleteMatch(UUID id);
+    @DELETE
+    @Path("/matches/{id}")
+    void deleteMatch(@PathParam("id") UUID id);
 }

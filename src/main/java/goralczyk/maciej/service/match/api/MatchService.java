@@ -26,16 +26,16 @@ public interface MatchService {
     /**
      * @return all available matches of given user.*
      *
-     * @param user user.
+     * @param userId user's ID.
      */
-    List<Match> findAllByUser(User user);
+    List<Match> findAllByUser(UUID userId);
 
     /**
      * @return all available matches of given tournament.
      *
-     * @param tournament tournament.
+     * @param tournamentId tournament's ID.
      */
-    List<Match> findAllByTournament(Tournament tournament);
+    List<Match> findAllByTournament(UUID tournamentId);
 
     /**
      * Creates new match.
