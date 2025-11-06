@@ -43,7 +43,7 @@ public interface MatchController
 
 
     /**
-     * @param uuid match's id.
+     * @param id match's id.
      * @return match representation.
      */
     @GET
@@ -56,16 +56,16 @@ public interface MatchController
      * @param request new match representation.
      */
     @PUT
-    @Path("/matches/{id}")
-    void putMatch(@PathParam("id") UUID id, PutMatchRequest request);
+    @Path("/tournaments/{tournamentId}/matches/{id}")
+    void putMatch(@PathParam("tournamentId") UUID tournamentId, @PathParam("id") UUID id, PutMatchRequest request);
 
     /**
      * @param id      match's id.
      * @param request match update representation.
      */
     @PATCH
-    @Path("/matches/{id}")
-    void patchMatch(@PathParam("id") UUID id, PatchMatchRequest request);
+    @Path("/tournaments/{tournamentId}/matches/{id}")
+    void patchMatch(@PathParam("tournamentId") UUID tournamentId, @PathParam("id") UUID id, PatchMatchRequest request);
 
     /**
      * @param id match's id.
