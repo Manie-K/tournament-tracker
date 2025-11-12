@@ -5,7 +5,6 @@ import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.user.api.UserRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;

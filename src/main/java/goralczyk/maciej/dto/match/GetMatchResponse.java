@@ -24,4 +24,5 @@ public class GetMatchResponse {
     private UserSummary participantA;
     private UserSummary participantB;
     private TournamentSummary tournament;
+    private int result;
 }

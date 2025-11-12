@@ -73,7 +73,7 @@ public class InitializedData
     private void init()
     {
         requestContextController.activate();
-
+/*
         User admin = User.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
                 .name("Admin")
@@ -114,7 +114,7 @@ public class InitializedData
         userService.create(user);
         userService.create(me);
         userService.create(lewandowski);
-
+*/ //We dont create users for now
         Tournament championsLeague = Tournament.builder()
                 .id(UUID.fromString("10000000-0000-0000-0000-000000000001"))
                 .name("Champions League")
@@ -132,37 +132,25 @@ public class InitializedData
         tournamentService.create(championsLeague);
         tournamentService.create(euro);
 
-        Match finalMatch = Match.builder()
+        Match championsLeagueMatch = Match.builder()
                 .id(UUID.fromString("20000000-0000-0000-0000-000000000001"))
                 .startDateTime(LocalDateTime.now())
-                .participantA(lewandowski)
-                .participantB(me)
                 .tournament(championsLeague)
                 .result(1)
                 .build();
+        Match euroMatch = Match.builder()
+                .id(UUID.fromString("30000000-0000-0000-0000-000000000001"))
+                .startDateTime(LocalDateTime.now())
+                .tournament(euro)
+                .result(0)
+                .build();
 
-        matchService.create(finalMatch);
-
-        championsLeague.setMatches(List.of(finalMatch));
-        lewandowski.setMatches(List.of(finalMatch));
-        me.setMatches(List.of(finalMatch));
-
-
-        System.out.println("Champions League matches: " + tournamentService.find(championsLeague.getId()).get().getMatches());
-        System.out.println("Lewandowski matches: " + userService.find(lewandowski.getId()).get().getMatches());
-
-        tournamentService.update(championsLeague);
-        userService.update(lewandowski);
-        userService.update(me);
-
-
+        matchService.create(championsLeagueMatch);
+        matchService.create(euroMatch);
 
         System.out.println("[AFTER INIT DATA] Success");
         System.out.println("[AFTER INIT DATA] Tournaments: " + tournamentService.findAll());
         System.out.println("[AFTER INIT DATA] Matches: " + matchService.findAll());
-
-        System.out.println("Champions League matches: " + tournamentService.find(championsLeague.getId()).get().getMatches());
-        System.out.println("Lewandowski matches: " + userService.find(lewandowski.getId()).get().getMatches());
 
         requestContextController.deactivate();
     }

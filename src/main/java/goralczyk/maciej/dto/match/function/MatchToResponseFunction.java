@@ -21,6 +21,7 @@ public class MatchToResponseFunction implements Function<Match, GetMatchResponse
                 .tournament(GetMatchResponse.TournamentSummary.builder()
                         .name(match.getTournament().getName())
                         .build())
+                .result(match.getResult())
                 .build();
     }
 }

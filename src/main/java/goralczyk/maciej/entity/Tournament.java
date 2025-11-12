@@ -1,5 +1,7 @@
 package goralczyk.maciej.entity;
 
+import jakarta.persistence.*;
+import jdk.jfr.Enabled;
 import lombok.*;
 
 import java.io.Serializable;
@@ -12,10 +14,15 @@ import java.util.UUID;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name="tournaments")
 public class Tournament implements Serializable {
     /**
      * Unique ID (primary key)
      */
+    @Id
     private UUID id;
 
     /**
@@ -33,5 +40,6 @@ public class Tournament implements Serializable {
      */
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Match> matches; //TODO: include format e.g. single elimination bracket, List<List<Matches>>
 }

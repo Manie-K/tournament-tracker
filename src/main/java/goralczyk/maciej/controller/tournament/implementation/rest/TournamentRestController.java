@@ -76,11 +76,11 @@ public class TournamentRestController implements TournamentController
     }
 
     @Override
-    public void putTournament(UUID id, PutTournamentRequest request) {
-        service.create(factory.requestToTournament().apply(id, request));
-
-        response.setStatus(HttpServletResponse.SC_CREATED);
-        response.setHeader("Location", uriInfo.getAbsolutePath().toString() + "/" + id);
+    public void putTournament(UUID id, PutTournamentRequest request)
+    {
+            service.create(factory.requestToTournament().apply(id, request));
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            response.setHeader("Location", uriInfo.getAbsolutePath().toString() + "/" + id);
     }
 
     @Override

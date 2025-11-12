@@ -1,5 +1,6 @@
 package goralczyk.maciej.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,25 +16,34 @@ import java.util.UUID;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name="matches")
 public class Match implements Serializable {
     /**
      * Unique ID (primary key)
      */
+    @Id
     private UUID id;
 
     /**
      * First participant.
      */
+    @Transient
     private User participantA;
 
     /**
      * Second participant.
      */
+    @Transient
     private User participantB;
 
     /**
      * Tournament in which this match takes place.
      */
+    @ManyToOne
+    @JoinColumn(name="tournament_id")
     private Tournament tournament;
 
     /**

@@ -7,6 +7,7 @@ import goralczyk.maciej.service.tournament.api.TournamentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -33,38 +34,42 @@ public class TournamentServiceImplementation implements TournamentService {
     {
         this.tournamentRepository = tournamentRepository;
     }
+
+    @Transactional
     @Override
     public Optional<Tournament> find(UUID id) {
         return tournamentRepository.find(id);
     }
 
+    @Transactional
     @Override
     public Optional<Tournament> findByName(String name) {
         return tournamentRepository.findByName(name);
     }
 
+    @Transactional
     @Override
     public List<Tournament> findAll() {
         return tournamentRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void create(Tournament tournament) {
         tournamentRepository.create(tournament);
     }
 
+    @Transactional
     @Override
     public void update(Tournament tournament) {
         tournamentRepository.update(tournament);
     }
 
+    @Transactional
     @Override
-    public boolean delete(UUID id) {
-        Optional<Tournament> tournament = tournamentRepository.find(id);
-        if (tournament.isEmpty()) {
-            return false;
-        }
-        tournamentRepository.delete(tournament.get());
+    public boolean delete(UUID id)
+    {
+        tournamentRepository.delete(tournamentRepository.find(id).orElseThrow());
         return true;
     }
 }
