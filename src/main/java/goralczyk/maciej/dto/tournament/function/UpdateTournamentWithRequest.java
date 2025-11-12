@@ -9,6 +9,8 @@ import java.util.function.BiFunction;
 public class UpdateTournamentWithRequest implements BiFunction<Tournament, PatchTournamentRequest, Tournament> {
     @Override
     public Tournament apply(Tournament tournament, PatchTournamentRequest patchTournamentRequest) {
+        System.out.println("Updating tournament " + tournament.getId());
+        System.out.println("Request: " + patchTournamentRequest);
         return Tournament.builder()
                 .id(tournament.getId())
                 .name(patchTournamentRequest.getName())

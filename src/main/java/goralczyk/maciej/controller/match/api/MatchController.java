@@ -71,6 +71,6 @@ public interface MatchController
      * @param id match's id.
      */
     @DELETE
-    @Path("/matches/{id}")
-    void deleteMatch(@PathParam("id") UUID id);
+    @Path("/tournaments/{tournamentId}/matches/{id}")
+    void deleteMatch(@PathParam("tournamentId") UUID tournamentId, @PathParam("id") UUID id);
 }

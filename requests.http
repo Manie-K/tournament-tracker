@@ -6,7 +6,7 @@ GET {{api}}/tournaments
 ###
 
 ### GET specific tournament
-GET {{api}}/tournaments/10000000-0000-0000-0000-000000000002
+GET {{api}}/tournaments/10000000-0000-0000-0000-000000000001
 ###
 
 ### Delete specific tournament
@@ -19,5 +19,51 @@ GET {{api}}/matches
 ###
 
 ### GET all of specific tournament matches
-GET {{api}}/tournaments/10000000-0000-0000-0000-000000000001/matches
+GET {{api}}/tournaments/10000000-0000-0000-0000-000000000010/matches
 ###
+
+### DELETE one of specific tournament matches
+DELETE {{api}}/tournaments/10000000-0000-0000-0000-000000000001/matches/20000000-0000-0000-0000-000000000001
+###
+
+### PUT new tournament
+PUT {{api}}/tournaments/10000000-0000-0000-0000-000000000009
+Content-Type: application/json
+
+{
+  "name": "Turniej nowy",
+  "location": "PG"
+}
+###
+
+### Update tournament
+PATCH {{api}}/tournaments/10000000-0000-0000-0000-000000000009
+Content-Type: application/json
+
+{
+  "name": "zaktualizowane",
+  "location": "PG ETI"
+}
+###
+
+
+### PUT new match
+PUT {{api}}/tournaments/10000000-0000-0000-0000-000000000009/matches/90000000-0000-0000-0000-000000000001
+Content-Type: application/json
+
+{
+  "result": 1
+}
+###
+
+### Update match
+PATCH {{api}}/tournaments/10000000-0000-0000-0000-000000000009/matches/90000000-0000-0000-0000-000000000001
+Content-Type: application/json
+
+{
+  "result": 0
+}
+###
+
+
+

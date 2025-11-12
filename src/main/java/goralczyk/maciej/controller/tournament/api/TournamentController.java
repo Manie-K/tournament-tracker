@@ -39,7 +39,7 @@ public interface TournamentController
      */
     @PUT
     @Path("/tournaments/{id}")
-    void putTournament(UUID id, PutTournamentRequest request);
+    void putTournament(@PathParam("id") UUID id, PutTournamentRequest request);
 
     /**
      * @param id      tournament's id.
@@ -47,7 +47,7 @@ public interface TournamentController
      */
     @PATCH
     @Path("/tournaments/{id}")
-    void patchTournament(UUID id, PatchTournamentRequest request);
+    void patchTournament(@PathParam("id")  UUID id, PatchTournamentRequest request);
 
     /**
      * @param id tournament's id.

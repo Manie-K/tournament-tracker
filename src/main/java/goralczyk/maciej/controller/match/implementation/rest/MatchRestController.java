@@ -6,6 +6,7 @@ import goralczyk.maciej.dto.match.GetMatchResponse;
 import goralczyk.maciej.dto.match.GetMatchesResponse;
 import goralczyk.maciej.dto.match.PatchMatchRequest;
 import goralczyk.maciej.dto.match.PutMatchRequest;
+import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.service.match.api.MatchService;
 import goralczyk.maciej.service.tournament.api.TournamentService;
@@ -17,6 +18,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -92,19 +94,17 @@ public class MatchRestController implements MatchController
 
     @Override
     public GetMatchResponse getMatch(UUID id) {
-        //change
         return factory.matchToResponse().apply(matchService.find(id).orElseThrow(NotFoundException::new));
     }
 
     @Override
     public void putMatch(UUID tournamentId, UUID id, PutMatchRequest request) {
-        //change
         Tournament tournament = tournamentService.find(tournamentId).orElseThrow(NotFoundException::new);
         request.setTournament(tournament);
         matchService.create(factory.requestToMatch().apply(id, request));
 
         response.setStatus(HttpServletResponse.SC_CREATED);
-        response.setHeader("Location", uriInfo.getAbsolutePath().toString() + "/" + id);
+        response.setHeader("Location", uriInfo.getAbsolutePath().toString());
     }
 
     @Override
@@ -113,16 +113,17 @@ public class MatchRestController implements MatchController
             throw new NotFoundException();
         }
         factory.updateMatch().apply(matchService.find(id).orElseThrow(NotFoundException::new), request);
-
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
     @Override
-    public void deleteMatch(UUID id) {
-        matchService.find(id).ifPresentOrElse(
-                entity -> matchService.delete(id),
-                () -> {
-                    throw new NotFoundException();
-                }
-        );
+    public void deleteMatch(UUID tournamentId, UUID id) {
+        Match match = matchService.find(id).orElseThrow(NotFoundException::new);
+        if(match.getTournament().getId().equals(tournamentId)) {
+            System.out.println(match.getTournament().getId());
+            matchService.delete(id);
+        }else{
+            throw new NotFoundException();
+        }
     }
 }

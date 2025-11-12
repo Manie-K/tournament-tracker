@@ -12,6 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -75,6 +76,7 @@ public class MatchServiceImplementation implements MatchService
 
     @Override
     public void create(Match match) {
+        Tournament tournament = match.getTournament();
         matchRepository.create(match);
     }
 
@@ -89,6 +91,24 @@ public class MatchServiceImplementation implements MatchService
         if (match.isEmpty()) {
             return false;
         }
+
+        List<Match> tournamentMatches = tournamentService.find(match.get().getTournament().getId()).get().getMatches();
+        List<Match> newMatches = new ArrayList<Match>();
+
+        tournamentMatches.forEach(match1 -> {
+            if(match1.getId().equals(id))
+            {
+
+            }
+            else{
+                newMatches.add(match1);
+            }
+        });
+        System.out.println("new matches: " + newMatches);
+        Tournament t = tournamentService.find(match.get().getTournament().getId()).get();
+        t.setMatches(newMatches);
+        tournamentService.update(t);
+        System.out.println("Deleted match from tournament. Now it has: " + tournamentService.find(t.getId()).get().getMatches());
         matchRepository.delete(match.get());
         return true;
     }

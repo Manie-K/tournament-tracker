@@ -9,8 +9,12 @@ import goralczyk.maciej.dto.tournament.PutTournamentRequest;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.service.tournament.api.TournamentService;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriInfo;
 
 import java.util.UUID;
 
@@ -30,14 +34,32 @@ public class TournamentRestController implements TournamentController
      */
     private final DtoFunctionFactory factory;
 
+
+    /**
+     * Allows to create {@link UriBuilder} based on current request.
+     */
+    private final UriInfo uriInfo;
+
+    /**
+     * Current HTTP Servlet response.
+     */
+    private HttpServletResponse response;
+
+    @Context
+    public void setResponse(HttpServletResponse response) {
+        //ATM in this implementation only HttpServletRequest can be injected with CDI so JAX-RS injection is used.
+        this.response = response;
+    }
+
     /**
      * @param service tournament service
      * @param factory factory producing functions for conversion between DTO and entities
      */
     @Inject
-    public TournamentRestController(TournamentService service, DtoFunctionFactory factory) {
+    public TournamentRestController(TournamentService service, DtoFunctionFactory factory, UriInfo uriInfo) {
         this.service = service;
         this.factory = factory;
+        this.uriInfo = uriInfo;
     }
 
 
@@ -56,11 +78,15 @@ public class TournamentRestController implements TournamentController
     @Override
     public void putTournament(UUID id, PutTournamentRequest request) {
         service.create(factory.requestToTournament().apply(id, request));
+
+        response.setStatus(HttpServletResponse.SC_CREATED);
+        response.setHeader("Location", uriInfo.getAbsolutePath().toString() + "/" + id);
     }
 
     @Override
     public void patchTournament(UUID id, PatchTournamentRequest request) {
-        factory.updateTournament().apply(service.find(id).orElseThrow(NotFoundException::new), request);
+        service.update(factory.updateTournament().apply(service.find(id).orElseThrow(NotFoundException::new), request));
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
     @Override

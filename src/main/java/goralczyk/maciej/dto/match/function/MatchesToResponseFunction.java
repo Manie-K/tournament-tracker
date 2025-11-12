@@ -16,12 +16,12 @@ public class MatchesToResponseFunction implements Function<List<Match>, GetMatch
                 .matches(matches.stream()
                         .map(match -> GetMatchesResponse.SingleMatch.builder()
                                 .id(match.getId())
-                                .participantA(GetMatchesResponse.UserSummary.builder()
+                                /*.participantA(GetMatchesResponse.UserSummary.builder()
                                         .name(match.getParticipantA().getName())
                                         .build())
                                 .participantB(GetMatchesResponse.UserSummary.builder()
                                         .name(match.getParticipantB().getName())
-                                        .build())
+                                        .build())*/
                                 .build())
                         .toList())
                 .build();
