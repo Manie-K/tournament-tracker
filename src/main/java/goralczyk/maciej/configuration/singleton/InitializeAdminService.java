@@ -13,6 +13,7 @@ import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Singleton
@@ -58,7 +59,8 @@ public class InitializeAdminService {
                     .login("admin-service")
                     .name("Admin")
                     .email("admin-service@tournamenttracker.example.com")
-                    .password(passwordHash.generate("adminadmin".toCharArray()))
+                    .password(passwordHash.generate("adminservice".toCharArray()))
+                    .dateOfBirth(LocalDate.EPOCH)
                     .role(Role.ADMIN)
                     .build();
 
