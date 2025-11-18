@@ -28,6 +28,10 @@ public class GetUserResponse
      */
     private String name;
 
+    private String login;
+
+    private String email;
+
     /**
      * Date of birth of the user.
      */

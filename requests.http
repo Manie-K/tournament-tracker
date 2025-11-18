@@ -14,12 +14,20 @@ DELETE {{api}}/tournaments/10000000-0000-0000-0000-000000000002
 ###
 
 
+### GET all users
+GET {{api}}/users
+###
+
+### Get specific user
+GET {{api}}/users/00000000-0000-0000-0000-000000000002
+###
+
 ### GET all matches
 GET {{api}}/matches
 ###
 
 ### GET all of specific tournament matches
-GET {{api}}/tournaments/10000000-0000-0000-0000-000000000010/matches
+GET {{api}}/tournaments/10000000-0000-0000-0000-000000000001/matches
 ###
 
 ### DELETE one of specific tournament matches
@@ -48,10 +56,11 @@ Content-Type: application/json
 
 
 ### PUT new match
-PUT {{api}}/tournaments/10000000-0000-0000-0000-000000000009/matches/90000000-0000-0000-0000-000000000001
+PUT {{api}}/tournaments/10000000-0000-0000-0000-000000000001/matches/90000000-0000-0000-0000-000000000001
 Content-Type: application/json
 
 {
+  "participantAId": "00000000-0000-0000-0000-000000000002",
   "result": 1
 }
 ###

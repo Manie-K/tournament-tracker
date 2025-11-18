@@ -27,7 +27,9 @@ public class MatchPersistenceRepository implements MatchRepository
 
     @Override
     public List<Match> findAllByUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return em.createQuery("SELECT m FROM Match m WHERE m.participantA = :participantA", Match.class)
+                .setParameter("participantA", user)
+                .getResultList();
     }
 
     @Override

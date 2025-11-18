@@ -12,10 +12,10 @@ public class MatchToResponseFunction implements Function<Match, GetMatchResponse
     public GetMatchResponse apply(Match match) {
         return GetMatchResponse.builder()
                 .id(match.getId())
-                /*.participantA(GetMatchResponse.UserSummary.builder()
+                .participantA(GetMatchResponse.UserSummary.builder()
                         .name(match.getParticipantA().getName())
                         .build())
-                .participantB(GetMatchResponse.UserSummary.builder()
+                /*.participantB(GetMatchResponse.UserSummary.builder()
                         .name(match.getParticipantB().getName())
                         .build())*/
                 .tournament(GetMatchResponse.TournamentSummary.builder()

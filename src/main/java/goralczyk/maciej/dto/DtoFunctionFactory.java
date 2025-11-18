@@ -33,6 +33,9 @@ public class DtoFunctionFactory
     @Inject
     private MatchService matchService;
 
+    @Inject
+    private UserService userService;
+
     /**
      * Returns a function to convert a list of {@link User} to {@link GetUsersResponse}.
      *
@@ -48,7 +51,7 @@ public class DtoFunctionFactory
      * @return UserToResponseFunction instance
      */
     public UserToResponseFunction userToResponse() {
-        return new UserToResponseFunction();
+        return new UserToResponseFunction(matchService);
     }
 
     /**
@@ -66,7 +69,7 @@ public class DtoFunctionFactory
      * @return UpdateUserFunction instance
      */
     public UpdateUserWithRequestFunction updateUser() {
-        return new UpdateUserWithRequestFunction();
+        return new UpdateUserWithRequestFunction(matchService);
     }
 
     public TournamentsToResponseFunction tournamentsToResponse() {return new TournamentsToResponseFunction();}
@@ -76,7 +79,7 @@ public class DtoFunctionFactory
 
     public MatchesToResponseFunction matchesToResponse() {return new MatchesToResponseFunction();}
     public MatchToResponseFunction matchToResponse() {return new MatchToResponseFunction();}
-    public RequestToMatchFunction requestToMatch() {return new RequestToMatchFunction();}
+    public RequestToMatchFunction requestToMatch() {return new RequestToMatchFunction(userService);}
     public UpdateMatchWithRequestFunction updateMatch() {return new UpdateMatchWithRequestFunction();}
 
 }

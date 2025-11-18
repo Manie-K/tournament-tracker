@@ -77,8 +77,8 @@ public class MatchRestController implements MatchController
     }
 
     @EJB
-    private void setTournamentService(MatchService matchService) {
-        this.matchService = matchService;
+    private void setTournamentService(TournamentService tournamentService) {
+        this.tournamentService = tournamentService;
     }
 
     @Override

@@ -80,12 +80,14 @@ public class InitializedData
     @PostConstruct
     private void init()
     {
-/*
         User admin = User.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
                 .name("Admin")
+                .login("Admin")
+                .email("Admin@wp.pl")
+                .password("Admin")
                 .dateOfBirth(LocalDate.EPOCH)
-                .role(Role.Admin)
+                .role(Role.ADMIN)
                 .matches(List.of())
                 .photo(null)
                 .build();
@@ -93,26 +95,23 @@ public class InitializedData
         User user = User.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000002"))
                 .name("User")
-                .dateOfBirth(LocalDate.of(2000, 1, 1))
-                .role(Role.Normal)
+                .login("User")
+                .email("User@wp.pl")
+                .password("User")
+                .dateOfBirth(LocalDate.EPOCH)
+                .role(Role.USER)
                 .matches(List.of())
                 .photo(null)
                 .build();
 
         User me = User.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000003"))
-                .name("Maciej")
-                .dateOfBirth(LocalDate.of(2003, 11, 20))
-                .role(Role.Normal)
-                .matches(List.of())
-                .photo(null)
-                .build();
-
-        User lewandowski = User.builder()
-                .id(UUID.fromString("00000000-0000-0000-0000-000000000004"))
-                .name("Robert Lewandowski")
-                .dateOfBirth(LocalDate.of(1988, 8, 21))
-                .role(Role.Normal)
+                .name("Me")
+                .login("Me")
+                .email("Me@wp.pl")
+                .password("Me")
+                .dateOfBirth(LocalDate.of(2025, 12, 31))
+                .role(Role.USER)
                 .matches(List.of())
                 .photo(null)
                 .build();
@@ -120,8 +119,8 @@ public class InitializedData
         userService.create(admin);
         userService.create(user);
         userService.create(me);
-        userService.create(lewandowski);
-*/ //We dont create users for now
+
+
         Tournament championsLeague = Tournament.builder()
                 .id(UUID.fromString("10000000-0000-0000-0000-000000000001"))
                 .name("Champions League")
@@ -141,12 +140,15 @@ public class InitializedData
                 .id(UUID.fromString("20000000-0000-0000-0000-000000000001"))
                 .startDateTime(LocalDateTime.now())
                 .tournament(championsLeague)
+                .participantA(user)
                 .result(1)
                 .build();
+
         Match euroMatch = Match.builder()
                 .id(UUID.fromString("30000000-0000-0000-0000-000000000001"))
                 .startDateTime(LocalDateTime.now())
                 .tournament(euro)
+                .participantA(me)
                 .result(0)
                 .build();
 

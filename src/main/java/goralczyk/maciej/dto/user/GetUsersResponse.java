@@ -26,6 +26,10 @@ public class GetUsersResponse
          * Name of the user.
          */
         private String name;
+
+        private String login;
+
+        private String email;
     }
 
     /**

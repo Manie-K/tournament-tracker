@@ -29,11 +29,13 @@ public class Match implements Serializable {
     /**
      * First participant.
      */
-    @Transient
+
+    @ManyToOne
+    @JoinColumn(name = "participant_a_id")
     private User participantA;
 
     /**
-     * Second participant.
+     * Second participant. - for now non-existing in DB
      */
     @Transient
     private User participantB;

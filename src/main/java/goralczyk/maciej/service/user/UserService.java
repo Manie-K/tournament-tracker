@@ -54,6 +54,10 @@ public class UserService
     }
 
     public void create(User user) {
+        if(userRepository.find(user.getId()).isPresent())
+        {
+            throw new IllegalStateException("User with this ID already exists");
+        }
         userRepository.create(user);
     }
 
@@ -64,6 +68,7 @@ public class UserService
     public void delete(UUID id) {
         userRepository.delete(userRepository.find(id).orElseThrow());
     }
+
 
     public Optional<byte[]> getPhoto(UUID id) {
         //TEMP, while we store it in files not db
@@ -87,7 +92,6 @@ public class UserService
         return Optional.of(photo);
         */
     }
-
 
     public void createPhoto(UUID id, InputStream is) {
         userRepository.find(id).ifPresent(user -> {

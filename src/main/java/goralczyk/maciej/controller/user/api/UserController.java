@@ -4,6 +4,8 @@ import goralczyk.maciej.dto.user.GetUserResponse;
 import goralczyk.maciej.dto.user.GetUsersResponse;
 import goralczyk.maciej.dto.user.PutUserRequest;
 import goralczyk.maciej.dto.user.PatchUserRequest;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -13,12 +15,15 @@ import java.io.InputStream;
 /**
  * Controller for managing users.
  */
-
+@Path("")
 public interface UserController
 {
     /**
      * @return all users representations.
      */
+    @GET
+    @Path("/users")
+    @Produces(MediaType.APPLICATION_JSON)
     GetUsersResponse getUsers();
 
 
@@ -26,24 +31,35 @@ public interface UserController
      * @param uuid user's id.
      * @return user representation.
      */
-    GetUserResponse getUser(UUID uuid);
+    @GET
+    @Path("/users/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetUserResponse getUser(@PathParam("id") UUID uuid);
 
     /**
      * @param id      user's id.
      * @param request new user representation.
      */
-    void putUser(UUID id, PutUserRequest request);
+    @PUT
+    @Path("/users/{id}")
+    void putUser(@PathParam("id") UUID id, PutUserRequest request);
 
     /**
      * @param id      user's id.
      * @param request user update representation.
      */
-    void patchUser(UUID id, PatchUserRequest request);
+    @PATCH
+    @Path("/users/{id}")
+    void patchUser(@PathParam("id") UUID id, PatchUserRequest request);
 
     /**
      * @param id user's id.
      */
-    void deleteUser(UUID id);
+    @DELETE
+    @Path("/users/{id}")
+    void deleteUser(@PathParam("id") UUID id);
+
+
 
     /**
      * @param id user's id.

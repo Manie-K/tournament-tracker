@@ -19,14 +19,12 @@ public class PutUserRequest
      * Name of the user.
      */
     private String name;
+    private String login;
+    private String email;
+    private String password;
 
     /**
      * Date of birth of the user.
      */
     private LocalDate dateOfBirth;
-
-    /**
-     * Role of the user, either Normal or Admin.
-     */
-    private String role;
 }

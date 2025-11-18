@@ -15,8 +15,11 @@ public class RequestToUserFunction implements BiFunction<UUID, PutUserRequest, U
         return User.builder()
                 .id(id)
                 .name(request.getName())
+                .login(request.getLogin())
+                .email(request.getEmail())
+                .password(request.getPassword())
                 .dateOfBirth(request.getDateOfBirth())
-                .role(Role.valueOf(request.getRole()))
+                .role(Role.USER)
                 .matches(List.of()) // New user has no matches
                 .photo(null) // New user has no photo
                 .build();

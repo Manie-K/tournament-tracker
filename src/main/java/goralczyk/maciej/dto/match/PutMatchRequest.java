@@ -16,8 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PutMatchRequest
 {
-    private User participantA;
-    private User participantB;
+    private UUID participantAId;
     private Tournament tournament;
     private LocalDateTime startDateTime;
     private int result = -1;

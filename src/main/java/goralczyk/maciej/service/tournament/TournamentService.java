@@ -33,6 +33,7 @@ public class TournamentService
         this.tournamentRepository = tournamentRepository;
     }
 
+
     public Optional<Tournament> find(UUID id) {
         return tournamentRepository.find(id);
     }
