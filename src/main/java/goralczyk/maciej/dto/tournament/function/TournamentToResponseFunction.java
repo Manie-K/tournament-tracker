@@ -7,7 +7,7 @@ import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.match.api.MatchRepository;
 import goralczyk.maciej.service.match.MatchService;
-import goralczyk.maciej.service.user.api.UserService;
+import goralczyk.maciej.service.user.UserService;
 import jakarta.inject.Inject;
 
 import java.util.ArrayList;

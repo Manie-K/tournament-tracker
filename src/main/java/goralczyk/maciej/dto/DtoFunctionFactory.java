@@ -17,7 +17,7 @@ import goralczyk.maciej.dto.user.function.UserToResponseFunction;
 import goralczyk.maciej.dto.user.function.UsersToResponseFunction;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.service.match.MatchService;
-import goralczyk.maciej.service.user.api.UserService;
+import goralczyk.maciej.service.user.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

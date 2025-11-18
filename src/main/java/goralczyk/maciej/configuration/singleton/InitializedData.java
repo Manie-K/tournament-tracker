@@ -7,7 +7,7 @@ import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
-import goralczyk.maciej.service.user.api.UserService;
+import goralczyk.maciej.service.user.UserService;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.*;
 import jakarta.enterprise.context.ApplicationScoped;

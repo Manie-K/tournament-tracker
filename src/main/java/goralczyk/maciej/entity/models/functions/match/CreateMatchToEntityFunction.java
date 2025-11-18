@@ -3,7 +3,7 @@ package goralczyk.maciej.entity.models.functions.match;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.entity.models.CreateMatchModel;
-import goralczyk.maciej.service.user.api.UserService;
+import goralczyk.maciej.service.user.UserService;
 import jakarta.inject.Inject;
 
 import java.io.Serializable;
