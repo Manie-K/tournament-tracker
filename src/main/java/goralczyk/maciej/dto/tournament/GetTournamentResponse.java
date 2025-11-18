@@ -12,6 +12,7 @@ public class GetTournamentResponse {
     @Data
     @Builder
     public static class MatchSummary {
+        private UUID id;
         private String playerOne;
         private String playerTwo;
     }

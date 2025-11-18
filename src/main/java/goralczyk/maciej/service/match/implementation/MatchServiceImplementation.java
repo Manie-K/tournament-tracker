@@ -13,11 +13,9 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 /**
@@ -53,26 +51,22 @@ public class MatchServiceImplementation implements MatchService
         this.tournamentService = tournamentService;
     }
 
-    @Transactional
     @Override
     public Optional<Match> find(UUID id) {
         return matchRepository.find(id);
     }
 
-    @Transactional
     @Override
     public List<Match> findAll() {
         return matchRepository.findAll();
     }
 
-    @Transactional
     @Override
     public List<Match> findAllByUser(UUID userId) {
         User user = userService.find(userId).orElseThrow(NotFoundException::new);
         return matchRepository.findAllByUser(user);
     }
 
-    @Transactional
     @Override
     public List<Match> findAllByTournament(UUID tournamentId) {
         Tournament tournament = tournamentService.find(tournamentId).orElseThrow(NotFoundException::new);
@@ -82,6 +76,15 @@ public class MatchServiceImplementation implements MatchService
     @Transactional
     @Override
     public void create(Match match) {
+        if(matchRepository.find(match.getId()).isPresent())
+        {
+            throw new IllegalStateException("Match with this ID already exists");
+        } else if (tournamentService.find(match.getTournament().getId()).isEmpty())
+        {
+            throw new IllegalStateException("Tournament with this ID doesn't exist");
+        }
+
+        System.out.println("[Service] Create: " + match);
         matchRepository.create(match);
     }
 

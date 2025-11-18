@@ -16,7 +16,10 @@ import goralczyk.maciej.dto.user.function.UpdateUserWithRequestFunction;
 import goralczyk.maciej.dto.user.function.UserToResponseFunction;
 import goralczyk.maciej.dto.user.function.UsersToResponseFunction;
 import goralczyk.maciej.entity.User;
+import goralczyk.maciej.service.match.api.MatchService;
+import goralczyk.maciej.service.user.api.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.util.function.Function;
 
@@ -27,6 +30,9 @@ import java.util.function.Function;
 @ApplicationScoped
 public class DtoFunctionFactory
 {
+    @Inject
+    private MatchService matchService;
+
     /**
      * Returns a function to convert a list of {@link User} to {@link GetUsersResponse}.
      *
@@ -64,9 +70,9 @@ public class DtoFunctionFactory
     }
 
     public TournamentsToResponseFunction tournamentsToResponse() {return new TournamentsToResponseFunction();}
-    public TournamentToResponseFunction tournamentToResponse() {return new TournamentToResponseFunction();}
+    public TournamentToResponseFunction tournamentToResponse() {return new TournamentToResponseFunction(matchService);}
     public RequestToTournamentFunction requestToTournament() {return new RequestToTournamentFunction();}
-    public UpdateTournamentWithRequest updateTournament() {return new UpdateTournamentWithRequest();}
+    public UpdateTournamentWithRequest updateTournament() {return new UpdateTournamentWithRequest(matchService);}
 
     public MatchesToResponseFunction matchesToResponse() {return new MatchesToResponseFunction();}
     public MatchToResponseFunction matchToResponse() {return new MatchToResponseFunction();}

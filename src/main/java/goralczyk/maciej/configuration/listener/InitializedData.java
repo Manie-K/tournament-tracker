@@ -119,14 +119,12 @@ public class InitializedData
                 .id(UUID.fromString("10000000-0000-0000-0000-000000000001"))
                 .name("Champions League")
                 .location("Wembley, London")
-                .matches(List.of())
                 .build();
 
         Tournament euro = Tournament.builder()
                 .id(UUID.fromString("10000000-0000-0000-0000-000000000002"))
                 .name("Euro")
                 .location("Europe")
-                .matches(List.of())
                 .build();
 
         tournamentService.create(championsLeague);

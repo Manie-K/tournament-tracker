@@ -6,7 +6,6 @@ import goralczyk.maciej.dto.tournament.GetTournamentResponse;
 import goralczyk.maciej.dto.tournament.GetTournamentsResponse;
 import goralczyk.maciej.dto.tournament.PatchTournamentRequest;
 import goralczyk.maciej.dto.tournament.PutTournamentRequest;
-import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.service.tournament.api.TournamentService;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
@@ -78,9 +77,9 @@ public class TournamentRestController implements TournamentController
     @Override
     public void putTournament(UUID id, PutTournamentRequest request)
     {
-            service.create(factory.requestToTournament().apply(id, request));
-            response.setStatus(HttpServletResponse.SC_CREATED);
-            response.setHeader("Location", uriInfo.getAbsolutePath().toString() + "/" + id);
+        service.create(factory.requestToTournament().apply(id, request));
+        response.setStatus(HttpServletResponse.SC_CREATED);
+        response.setHeader("Location", uriInfo.getAbsolutePath().toString() + "/" + id);
     }
 
     @Override

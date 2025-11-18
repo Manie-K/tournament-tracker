@@ -49,6 +49,7 @@ public class MatchPersistenceRepository implements MatchRepository
 
     @Override
     public void create(Match entity) {
+        System.out.println("[Repo]: Create match - persisting:" +  entity);
         em.persist(entity);
     }
 

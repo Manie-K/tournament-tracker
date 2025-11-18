@@ -3,7 +3,9 @@ package goralczyk.maciej.repository.tournament.persistence;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.repository.tournament.api.TournamentRepository;
+import goralczyk.maciej.service.match.api.MatchService;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -14,6 +16,9 @@ import java.util.UUID;
 @RequestScoped
 public class TournamentPersistenceRepository implements TournamentRepository
 {
+    @Inject
+    MatchService matchService;
+
     /**
      * Connection with the database (not thread safe).
      */
@@ -50,6 +55,12 @@ public class TournamentPersistenceRepository implements TournamentRepository
 
     @Override
     public void delete(Tournament entity) {
+        List<Match> matchesToDelete = matchService.findAllByTournament(entity.getId());
+
+        for (Match match : matchesToDelete) {
+            em.remove(match);
+        }
+
         em.remove(em.find(Tournament.class, entity.getId()));
     }
 

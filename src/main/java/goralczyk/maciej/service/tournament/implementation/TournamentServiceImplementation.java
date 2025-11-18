@@ -56,6 +56,11 @@ public class TournamentServiceImplementation implements TournamentService {
     @Transactional
     @Override
     public void create(Tournament tournament) {
+        if(tournamentRepository.find(tournament.getId()).isPresent())
+        {
+            throw new IllegalStateException("Tournament with this ID already exists");
+        }
+
         tournamentRepository.create(tournament);
     }
 
