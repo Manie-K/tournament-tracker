@@ -4,7 +4,7 @@ package goralczyk.maciej.dto.tournament.function;
 import goralczyk.maciej.dto.tournament.PatchTournamentRequest;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
-import goralczyk.maciej.service.match.api.MatchService;
+import goralczyk.maciej.service.match.MatchService;
 import jakarta.inject.Inject;
 
 import java.util.List;

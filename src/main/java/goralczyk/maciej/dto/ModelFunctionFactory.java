@@ -1,7 +1,7 @@
 package goralczyk.maciej.dto;
 
 import goralczyk.maciej.entity.models.functions.match.*;
-import goralczyk.maciej.service.tournament.api.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentService;
 import goralczyk.maciej.service.user.api.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

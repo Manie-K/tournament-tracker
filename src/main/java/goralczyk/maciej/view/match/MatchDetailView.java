@@ -6,7 +6,7 @@ import java.io.Serializable;
 import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.models.MatchModel;
-import goralczyk.maciej.service.match.api.MatchService;
+import goralczyk.maciej.service.match.MatchService;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;

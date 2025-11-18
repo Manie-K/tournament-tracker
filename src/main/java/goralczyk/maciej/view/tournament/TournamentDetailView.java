@@ -2,8 +2,8 @@ package goralczyk.maciej.view.tournament;
 
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
-import goralczyk.maciej.service.match.api.MatchService;
-import goralczyk.maciej.service.tournament.api.TournamentService;
+import goralczyk.maciej.service.match.MatchService;
+import goralczyk.maciej.service.tournament.TournamentService;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;

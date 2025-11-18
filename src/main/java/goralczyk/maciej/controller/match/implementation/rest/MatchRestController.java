@@ -8,8 +8,9 @@ import goralczyk.maciej.dto.match.PatchMatchRequest;
 import goralczyk.maciej.dto.match.PutMatchRequest;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
-import goralczyk.maciej.service.match.api.MatchService;
-import goralczyk.maciej.service.tournament.api.TournamentService;
+import goralczyk.maciej.service.match.MatchService;
+import goralczyk.maciej.service.tournament.TournamentService;
+import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.NotFoundException;
@@ -18,25 +19,23 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
  * Simple framework agnostic implementation of controller.
  */
 @Path("")//Annotation required by the specification.
-
 public class MatchRestController implements MatchController
 {
     /**
      * Match service.
      */
-    private final MatchService matchService;
+    private MatchService matchService;
 
     /**
      * Tournament service.
      */
-    private final TournamentService tournamentService;
+    private TournamentService tournamentService;
 
     /**
      * Factory producing functions for conversion between DTO and entities.
@@ -60,21 +59,26 @@ public class MatchRestController implements MatchController
     }
 
     /**
-     * @param matchService match service
      * @param factory factory producing functions for conversion between DTO and entities
      * @param uriInfo allows to create {@link UriBuilder} based on current request
      */
     @Inject
     public MatchRestController(
-            MatchService matchService,
-            TournamentService tournamentService,
             DtoFunctionFactory factory,
             @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo
     ) {
-        this.matchService = matchService;
-        this.tournamentService = tournamentService;
         this.factory = factory;
         this.uriInfo = uriInfo;
+    }
+
+    @EJB
+    private void setMatchService(MatchService matchService) {
+        this.matchService = matchService;
+    }
+
+    @EJB
+    private void setTournamentService(MatchService matchService) {
+        this.matchService = matchService;
     }
 
     @Override

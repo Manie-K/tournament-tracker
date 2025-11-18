@@ -4,7 +4,7 @@ import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.entity.models.EditMatchModel;
-import goralczyk.maciej.service.tournament.api.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentService;
 import goralczyk.maciej.service.user.api.UserService;
 import jakarta.inject.Inject;
 

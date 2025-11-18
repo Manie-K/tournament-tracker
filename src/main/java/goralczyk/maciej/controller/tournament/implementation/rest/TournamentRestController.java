@@ -6,7 +6,7 @@ import goralczyk.maciej.dto.tournament.GetTournamentResponse;
 import goralczyk.maciej.dto.tournament.GetTournamentsResponse;
 import goralczyk.maciej.dto.tournament.PatchTournamentRequest;
 import goralczyk.maciej.dto.tournament.PutTournamentRequest;
-import goralczyk.maciej.service.tournament.api.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentService;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.NotFoundException;

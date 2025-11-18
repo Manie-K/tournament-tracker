@@ -1,13 +1,15 @@
-package goralczyk.maciej.configuration.listener;
+package goralczyk.maciej.configuration.singleton;
 
 import goralczyk.maciej.configuration.StringConstants;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
-import goralczyk.maciej.service.match.api.MatchService;
-import goralczyk.maciej.service.tournament.api.TournamentService;
+import goralczyk.maciej.service.match.MatchService;
+import goralczyk.maciej.service.tournament.TournamentService;
 import goralczyk.maciej.service.user.api.UserService;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.context.control.RequestContextController;
@@ -16,6 +18,7 @@ import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.InputStream;
@@ -32,7 +35,10 @@ import java.util.UUID;
  * run in order to init database with starting data. Good place to create first default admin user.
  */
 
-@ApplicationScoped
+@Singleton
+@Startup
+@TransactionAttribute(value = TransactionAttributeType.NOT_SUPPORTED)
+@NoArgsConstructor
 public class InitializedData
 {
     /**
@@ -50,19 +56,20 @@ public class InitializedData
      */
     private TournamentService tournamentService;
 
-    private RequestContextController requestContextController;
 
-    @Inject
-    public InitializedData(RequestContextController requestContextController, UserService userService, MatchService matchService, TournamentService tournamentService)
-    {
-        this.requestContextController = requestContextController;
+    @EJB
+    public void setUserService(UserService userService) {
         this.userService = userService;
-        this.matchService = matchService;
-        this.tournamentService = tournamentService;
     }
 
-    public void onStart(@Observes @Initialized(ApplicationScoped.class) Object init) {
-        init();
+    @EJB
+    public void setMatchService(MatchService matchService) {
+        this.matchService = matchService;
+    }
+
+    @EJB
+    public void setTournamentService(TournamentService tournamentService) {
+        this.tournamentService = tournamentService;
     }
 
     /**
@@ -70,9 +77,9 @@ public class InitializedData
      * created only once.
      */
     @SneakyThrows
+    @PostConstruct
     private void init()
     {
-        requestContextController.activate();
 /*
         User admin = User.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
@@ -149,8 +156,6 @@ public class InitializedData
         System.out.println("[AFTER INIT DATA] Success");
         System.out.println("[AFTER INIT DATA] Tournaments: " + tournamentService.findAll());
         System.out.println("[AFTER INIT DATA] Matches: " + matchService.findAll());
-
-        requestContextController.deactivate();
     }
 
     /**

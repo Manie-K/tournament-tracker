@@ -3,8 +3,8 @@ package goralczyk.maciej.repository.tournament.persistence;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.repository.tournament.api.TournamentRepository;
-import goralczyk.maciej.service.match.api.MatchService;
-import jakarta.enterprise.context.RequestScoped;
+import goralczyk.maciej.service.match.MatchService;
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class TournamentPersistenceRepository implements TournamentRepository
 {
     @Inject

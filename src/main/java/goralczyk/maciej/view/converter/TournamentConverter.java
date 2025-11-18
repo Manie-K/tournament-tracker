@@ -1,7 +1,7 @@
 package goralczyk.maciej.view.converter;
 
 import goralczyk.maciej.entity.Tournament;
-import goralczyk.maciej.service.tournament.api.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
