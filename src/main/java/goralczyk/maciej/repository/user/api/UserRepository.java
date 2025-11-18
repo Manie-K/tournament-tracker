@@ -13,4 +13,5 @@ import java.util.UUID;
 public interface UserRepository extends Repository<User, UUID>
 {
     public Optional<User> findByName(String username);
+    public Optional<User> findByLogin(String login);
 }

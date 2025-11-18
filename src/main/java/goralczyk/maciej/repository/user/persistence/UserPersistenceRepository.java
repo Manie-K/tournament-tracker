@@ -43,6 +43,15 @@ public class UserPersistenceRepository implements UserRepository
     }
 
     @Override
+    public Optional<User> findByLogin(String login) {
+        List<User> results = em.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class)
+                .setParameter("login", login)
+                .getResultList();
+
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+    }
+
+    @Override
     public List<User> findAll() {
         return em.createQuery("select u from User u", User.class).getResultList();
     }

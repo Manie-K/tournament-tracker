@@ -6,7 +6,9 @@ import goralczyk.maciej.dto.tournament.GetTournamentResponse;
 import goralczyk.maciej.dto.tournament.GetTournamentsResponse;
 import goralczyk.maciej.dto.tournament.PatchTournamentRequest;
 import goralczyk.maciej.dto.tournament.PutTournamentRequest;
+import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.service.tournament.TournamentService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.NotFoundException;
@@ -14,6 +16,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
+import lombok.extern.java.Log;
 
 import java.util.UUID;
 
@@ -21,6 +24,7 @@ import java.util.UUID;
  * Simple framework agnostic implementation of controller.
  */
 @Path("")//Annotation required by the specification.
+@Log
 public class TournamentRestController implements TournamentController
 {
     /**
@@ -89,6 +93,7 @@ public class TournamentRestController implements TournamentController
     }
 
     @Override
+    @RolesAllowed(Role.ADMIN)
     public void deleteTournament(UUID id) {
         service.find(id).ifPresentOrElse(
                 entity -> service.delete(id),

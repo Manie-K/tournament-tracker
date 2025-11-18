@@ -1,6 +1,5 @@
 package goralczyk.maciej.configuration.singleton;
 
-import goralczyk.maciej.configuration.StringConstants;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
@@ -9,17 +8,14 @@ import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
 import goralczyk.maciej.service.user.UserService;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RunAs;
 import jakarta.ejb.*;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.Initialized;
-import jakarta.enterprise.context.control.RequestContextController;
-import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.annotation.WebListener;
+import jakarta.security.enterprise.SecurityContext;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 
 import java.io.InputStream;
 import java.time.LocalDate;
@@ -37,8 +33,12 @@ import java.util.UUID;
 
 @Singleton
 @Startup
-@TransactionAttribute(value = TransactionAttributeType.NOT_SUPPORTED)
 @NoArgsConstructor
+@Log
+@TransactionAttribute(value = TransactionAttributeType.NOT_SUPPORTED)
+@DependsOn("InitializeAdminService")
+@DeclareRoles({Role.ADMIN, Role.USER})
+@RunAs(Role.ADMIN)
 public class InitializedData
 {
     /**
@@ -56,6 +56,8 @@ public class InitializedData
      */
     private TournamentService tournamentService;
 
+    @Inject
+    private SecurityContext securityContext;
 
     @EJB
     public void setUserService(UserService userService) {
@@ -80,6 +82,10 @@ public class InitializedData
     @PostConstruct
     private void init()
     {
+        if (!userService.findByLogin("Admin").isEmpty()) {
+            return;
+        }
+
         User admin = User.builder()
                 .id(UUID.fromString("00000000-0000-0000-0000-000000000001"))
                 .name("Admin")

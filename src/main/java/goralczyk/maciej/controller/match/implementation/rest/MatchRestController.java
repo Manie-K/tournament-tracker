@@ -7,9 +7,11 @@ import goralczyk.maciej.dto.match.GetMatchesResponse;
 import goralczyk.maciej.dto.match.PatchMatchRequest;
 import goralczyk.maciej.dto.match.PutMatchRequest;
 import goralczyk.maciej.entity.Match;
+import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
+import lombok.extern.java.Log;
 
 import java.util.UUID;
 
@@ -25,6 +28,8 @@ import java.util.UUID;
  * Simple framework agnostic implementation of controller.
  */
 @Path("")//Annotation required by the specification.
+@RolesAllowed(Role.USER)
+@Log
 public class MatchRestController implements MatchController
 {
     /**

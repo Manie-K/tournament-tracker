@@ -1,7 +1,10 @@
 package goralczyk.maciej.service.tournament;
 
+import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.repository.tournament.api.TournamentRepository;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -16,7 +19,7 @@ import java.util.UUID;
  */
 @LocalBean
 @Stateless
-@NoArgsConstructor(force = true)
+@NoArgsConstructor(force = true, access = lombok.AccessLevel.PUBLIC)
 public class TournamentService
 {
     /**
@@ -33,19 +36,22 @@ public class TournamentService
         this.tournamentRepository = tournamentRepository;
     }
 
-
+    @PermitAll
     public Optional<Tournament> find(UUID id) {
         return tournamentRepository.find(id);
     }
 
+    @PermitAll
     public Optional<Tournament> findByName(String name) {
         return tournamentRepository.findByName(name);
     }
 
+    @PermitAll
     public List<Tournament> findAll() {
         return tournamentRepository.findAll();
     }
 
+    @RolesAllowed(Role.ADMIN)
     public void create(Tournament tournament) {
         if(tournamentRepository.find(tournament.getId()).isPresent())
         {
@@ -55,10 +61,12 @@ public class TournamentService
         tournamentRepository.create(tournament);
     }
 
+    @RolesAllowed(Role.ADMIN)
     public void update(Tournament tournament) {
         tournamentRepository.update(tournament);
     }
 
+    @RolesAllowed(Role.ADMIN)
     public boolean delete(UUID id)
     {
         tournamentRepository.delete(tournamentRepository.find(id).orElseThrow());
