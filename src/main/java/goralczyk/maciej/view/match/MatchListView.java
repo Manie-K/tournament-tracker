@@ -3,7 +3,8 @@ package goralczyk.maciej.view.match;
 import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.models.match.MatchesModel;
 import goralczyk.maciej.service.match.MatchService;
-import jakarta.faces.view.ViewScoped;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -11,17 +12,24 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Named
-@ViewScoped
+@RequestScoped
 public class MatchListView  implements Serializable {
 
     @Inject
     private MatchService matchService;
+    private final ModelFunctionFactory factory;
 
-    @Inject
     private MatchesModel matches;
 
     @Inject
-    private ModelFunctionFactory factory;
+    public MatchListView(ModelFunctionFactory factory) {
+        this.factory = factory;
+    }
+
+    @EJB
+    public void setMatchService(MatchService matchService) {
+        this.matchService = matchService;
+    }
 
     public MatchesModel getMatches()
     {

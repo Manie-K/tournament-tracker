@@ -2,6 +2,7 @@ package goralczyk.maciej.dto;
 
 import goralczyk.maciej.models.functions.match.*;
 import goralczyk.maciej.models.functions.tournament.*;
+import goralczyk.maciej.models.functions.user.UserToModelFunction;
 import goralczyk.maciej.models.functions.user.UsersToModelFunction;
 import goralczyk.maciej.repository.tournament.api.TournamentRepository;
 import goralczyk.maciej.repository.user.api.UserRepository;
@@ -67,4 +68,6 @@ public class ModelFunctionFactory {
     public UsersToModelFunction usersToModel() {
         return new UsersToModelFunction();
     }
+
+    public UserToModelFunction userToModel() {return new UserToModelFunction();}
 }

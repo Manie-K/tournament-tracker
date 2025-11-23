@@ -5,6 +5,7 @@ import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.models.tournament.TournamentsModel;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -17,12 +18,23 @@ import java.util.UUID;
 @RequestScoped
 public class TournamentListView implements Serializable
 {
-    @Inject
     private TournamentService tournamentService;
-    @Inject
-    private ModelFunctionFactory modelFunctionFactory;
+    private final ModelFunctionFactory modelFunctionFactory;
 
     private TournamentsModel tournaments;
+
+
+    @Inject
+    public TournamentListView(ModelFunctionFactory modelFunctionFactory)
+    {
+        this.modelFunctionFactory = modelFunctionFactory;
+    }
+
+    @EJB
+    public void setTournamentService(TournamentService tournamentService)
+    {
+        this.tournamentService = tournamentService;
+    }
 
     public TournamentsModel getTournaments()
     {

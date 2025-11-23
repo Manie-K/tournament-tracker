@@ -6,20 +6,28 @@ import goralczyk.maciej.service.tournament.TournamentService;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.UUID;
 
 @ViewScoped
 @Named
+@NoArgsConstructor(force = true)
 public class TournamentCreateView implements Serializable {
-    @Inject
-    private TournamentService tournamentService;
+    private final TournamentService tournamentService;
 
-    @Inject
-    private ModelFunctionFactory factory;
+    private final ModelFunctionFactory factory;
 
+    @Getter
     private TournamentCreateModel tournament;
+
+    @Inject
+    public TournamentCreateView(TournamentService service, ModelFunctionFactory factory) {
+        this.tournamentService = service;
+        this.factory = factory;
+    }
 
     public void init() {
         if (tournament == null) {

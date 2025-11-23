@@ -2,11 +2,18 @@ package goralczyk.maciej.authentication.config;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
+import jakarta.security.enterprise.authentication.mechanism.http.FormAuthenticationMechanismDefinition;
+import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import jakarta.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 @ApplicationScoped
-@BasicAuthenticationMechanismDefinition(realmName = "Tournament Tracker")
+@FormAuthenticationMechanismDefinition(
+        loginToContinue = @LoginToContinue(
+                loginPage = "/authentication/form/login.xhtml",
+                errorPage = "/authentication/form/login_error.xhtml"
+        )
+)
 @DatabaseIdentityStoreDefinition(
         dataSourceLookup = "jdbc/TournamentTracker",
         callerQuery = "select password from users where login = ?",

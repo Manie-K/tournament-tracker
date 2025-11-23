@@ -4,11 +4,14 @@ import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.models.tournament.TournamentEditModel;
 import goralczyk.maciej.service.tournament.TournamentService;
+import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,15 +21,28 @@ import java.util.UUID;
 @ViewScoped
 @Named
 public class TournamentEditView implements Serializable {
-    @Inject
+
     private TournamentService tournamentService;
 
-    @Inject
-    private ModelFunctionFactory factory;
+    private final ModelFunctionFactory factory;
 
+    @Getter
+    @Setter
     private UUID tournamentId;
 
+    @Getter
     private TournamentEditModel tournament;
+
+    @Inject
+    public TournamentEditView(ModelFunctionFactory modelFunctionFactory)
+    {
+        this.factory = modelFunctionFactory;
+    }
+
+    @EJB
+    public void setTournamentService(TournamentService tournamentService) {
+        this.tournamentService = tournamentService;
+    }
 
     public void init() throws IOException {
         Optional<Tournament> t = tournamentService.find(tournamentId);

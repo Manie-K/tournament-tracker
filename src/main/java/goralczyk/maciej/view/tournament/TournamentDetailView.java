@@ -7,6 +7,7 @@ import goralczyk.maciej.models.match.MatchModel;
 import goralczyk.maciej.models.tournament.TournamentModel;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
+import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -26,12 +27,11 @@ import java.util.stream.Collectors;
 @ViewScoped
 public class TournamentDetailView implements Serializable
 {
-
     @Inject
     private TournamentService tournamentService;
-
     @Inject
     private MatchService matchService;
+    private final ModelFunctionFactory modelFunctionFactory;
 
     @Getter
     @Setter
@@ -42,8 +42,21 @@ public class TournamentDetailView implements Serializable
 
     @Getter
     private List<MatchModel> matches;
+
+    @EJB
+    public void setTournamentService(TournamentService service) {
+        this.tournamentService = service;
+    }
+
+    @EJB
+    public void setMatchService(MatchService service) {
+        this.matchService = service;
+    }
+
     @Inject
-    private ModelFunctionFactory modelFunctionFactory;
+    public TournamentDetailView(ModelFunctionFactory modelFunctionFactory) {
+        this.modelFunctionFactory = modelFunctionFactory;
+    }
 
     public void init() throws IOException {
         Optional<Tournament> tournamentOptional = tournamentService.find(tournamentId);

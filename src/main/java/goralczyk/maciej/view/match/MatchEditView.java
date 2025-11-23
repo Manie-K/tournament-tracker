@@ -4,6 +4,7 @@ import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.models.match.EditMatchModel;
 import goralczyk.maciej.service.match.MatchService;
+import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -21,10 +22,8 @@ import java.util.UUID;
 @ViewScoped
 public class MatchEditView implements Serializable
 {
-    @Inject
     private MatchService matchService;
-    @Inject
-    private ModelFunctionFactory factory;
+    private final ModelFunctionFactory factory;
 
     @Setter
     @Getter
@@ -33,6 +32,16 @@ public class MatchEditView implements Serializable
     @Getter
     @Setter
     private EditMatchModel match;
+
+    @Inject
+    public MatchEditView(ModelFunctionFactory factory) {
+        this.factory = factory;
+    }
+
+    @EJB
+    public void setMatchService(MatchService matchService) {
+        this.matchService = matchService;
+    }
 
     public void init() throws IOException {
         Optional<Match> matchOptional = matchService.findByCaller(matchId);

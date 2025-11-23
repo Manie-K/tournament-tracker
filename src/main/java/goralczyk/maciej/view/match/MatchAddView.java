@@ -8,10 +8,12 @@ import goralczyk.maciej.models.match.CreateMatchModel;
 import goralczyk.maciej.models.tournament.TournamentModel;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
+import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -19,16 +21,13 @@ import java.util.UUID;
 
 @Named
 @ViewScoped
+@NoArgsConstructor(force = true)
 public class MatchAddView implements Serializable
 {
-    @Inject
     private MatchService matchService;
-
-    @Inject
     private TournamentService tournamentService;
 
-    @Inject
-    private ModelFunctionFactory modelFunctionFactory;
+    private final ModelFunctionFactory modelFunctionFactory;
 
     @Getter
     @Setter
@@ -37,6 +36,21 @@ public class MatchAddView implements Serializable
     @Getter
     @Setter
     private List<TournamentModel> tournaments;
+
+    @Inject
+    public MatchAddView(ModelFunctionFactory modelFunctionFactory) {
+        this.modelFunctionFactory = modelFunctionFactory;
+    }
+
+    @EJB
+    public void setMatchService(MatchService matchService) {
+        this.matchService = matchService;
+    }
+
+    @EJB
+    public void setTournamentService(TournamentService tournamentService) {
+        this.tournamentService = tournamentService;
+    }
 
     public void init() throws IOException {
         match = CreateMatchModel.builder()
