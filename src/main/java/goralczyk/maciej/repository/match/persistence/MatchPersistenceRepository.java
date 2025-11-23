@@ -50,6 +50,15 @@ public class MatchPersistenceRepository implements MatchRepository
     }
 
     @Override
+    public Optional<Match> findByIdAndUser(UUID id, User user)
+    {
+        return Optional.of(em.createQuery("select m from Match m where m.participantA=:user and m.id=:id", Match.class)
+                .setParameter("id", id)
+                .setParameter("user", user)
+                .getSingleResult());
+    }
+
+    @Override
     public void create(Match entity) {
         System.out.println("[Repo]: Create match - persisting:" +  entity);
         em.persist(entity);

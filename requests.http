@@ -1,8 +1,11 @@
 @api = http://localhost:9080/tournament-tracker/api
+#User VXNlcjpVc2Vy
+#Admin QWRtaW46QWRtaW4=
 
-
+// @no-cookie-jar
 ### GET all tournaments
 GET {{api}}/tournaments
+Authorization: Basic QWRtaW46QWRtaW4=
 ###
 
 ### GET specific tournament
@@ -10,9 +13,24 @@ GET {{api}}/tournaments/10000000-0000-0000-0000-000000000001
 ###
 
 ### Delete specific tournament
+// @no-cookie-jar
 DELETE {{api}}/tournaments/10000000-0000-0000-0000-000000000002
+Authorization: Basic QWRtaW46QWRtaW4=
 ###
 
+// @no-cookie-jar
+### Create new user
+PUT {{api}}/users/00000000-0000-0000-0000-000000000009
+Content-Type: application/json
+
+{
+  "name": "testname",
+  "login": "testlogin",
+  "email": "test@wpppp.pl",
+  "password": "testpass"
+}
+
+###
 
 ### GET all users
 GET {{api}}/users
@@ -22,8 +40,10 @@ GET {{api}}/users
 GET {{api}}/users/00000000-0000-0000-0000-000000000002
 ###
 
+// @no-cookie-jar
 ### GET all matches
 GET {{api}}/matches
+Authorization: Basic QWRtaW46QWRtaW4=
 ###
 
 ### GET all of specific tournament matches
@@ -31,17 +51,22 @@ GET {{api}}/tournaments/10000000-0000-0000-0000-000000000001/matches
 ###
 
 ### DELETE one of specific tournament matches
-DELETE {{api}}/tournaments/10000000-0000-0000-0000-000000000001/matches/20000000-0000-0000-0000-000000000001
+// @no-cookie-jar
+DELETE {{api}}/tournaments/10000000-0000-0000-0000-000000000001/matches/90000000-0000-0000-0000-000000000001
+Authorization: Basic VXNlcjpVc2Vy
 ###
 
 ### PUT new tournament
+// @no-cookie-jar
 PUT {{api}}/tournaments/10000000-0000-0000-0000-000000000009
+Authorization: Basic VXNlcjpVc2Vy
 Content-Type: application/json
 
 {
   "name": "Turniej nowy",
   "location": "PG"
 }
+
 ###
 
 ### Update tournament
@@ -56,7 +81,9 @@ Content-Type: application/json
 
 
 ### PUT new match
+// @no-cookie-jar
 PUT {{api}}/tournaments/10000000-0000-0000-0000-000000000001/matches/90000000-0000-0000-0000-000000000001
+Authorization: Basic QWRtaW46QWRtaW4=
 Content-Type: application/json
 
 {

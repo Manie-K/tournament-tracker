@@ -13,6 +13,8 @@ import java.time.LocalDate;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PutUserRequest
 {
     /**

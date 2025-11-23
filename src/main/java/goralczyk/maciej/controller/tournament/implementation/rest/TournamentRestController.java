@@ -67,11 +67,13 @@ public class TournamentRestController implements TournamentController
 
 
     @Override
+    @RolesAllowed({Role.ADMIN, Role.USER})
     public GetTournamentsResponse getTournaments() {
         return factory.tournamentsToResponse().apply(service.findAll());
     }
 
     @Override
+    @RolesAllowed({Role.ADMIN, Role.USER})
     public GetTournamentResponse getTournament(UUID uuid) {
         return service.find(uuid)
                 .map(factory.tournamentToResponse())
@@ -79,6 +81,7 @@ public class TournamentRestController implements TournamentController
     }
 
     @Override
+    @RolesAllowed(Role.ADMIN)
     public void putTournament(UUID id, PutTournamentRequest request)
     {
         service.create(factory.requestToTournament().apply(id, request));
@@ -87,6 +90,7 @@ public class TournamentRestController implements TournamentController
     }
 
     @Override
+    @RolesAllowed(Role.ADMIN)
     public void patchTournament(UUID id, PatchTournamentRequest request) {
         service.update(factory.updateTournament().apply(service.find(id).orElseThrow(NotFoundException::new), request));
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);

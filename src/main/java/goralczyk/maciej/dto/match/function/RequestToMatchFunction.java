@@ -19,12 +19,9 @@ public class RequestToMatchFunction implements BiFunction<UUID, PutMatchRequest,
     }
     @Override
     public Match apply(UUID uuid, PutMatchRequest putMatchRequest) {
-        System.out.println("[DTO] Converting PutMatchRequest to Match entity. PutMatchRequest: " + putMatchRequest);
-        User participantA = userService.find(putMatchRequest.getParticipantAId()).orElseThrow(BadRequestException::new);
-        System.out.println("[DTO] ParticipantA: " + participantA);
         return Match.builder()
                 .id(uuid)
-                .participantA(participantA)
+                .participantA(null)
                 .participantB(null)
                 .tournament(putMatchRequest.getTournament())
                 .startDateTime(putMatchRequest.getStartDateTime())

@@ -78,12 +78,12 @@ public class UserService
         userRepository.create(user);
     }
 
-    @RolesAllowed(Role.USER)
+    @RolesAllowed({Role.ADMIN, Role.USER})
     public void update(User user) {
         userRepository.update(user);
     }
 
-    @RolesAllowed(Role.ADMIN)
+    @RolesAllowed({Role.ADMIN, Role.USER})
     public void delete(UUID id) {
         userRepository.delete(userRepository.find(id).orElseThrow());
     }

@@ -9,6 +9,7 @@ import goralczyk.maciej.dto.match.PutMatchRequest;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
+import goralczyk.maciej.entity.User;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
 import jakarta.annotation.security.RolesAllowed;
@@ -28,7 +29,7 @@ import java.util.UUID;
  * Simple framework agnostic implementation of controller.
  */
 @Path("")//Annotation required by the specification.
-@RolesAllowed(Role.USER)
+@RolesAllowed({Role.USER, Role.ADMIN})
 @Log
 public class MatchRestController implements MatchController
 {
@@ -88,7 +89,7 @@ public class MatchRestController implements MatchController
 
     @Override
     public GetMatchesResponse getMatches() {
-        return factory.matchesToResponse().apply(matchService.findAll());
+        return factory.matchesToResponse().apply(matchService.findAllByCaller());
     }
 
     @Override
@@ -97,6 +98,7 @@ public class MatchRestController implements MatchController
     }
 
     @Override
+    @RolesAllowed(Role.ADMIN)
     public GetMatchesResponse getTournamentMatches(UUID tournamentId) {
         return factory.matchesToResponse().apply(matchService.findAllByTournament(tournamentId));
     }
@@ -110,7 +112,7 @@ public class MatchRestController implements MatchController
     public void putMatch(UUID tournamentId, UUID id, PutMatchRequest request) {
         Tournament tournament = tournamentService.find(tournamentId).orElseThrow(NotFoundException::new);
         request.setTournament(tournament);
-        matchService.create(factory.requestToMatch().apply(id, request));
+        matchService.createByCaller(factory.requestToMatch().apply(id, request));
 
         response.setStatus(HttpServletResponse.SC_CREATED);
         response.setHeader("Location", uriInfo.getAbsolutePath().toString());
@@ -121,13 +123,13 @@ public class MatchRestController implements MatchController
         if(matchService.findAllByTournament(tournamentId).isEmpty()) {
             throw new NotFoundException();
         }
-        factory.updateMatch().apply(matchService.find(id).orElseThrow(NotFoundException::new), request);
+        factory.updateMatch().apply(matchService.findByCaller(id).orElseThrow(NotFoundException::new), request);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
     @Override
     public void deleteMatch(UUID tournamentId, UUID id) {
-        Match match = matchService.find(id).orElseThrow(NotFoundException::new);
+        Match match = matchService.findByCaller(id).orElseThrow(NotFoundException::new);
         if(match.getTournament().getId().equals(tournamentId)) {
             System.out.println(match.getTournament().getId());
             matchService.delete(id);
@@ -135,4 +137,5 @@ public class MatchRestController implements MatchController
             throw new NotFoundException();
         }
     }
+
 }

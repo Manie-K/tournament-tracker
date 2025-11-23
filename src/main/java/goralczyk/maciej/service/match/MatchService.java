@@ -5,8 +5,10 @@ import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.match.api.MatchRepository;
+import goralczyk.maciej.repository.user.api.UserRepository;
 import goralczyk.maciej.service.tournament.TournamentService;
 import goralczyk.maciej.service.user.UserService;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
@@ -36,7 +38,7 @@ public class MatchService
     /**
      * Service for users.
      */
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     /**
      * Service for users.
@@ -47,37 +49,37 @@ public class MatchService
 
 
     @Inject
-    public MatchService(MatchRepository matchRepository, UserService userService, TournamentService tournamentService, SecurityContext securityContext)
+    public MatchService(MatchRepository matchRepository, UserRepository userRepository, TournamentService tournamentService, SecurityContext securityContext)
     {
         this.matchRepository = matchRepository;
-        this.userService = userService;
+        this.userRepository = userRepository;
         this.tournamentService = tournamentService;
         this.securityContext = securityContext;
     }
 
-    @RolesAllowed(Role.USER)
+    @RolesAllowed(Role.ADMIN)
     public Optional<Match> find(UUID id) {
         return matchRepository.find(id);
     }
 
-    @RolesAllowed(Role.USER)
+    @RolesAllowed(Role.ADMIN)
     public List<Match> findAll() {
         return matchRepository.findAll();
     }
 
-    @RolesAllowed(Role.USER)
+    @RolesAllowed({Role.ADMIN, Role.USER})
     public List<Match> findAllByUser(UUID userId) {
-        User user = userService.find(userId).orElseThrow(NotFoundException::new);
+        User user = userRepository.find(userId).orElseThrow(NotFoundException::new);
         return matchRepository.findAllByUser(user);
     }
 
-    @RolesAllowed(Role.USER)
+    @RolesAllowed(Role.ADMIN)
     public List<Match> findAllByTournament(UUID tournamentId) {
         Tournament tournament = tournamentService.find(tournamentId).orElseThrow(NotFoundException::new);
         return matchRepository.findAllByTournament(tournament);
     }
 
-    @RolesAllowed(Role.ADMIN)
+    @RolesAllowed({Role.ADMIN, Role.USER})
     public void create(Match match) {
         if(matchRepository.find(match.getId()).isPresent())
         {
@@ -91,14 +93,50 @@ public class MatchService
         matchRepository.create(match);
     }
 
-    @RolesAllowed(Role.USER)
+    @RolesAllowed({Role.USER, Role.ADMIN})
+    public void createByCaller(Match match)
+    {
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName()).orElseThrow(NotFoundException::new);
+        match.setParticipantA(user);
+        create(match);
+    }
+
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public void update(Match match) {
         matchRepository.update(match);
     }
 
-    @RolesAllowed(Role.USER)
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public boolean delete(UUID id) {
-        matchRepository.delete(matchRepository.find(id).orElseThrow());
+        matchRepository.delete(matchRepository.find(id).orElseThrow(NotFoundException::new));
         return true;
+    }
+
+    @RolesAllowed({Role.ADMIN, Role.USER})
+    public List<Match> findAllByCaller()
+    {
+        if(securityContext.isCallerInRole(Role.ADMIN)){
+            return findAll();
+        }
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName()).orElseThrow(NotFoundException::new);
+        return findAllByUser(user.getId());
+    }
+
+    @RolesAllowed({Role.USER, Role.ADMIN})
+    public Optional<Match> findByCaller(UUID id)
+    {
+        if(securityContext.isCallerInRole(Role.ADMIN))
+        {
+            return find(id);
+        }
+        String login = securityContext.getCallerPrincipal().getName();
+        User user = userRepository.findByLogin(login).orElseThrow(NotFoundException::new);
+        return findByIdAndUser(id, user);
+    }
+
+
+    private Optional<Match> findByIdAndUser(UUID id, User user)
+    {
+        return matchRepository.findByIdAndUser(id, user);
     }
 }

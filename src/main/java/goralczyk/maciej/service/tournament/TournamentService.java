@@ -36,17 +36,17 @@ public class TournamentService
         this.tournamentRepository = tournamentRepository;
     }
 
-    @PermitAll
+    @RolesAllowed({Role.ADMIN, Role.USER})
     public Optional<Tournament> find(UUID id) {
         return tournamentRepository.find(id);
     }
 
-    @PermitAll
+    @RolesAllowed({Role.ADMIN, Role.USER})
     public Optional<Tournament> findByName(String name) {
         return tournamentRepository.findByName(name);
     }
 
-    @PermitAll
+    @RolesAllowed({Role.ADMIN, Role.USER})
     public List<Tournament> findAll() {
         return tournamentRepository.findAll();
     }
