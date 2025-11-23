@@ -7,8 +7,6 @@ import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.match.api.MatchRepository;
 import goralczyk.maciej.repository.user.api.UserRepository;
 import goralczyk.maciej.service.tournament.TournamentService;
-import goralczyk.maciej.service.user.UserService;
-import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
@@ -101,8 +99,21 @@ public class MatchService
         create(match);
     }
 
+
+    @RolesAllowed({Role.USER, Role.ADMIN})
+    public void updateByCaller(Match match) {
+        if(securityContext.isCallerInRole(Role.ADMIN)){
+            update(match);
+        }
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName()).orElseThrow(NotFoundException::new);
+
+        findByIdAndUser(match.getId(), user).orElseThrow(IllegalStateException::new);
+        matchRepository.update(match);
+    }
+
     @RolesAllowed({Role.USER, Role.ADMIN})
     public void update(Match match) {
+
         matchRepository.update(match);
     }
 
@@ -110,6 +121,19 @@ public class MatchService
     public boolean delete(UUID id) {
         matchRepository.delete(matchRepository.find(id).orElseThrow(NotFoundException::new));
         return true;
+    }
+
+    @RolesAllowed({Role.USER, Role.ADMIN})
+    public boolean deleteByCaller(UUID id) {
+        if (securityContext.isCallerInRole(Role.ADMIN)) {
+            delete(id);
+        }
+
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(IllegalStateException::new);
+
+        findByIdAndUser(id, user).orElseThrow(IllegalStateException::new);
+        return delete(id);
     }
 
     @RolesAllowed({Role.ADMIN, Role.USER})

@@ -1,7 +1,10 @@
 package goralczyk.maciej.view.tournament;
 
+import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
+import goralczyk.maciej.models.match.MatchModel;
+import goralczyk.maciej.models.tournament.TournamentModel;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
 import jakarta.faces.context.FacesContext;
@@ -17,6 +20,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -34,17 +38,21 @@ public class TournamentDetailView implements Serializable
     private UUID tournamentId;
 
     @Getter
-    private Tournament tournament;
+    private TournamentModel tournament;
 
     @Getter
-    private List<Match> matches;
+    private List<MatchModel> matches;
+    @Inject
+    private ModelFunctionFactory modelFunctionFactory;
 
     public void init() throws IOException {
         Optional<Tournament> tournamentOptional = tournamentService.find(tournamentId);
         if (tournamentOptional.isPresent())
         {
-            this.tournament = tournamentOptional.get();
-            this.matches = matchService.findAllByTournament(tournament.getId());
+            this.tournament = modelFunctionFactory.tournamentToModel().apply(tournamentOptional.get());
+            this.matches = matchService.findAllByTournament(tournamentId).stream()
+                .map(modelFunctionFactory.matchToModel())
+                .collect(Collectors.toList());;
         } else {
             FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Tournament not found");
         }

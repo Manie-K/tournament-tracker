@@ -19,23 +19,8 @@
             <h2>Match details</h2>
             <p><strong>ID:</strong> #{matchDetailView.match.id}</p>
             <p><strong>Participant A:</strong> #{matchDetailView.match.participantAName}</p>
-            <p><strong>Participant B:</strong> #{matchDetailView.match.participantBName}</p>
             <p><strong>Start datetime:</strong> #{matchDetailView.match.startDateTime}</p>
-
-            <h3>Tournament Information</h3>
-
-            <h:panelGroup rendered="#{empty matchDetailView.match.tournament}">
-                <p>No tournament information</p>
-            </h:panelGroup>
-
-            <h:panelGroup rendered="#{not empty matchDetailView.match.tournament}">
-                <p><strong>Name:</strong> #{matchDetailView.match.tournament.name}</p>
-
-                <h:link outcome="/tournament/tournament_detail" value="Go to tournament details" styleClass="btn">
-                    <f:param name="tournamentId" value="#{matchDetailView.match.tournament.id}" />
-                </h:link>
-            </h:panelGroup>
-
+            <p><strong>Name:</strong> #{matchDetailView.match.tournamentName}</p>
         </h:panelGroup>
     </ui:define>
 </ui:composition>

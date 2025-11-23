@@ -8,29 +8,28 @@
 
         <h:panelGroup id="tournamentListPanel">
 
-            <h:panelGroup rendered="#{empty tournamentListView.tournaments}">
+            <h:panelGroup rendered="#{empty tournamentListView.tournaments.tournaments}">
                 <p>No tournaments!</p>
             </h:panelGroup>
 
-            <h:panelGroup rendered="#{not empty tournamentListView.tournaments}">
-                <h:dataTable value="#{tournamentListView.tournaments}" var="tournament">
+            <h:panelGroup rendered="#{not empty tournamentListView.tournaments.tournaments}">
+                <h:dataTable value="#{tournamentListView.tournaments.tournaments}" var="tournament">
                     <h:column>
                         <f:facet name="header">ID</f:facet>
-                        #{tournament.id}
+                        <h:outputText value="#{tournament.id}" />
                     </h:column>
                     <h:column>
                         <f:facet name="header">Name</f:facet>
-                        #{tournament.name}
+                        <h:outputText value="#{tournament.name}"/>
                     </h:column>
-                    <h:column>
-                        <f:facet name="header">Location</f:facet>
-                        #{tournament.location}
-                    </h:column>
+
                     <h:column>
                         <f:facet name="header">Action</f:facet>
                         <h:link outcome="tournament_detail" value="View details" styleClass="btn">
                             <f:param name="tournamentId" value="#{tournament.id}" />
                         </h:link>
+                    </h:column>
+                    <h:column>
                         <h:form style="display:inline;">
                             <h:commandButton value="Delete" styleClass="btn"
                                              action="#{tournamentListView.deleteTournament(tournament.id)}">
@@ -38,6 +37,18 @@
                             </h:commandButton>
                         </h:form>
                     </h:column>
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:link outcome="tournament_edit" value="Edit" styleClass="btn">
+                            <f:param name="id" value="#{tournament.id}" />
+                        </h:link>
+                    </h:column>
+
+                    <f:facet name="footer">
+                        <h:button styleClass="btn" outcome="tournament_create.xhtml"
+                                  value="New tournament"/>
+                    </f:facet>
+
                 </h:dataTable>
             </h:panelGroup>
         </h:panelGroup>

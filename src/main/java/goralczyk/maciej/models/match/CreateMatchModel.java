@@ -1,8 +1,10 @@
-package goralczyk.maciej.entity.models;
+package goralczyk.maciej.models.match;
 
-import goralczyk.maciej.entity.Tournament;
+import goralczyk.maciej.models.tournament.TournamentModel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,6 +12,8 @@ import java.util.UUID;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateMatchModel implements Serializable {
     /**
      * Unique ID (primary key)
@@ -22,14 +26,9 @@ public class CreateMatchModel implements Serializable {
     private String participantAName;
 
     /**
-     * Second participant.
-     */
-    private String participantBName;
-
-    /**
      * Tournament in which this match takes place.
      */
-    private Tournament tournament;
+    private TournamentModel tournament;
 
     /**
      * Date and time of the start of the match.

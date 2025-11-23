@@ -18,11 +18,6 @@
                     <f:validateLength minimum="2" maximum="50" />
                 </h:inputText>
 
-                <h:outputLabel for="participantB" value="Participant B:" />
-                <h:inputText id="participantB" value="#{matchAddView.match.participantBName}" required="true"  requiredMessage="Participant B name is required">
-                    <f:validateLength minimum="2" maximum="50" />
-                </h:inputText>
-
                 <h:outputLabel for="startDateTime" value="Start DateTime [dd-MM-yyyy HH:mm]:" />
                 <h:inputText id="startDateTime" value="#{matchAddView.match.startDateTime}" required="true" >
                     <f:converter converterId="localDateTimeConverter" />

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:ui="jakarta.faces.facelets" xmlns:f="jakarta.faces.core">
+
+<ui:composition template="/WEB-INF/template/main.xhtml">
+    <ui:define name="title">Matches</ui:define>
+    <ui:define name="content">
+        <h2>Matches</h2>
+
+        <h:panelGroup id="matchesListPanel">
+
+            <h:panelGroup rendered="#{empty matchListView.matches.matches}">
+                <p>No matches!</p>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{not empty matchListView.matches.matches}">
+                <h:dataTable value="#{matchListView.matches.matches}" var="match">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{tournament.id}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Participant A name: </f:facet>
+                        <h:outputText value="#{match.participantAName}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Tournament name: </f:facet>
+                        <h:outputText value="#{match.tournamentName}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Edit</f:facet>
+                        <h:link outcome="match_edit.xhtml" value="Edit match">
+                            <f:param name="id" value="#{match.id}"/>
+                        </h:link>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:link outcome="match_detail" value="View details" styleClass="btn">
+                            <f:param name="matchId" value="#{match.id}" />
+                        </h:link>
+                        <h:form style="display:inline;">
+                            <h:commandButton value="Delete" styleClass="btn"
+                                             action="#{matchListView.deleteMatch(match.id)}">
+                                <f:ajax execute="@form"/>
+                            </h:commandButton>
+                        </h:form>
+                    </h:column>
+
+                    <f:facet name="footer">
+                        <h:button styleClass="btn" outcome="match_add.xhtml"
+                                  value="New match"/>
+                    </f:facet>
+
+                </h:dataTable>
+            </h:panelGroup>
+        </h:panelGroup>
+
+    </ui:define>
+</ui:composition>
+
+</html>

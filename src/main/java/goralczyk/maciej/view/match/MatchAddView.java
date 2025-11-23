@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import goralczyk.maciej.dto.ModelFunctionFactory;
-import goralczyk.maciej.entity.Tournament;
-import goralczyk.maciej.entity.models.CreateMatchModel;
+import goralczyk.maciej.models.match.CreateMatchModel;
+import goralczyk.maciej.models.tournament.TournamentModel;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
 import jakarta.faces.view.ViewScoped;
@@ -36,18 +36,18 @@ public class MatchAddView implements Serializable
 
     @Getter
     @Setter
-    private List<Tournament> tournaments;
+    private List<TournamentModel> tournaments;
 
     public void init() throws IOException {
         match = CreateMatchModel.builder()
                 .id(UUID.randomUUID())
                 .build();
 
-        tournaments = tournamentService.findAll();
+        tournaments = tournamentService.findAll().stream().map(modelFunctionFactory.tournamentToModel()).toList();
     }
 
     public String addMatch() {
-        matchService.create(modelFunctionFactory.createMatchToEntity().apply(match));
-        return "tournament_detail?faces-redirect=true&amp;tournamentId=" + match.getTournament().getId();
+        matchService.createByCaller(modelFunctionFactory.createMatchToEntity().apply(match));
+        return "match_detail?faces-redirect=true&amp;matchId=" + match.getId();
     }
 }

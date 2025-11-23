@@ -1,6 +1,10 @@
 package goralczyk.maciej.dto;
 
-import goralczyk.maciej.entity.models.functions.match.*;
+import goralczyk.maciej.models.functions.match.*;
+import goralczyk.maciej.models.functions.tournament.*;
+import goralczyk.maciej.models.functions.user.UsersToModelFunction;
+import goralczyk.maciej.repository.tournament.api.TournamentRepository;
+import goralczyk.maciej.repository.user.api.UserRepository;
 import goralczyk.maciej.service.tournament.TournamentService;
 import goralczyk.maciej.service.user.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -15,28 +19,52 @@ import java.util.function.Function;
 @ApplicationScoped
 public class ModelFunctionFactory {
     @Inject
-    UserService userService;
+    UserRepository userRepository;
 
     @Inject
-    TournamentService tournamentService;
+    TournamentRepository tournamentRepository;
 
     public MatchToModelFunction matchToModel() {
         return new MatchToModelFunction();
     }
 
-    public CreateMatchToModelFunction createMatchToModel() {
-        return new CreateMatchToModelFunction();
+    public MatchesToModelFunction matchesToModel() {
+        return new MatchesToModelFunction();
     }
 
     public CreateMatchToEntityFunction createMatchToEntity() {
-        return new CreateMatchToEntityFunction(userService);
+        return new CreateMatchToEntityFunction(userRepository, tournamentRepository);
     }
 
     public EditMatchToEntityFunction editMatchToEntity() {
-        return new EditMatchToEntityFunction(tournamentService, userService);
+        return new EditMatchToEntityFunction();
     }
 
     public MatchToEditModelFunction entityToEditModel() {
         return new MatchToEditModelFunction();
+    }
+
+
+    public TournamentToModelFunction tournamentToModel() {
+        return new TournamentToModelFunction();
+    }
+    public TournamentsToModelFunction tournamentsToModel() {
+        return new TournamentsToModelFunction();
+    }
+
+    public TournamentToEditModelFunction tournamentToEditModel() {
+        return new TournamentToEditModelFunction();
+    }
+
+    public EditTournamentToTournamentFunction editTournamentToTournament() {
+        return new EditTournamentToTournamentFunction();
+    }
+
+    public CreateTournamentToEntityFunction createTournamentToEntity() {
+        return new CreateTournamentToEntityFunction();
+    }
+
+    public UsersToModelFunction usersToModel() {
+        return new UsersToModelFunction();
     }
 }

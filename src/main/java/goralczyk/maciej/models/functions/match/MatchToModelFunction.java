@@ -1,7 +1,7 @@
-package goralczyk.maciej.entity.models.functions.match;
+package goralczyk.maciej.models.functions.match;
 
 import goralczyk.maciej.entity.Match;
-import goralczyk.maciej.entity.models.MatchModel;
+import goralczyk.maciej.models.match.MatchModel;
 
 import java.io.Serializable;
 import java.util.function.Function;
@@ -13,8 +13,7 @@ public class MatchToModelFunction implements Function<Match, MatchModel>, Serial
         return MatchModel.builder()
                 .id(match.getId())
                 .participantAName(match.getParticipantA().getName())
-                .participantBName(match.getParticipantB().getName())
-                .tournament(match.getTournament())
+                .tournamentName(match.getTournament().getName())
                 .startDateTime(match.getStartDateTime())
                 .build();
     }

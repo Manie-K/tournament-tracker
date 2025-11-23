@@ -9,7 +9,6 @@ import goralczyk.maciej.dto.match.PutMatchRequest;
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
-import goralczyk.maciej.entity.User;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
 import jakarta.annotation.security.RolesAllowed;
@@ -123,7 +122,8 @@ public class MatchRestController implements MatchController
         if(matchService.findAllByTournament(tournamentId).isEmpty()) {
             throw new NotFoundException();
         }
-        factory.updateMatch().apply(matchService.findByCaller(id).orElseThrow(NotFoundException::new), request);
+        Match match = factory.updateMatch().apply(matchService.findByCaller(id).orElseThrow(NotFoundException::new), request);
+        matchService.updateByCaller(match);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
@@ -132,7 +132,7 @@ public class MatchRestController implements MatchController
         Match match = matchService.findByCaller(id).orElseThrow(NotFoundException::new);
         if(match.getTournament().getId().equals(tournamentId)) {
             System.out.println(match.getTournament().getId());
-            matchService.delete(id);
+            matchService.deleteByCaller(id);
         }else{
             throw new NotFoundException();
         }

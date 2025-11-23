@@ -1,6 +1,8 @@
 package goralczyk.maciej.view.tournament;
 
+import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.entity.Tournament;
+import goralczyk.maciej.models.tournament.TournamentsModel;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentService;
 import jakarta.enterprise.context.RequestScoped;
@@ -17,13 +19,18 @@ public class TournamentListView implements Serializable
 {
     @Inject
     private TournamentService tournamentService;
-
     @Inject
-    private MatchService matchService;
+    private ModelFunctionFactory modelFunctionFactory;
 
-    public List<Tournament> getTournaments()
+    private TournamentsModel tournaments;
+
+    public TournamentsModel getTournaments()
     {
-        return tournamentService.findAll();
+        if(tournaments == null)
+        {
+            tournaments = modelFunctionFactory.tournamentsToModel().apply(tournamentService.findAll());
+        }
+        return tournaments;
     }
 
     public String deleteTournament(UUID tournamentId)
