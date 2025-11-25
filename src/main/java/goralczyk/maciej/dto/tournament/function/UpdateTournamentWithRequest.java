@@ -21,7 +21,7 @@ public class UpdateTournamentWithRequest implements BiFunction<Tournament, Patch
         System.out.println("Updating tournament " + tournament.getId());
         System.out.println("Request: " + patchTournamentRequest);
 
-        List<Match> matches = matchService.findAllByTournament(tournament.getId());
+        List<Match> matches = matchService.findAllByTournament(tournament.getId()).orElse(List.of());
 
         return Tournament.builder()
                 .id(tournament.getId())

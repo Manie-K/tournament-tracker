@@ -22,6 +22,7 @@ import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 import lombok.extern.java.Log;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -93,13 +94,13 @@ public class MatchRestController implements MatchController
 
     @Override
     public GetMatchesResponse getUserMatches(UUID userId) {
-        return factory.matchesToResponse().apply(matchService.findAllByUser(userId));
+        return factory.matchesToResponse().apply(matchService.findAllByUser(userId).orElse(List.of()));
     }
 
     @Override
     @RolesAllowed(Role.ADMIN)
     public GetMatchesResponse getTournamentMatches(UUID tournamentId) {
-        return factory.matchesToResponse().apply(matchService.findAllByTournament(tournamentId));
+        return factory.matchesToResponse().apply(matchService.findAllByTournament(tournamentId).orElse(List.of()));
     }
 
     @Override

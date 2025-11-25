@@ -55,7 +55,7 @@ public class TournamentPersistenceRepository implements TournamentRepository
 
     @Override
     public void delete(Tournament entity) {
-        List<Match> matchesToDelete = matchService.findAllByTournament(entity.getId());
+        List<Match> matchesToDelete = matchService.findAllByTournament(entity.getId()).orElse(List.of());
 
         for (Match match : matchesToDelete) {
             em.remove(match);

@@ -22,7 +22,7 @@ public class TournamentToResponseFunction implements Function<Tournament, GetTou
 
     @Override
     public GetTournamentResponse apply(Tournament tournament) {
-        List<Match> matches = matchService.findAllByTournament(tournament.getId());
+        List<Match> matches = matchService.findAllByTournament(tournament.getId()).orElse(List.of());
 
         List<GetTournamentResponse.MatchSummary> matchesSummaries = new ArrayList<>();
         for (Match match : matches) {

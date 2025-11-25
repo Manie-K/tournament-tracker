@@ -18,7 +18,7 @@ public class UserToResponseFunction implements Function<User, GetUserResponse>
     @Override
     public GetUserResponse apply(User user)
     {
-        List<GetUserResponse.MatchSummary> matches = matchService.findAllByUser(user.getId()).stream()
+        List<GetUserResponse.MatchSummary> matches = matchService.findAllByUser(user.getId()).orElse(List.of()).stream()
                 .map(match -> GetUserResponse.MatchSummary.builder()
                         .id(match.getId())
                         .build())

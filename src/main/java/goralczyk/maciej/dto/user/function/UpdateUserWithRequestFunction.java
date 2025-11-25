@@ -19,7 +19,7 @@ public class UpdateUserWithRequestFunction implements BiFunction<User, PatchUser
     @Override
     public User apply(User user, PatchUserRequest patchUserRequest)
     {
-        List<Match> matches = matchService.findAllByUser(user.getId());
+        List<Match> matches = matchService.findAllByUser(user.getId()).orElse(List.of());
         return User.builder()
                 .id(user.getId())
                 .name(patchUserRequest.getName())
