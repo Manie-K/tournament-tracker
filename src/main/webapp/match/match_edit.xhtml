@@ -7,19 +7,20 @@
         <f:viewAction action="#{matchEditView.init}" />
     </f:metadata>
 
-    <ui:define name="title">Match edition form</ui:define>
+    <ui:define name="title">Edit match</ui:define>
     <ui:define name="content">
-        <h:link outcome="/tournament/tournament_list" value="Go back to tournaments" styleClass="btn" />
+        <f:loadBundle var="message" basename="maciej.goralczyk.entities.view.i18n.messages"/>
+        <h:link outcome="/tournament/tournament_list" value="#{message.backToTournaments}" styleClass="btn" />
         <h:form>
-            <header><h2>Edit Match</h2></header>
+            <header><h2>#{message.editMatchHeader}</h2></header>
             <h:panelGrid columns="2" cellpadding="5">
-                <h:outputLabel for="startDateTime" value="Start DateTime [dd-MM-yyyy HH:mm]:" />
+                <h:outputLabel for="startDateTime" value="#{message.startDateTime} [dd-MM-yyyy HH:mm]:" />
                 <h:inputText id="startDateTime" value="#{matchEditView.match.date}" required="true" >
                     <f:converter converterId="localDateTimeConverter" />
                 </h:inputText>
             </h:panelGrid>
 
-            <h:commandButton value="Save Match" action="#{matchEditView.saveMatch}" styleClass="btn" />
+            <h:commandButton value="#{message.save}" action="#{matchEditView.saveMatch}" styleClass="btn" />
         </h:form>
     </ui:define>
 </ui:composition>

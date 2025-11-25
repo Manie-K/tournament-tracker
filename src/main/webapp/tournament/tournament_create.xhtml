@@ -10,16 +10,17 @@
     </f:metadata>
 
     <ui:define name="content">
+        <f:loadBundle var="message" basename="maciej.goralczyk.entities.view.i18n.messages"/>
         <article>
             <header>
-                <h2>Tournament creation</h2>
+                <h2>#{message.tournamentCreationHeader}</h2>
             </header>
             <h:form styleClass="container" onreset="onReset()" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-3 p-2">
                         <div class="form-outline">
                             <h:inputText id="name" value="#{tournamentCreateView.tournament.name}" styleClass="form-control"/>
-                            <h:outputLabel for="name" value="Name:" styleClass="form-label"/>
+                            <h:outputLabel for="name" value="#{message.tournamentName}:" styleClass="form-label"/>
                         </div>
                     </div>
                 </div>
@@ -27,21 +28,21 @@
                     <div class="col-3 p-2">
                         <div class="form-outline">
                             <h:inputText id="location" value="#{tournamentCreateView.tournament.location}" styleClass="form-control"/>
-                            <h:outputLabel for="location" value="Location:" styleClass="form-label"/>
+                            <h:outputLabel for="location" value="#{message.tournamentLocation}:" styleClass="form-label"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-1 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-primary" value="Create"
+                        <h:commandButton styleClass="btn btn-primary" value="#{message.create}"
                                          action="#{tournamentCreateView.save()}"/>
                     </div>
                     <div class="col-1 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-secondary" type="reset" value="Reset"/>
+                        <h:commandButton styleClass="btn btn-secondary" type="reset" value="#{message.reset}"/>
                     </div>
                     <div class="col-1 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-secondary" value="Cancel"
+                        <h:commandButton styleClass="btn btn-secondary" value="#{message.cancel}"
                                          action="#{tournamentCreateView.cancel()}"/>
                     </div>
                 </div>

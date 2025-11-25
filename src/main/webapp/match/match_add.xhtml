@@ -8,24 +8,25 @@
 
     <ui:define name="title">Match creation form</ui:define>
     <ui:define name="content">
-        <h:link outcome="/tournament/tournament_list" value="Go back to tournaments" styleClass="btn" />
+        <f:loadBundle var="message" basename="maciej.goralczyk.entities.view.i18n.messages"/>
+        <h:link outcome="/tournament/tournament_list" value="#{message.backToTournaments}" styleClass="btn" />
         <h:form>
-            <header><h2>Add New Match</h2></header>
+            <header><h2>#{message.newMatchHeader}</h2></header>
             <h:panelGrid columns="2" cellpadding="5">
 
-                <h:outputLabel for="participantA" value="Participant A:" />
-                <h:inputText id="participantA" value="#{matchAddView.match.participantAName}" required="true" requiredMessage="Participant A name is required">
+                <h:outputLabel for="participantA" value="#{message.participantA}:" />
+                <h:inputText id="participantA" value="#{matchAddView.match.participantAName}" required="true" requiredMessage="#{message.participantARequired}">
                     <f:validateLength minimum="2" maximum="50" />
                 </h:inputText>
 
-                <h:outputLabel for="startDateTime" value="Start DateTime [dd-MM-yyyy HH:mm]:" />
+                <h:outputLabel for="startDateTime" value="#{message.startDateTime} [dd-MM-yyyy HH:mm]:" />
                 <h:inputText id="startDateTime" value="#{matchAddView.match.startDateTime}" required="true" >
                     <f:converter converterId="localDateTimeConverter" />
                 </h:inputText>
 
-                <h:selectOneMenu id="tournament" value="#{matchAddView.match.tournament}" required="true" requiredMessage="Tournament is required"
+                <h:selectOneMenu id="tournament" value="#{matchAddView.match.tournament}" required="true" requiredMessage="#{message.tournamentRequired}"
                                  converter="tournamentConverter">
-                    <f:selectItem itemLabel=" Select tournament " itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItem itemLabel="#{message.selectTournament}" itemValue="#{null}" noSelectionOption="true" />
                     <f:selectItems value="#{matchAddView.tournaments}" var="tournament"
                                    itemLabel="#{tournament.name}" itemValue="#{tournament}"
                                    converter="tournamentConverter"/>
@@ -33,7 +34,7 @@
 
             </h:panelGrid>
 
-            <h:commandButton value="Add Match" action="#{matchAddView.addMatch}" styleClass="btn" />
+            <h:commandButton value="#{message.addMatch}" action="#{matchAddView.addMatch}" styleClass="btn" />
         </h:form>
     </ui:define>
 </ui:composition>

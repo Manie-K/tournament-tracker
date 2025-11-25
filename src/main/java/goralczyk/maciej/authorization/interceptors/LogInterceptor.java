@@ -29,13 +29,13 @@ public class LogInterceptor {
     {
         String annotation = context.getMethod().getAnnotation(LogOperation.class).value();
 
-        String username = securityContext.getCallerPrincipal() != null
-                ? securityContext.getCallerPrincipal().getName() : "anonymous";
+        String name = securityContext.getCallerPrincipal() != null
+                ? securityContext.getCallerPrincipal().getName() : "ANONYMOUS";
 
         Object resourceId = context.getParameters().length > 0
                 ? context.getParameters()[0] : "none";
 
-        logger.info(() -> String.format("User=['%s'] Operation=['%s'] Resource=['%s']", username, annotation, resourceId));
+        logger.info(() -> String.format("User=['%s'] Operation=['%s'] Resource=['%s']", name, annotation, resourceId));
 
         return context.proceed();
     }

@@ -6,20 +6,21 @@
                 template="/WEB-INF/template/main.xhtml">
 
     <ui:define name="content">
+        <f:loadBundle var="message" basename="maciej.goralczyk.entities.view.i18n.messages"/>
         <article class="text--justified">
-            <header><h2>Users</h2></header>
+            <header><h2>#{message.users}</h2></header>
 
             <h:dataTable value="#{userListView.users.users}" var="user"
                          styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
                 <h:column>
-                    <f:facet name="header">Login</f:facet>
+                    <f:facet name="header">#{message.login}</f:facet>
                     <h:outputText value="#{user.login}"/>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">Delete</f:facet>
+                    <f:facet name="header">#{message.delete}</f:facet>
                     <h:form>
-                        <h:commandButton styleClass="btn" value="Delete"
+                        <h:commandButton styleClass="btn" value="#{message.delete}"
                                          action="#{userListView.deleteAction(user.id)}"/>
                     </h:form>
                 </h:column>

@@ -9,18 +9,19 @@
 
     <ui:define name="title">Match details</ui:define>
     <ui:define name="content">
-        <h:link outcome="/tournament/tournament_list" value="Go back to tournaments" styleClass="btn" />
+        <f:loadBundle var="message" basename="maciej.goralczyk.entities.view.i18n.messages"/>
+        <h:link outcome="/tournament/tournament_list" value="#{message.backToTournaments}" styleClass="btn" />
 
         <h:panelGroup rendered="#{empty matchDetailView.match}">
-            <p>Match not found!</p>
+            <p>#{message.noMatch}</p>
         </h:panelGroup>
 
         <h:panelGroup rendered="#{not empty matchDetailView.match}">
-            <h2>Match details</h2>
-            <p><strong>ID:</strong> #{matchDetailView.match.id}</p>
-            <p><strong>Participant A:</strong> #{matchDetailView.match.participantAName}</p>
-            <p><strong>Start datetime:</strong> #{matchDetailView.match.startDateTime}</p>
-            <p><strong>Name:</strong> #{matchDetailView.match.tournamentName}</p>
+            <h2>#{message.match}</h2>
+            <p><strong>#{message.id}:</strong> #{matchDetailView.match.id}</p>
+            <p><strong>#{message.participantA}:</strong> #{matchDetailView.match.participantAName}</p>
+            <p><strong>#{message.startDateTime}:</strong> #{matchDetailView.match.startDateTime}</p>
+            <p><strong>#{message.name}:</strong> #{matchDetailView.match.tournamentName}</p>
         </h:panelGroup>
     </ui:define>
 </ui:composition>

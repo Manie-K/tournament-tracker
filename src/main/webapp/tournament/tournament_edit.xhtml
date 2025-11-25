@@ -11,14 +11,15 @@
     </f:metadata>
 
     <ui:define name="content">
+        <f:loadBundle var="message" basename="maciej.goralczyk.entities.view.i18n.messages"/>
         <article>
-            <header><h2>Edit tournament</h2></header>
+            <header><h2>#{message.editTournamentHeader}</h2></header>
             <h:form styleClass="container" onreset="onReset()" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-4 p-2">
                         <div class="form-outline">
                             <h:inputText id="name" value="#{tournamentEditView.tournament.name}" styleClass="form-control"/>
-                            <h:outputLabel for="name" value="Name:" styleClass="form-label"/>
+                            <h:outputLabel for="name" value="#{message.name}:" styleClass="form-label"/>
                         </div>
                     </div>
                 </div>
@@ -27,18 +28,18 @@
                     <div class="col-4 p-2">
                         <div class="form-outline">
                             <h:inputText id="location" value="#{tournamentEditView.tournament.location}" styleClass="form-control"/>
-                            <h:outputLabel for="location" value="Location:" styleClass="form-label"/>
+                            <h:outputLabel for="location" value="#{message.location}:" styleClass="form-label"/>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-primary" value="Update"
+                        <h:commandButton styleClass="btn btn-primary" value="#{message.update}"
                                          action="#{tournamentEditView.save()}"/>
                     </div>
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-secondary" type="reset" value="Reset"/>
+                        <h:commandButton styleClass="btn btn-secondary" type="reset" value="#{message.reset}"/>
                     </div>
                 </div>
             </h:form>
