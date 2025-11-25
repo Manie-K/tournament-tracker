@@ -1,24 +1,21 @@
 package goralczyk.maciej.view.tournament;
 
 import goralczyk.maciej.dto.ModelFunctionFactory;
-import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.models.tournament.TournamentsModel;
-import goralczyk.maciej.service.match.MatchService;
-import goralczyk.maciej.service.tournament.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentRepository;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
 @Named
 @RequestScoped
 public class TournamentListView implements Serializable
 {
-    private TournamentService tournamentService;
+    private TournamentRepository tournamentRepository;
     private final ModelFunctionFactory modelFunctionFactory;
 
     private TournamentsModel tournaments;
@@ -31,23 +28,23 @@ public class TournamentListView implements Serializable
     }
 
     @EJB
-    public void setTournamentService(TournamentService tournamentService)
+    public void setTournamentService(TournamentRepository tournamentRepository)
     {
-        this.tournamentService = tournamentService;
+        this.tournamentRepository = tournamentRepository;
     }
 
     public TournamentsModel getTournaments()
     {
         if(tournaments == null)
         {
-            tournaments = modelFunctionFactory.tournamentsToModel().apply(tournamentService.findAll());
+            tournaments = modelFunctionFactory.tournamentsToModel().apply(tournamentRepository.findAll());
         }
         return tournaments;
     }
 
-    public String deleteTournament(UUID tournamentId)
+    public void deleteTournament(UUID tournamentId)
     {
-        boolean deleted = tournamentService.delete(tournamentId);
-        return "tournament_list?faces-redirect=true";
+        boolean deleted = tournamentRepository.delete(tournamentId);
+        tournaments = null; // Refresh the tournaments list
     }
 }

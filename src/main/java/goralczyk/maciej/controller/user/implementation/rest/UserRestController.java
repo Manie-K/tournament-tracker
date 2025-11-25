@@ -6,7 +6,6 @@ import goralczyk.maciej.dto.user.GetUserResponse;
 import goralczyk.maciej.dto.user.GetUsersResponse;
 import goralczyk.maciej.dto.user.PatchUserRequest;
 import goralczyk.maciej.dto.user.PutUserRequest;
-import goralczyk.maciej.service.tournament.TournamentService;
 import goralczyk.maciej.service.user.UserService;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;

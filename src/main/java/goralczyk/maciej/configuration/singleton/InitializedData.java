@@ -5,7 +5,7 @@ import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.service.match.MatchService;
-import goralczyk.maciej.service.tournament.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentRepository;
 import goralczyk.maciej.service.user.UserService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.security.DeclareRoles;
@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -54,7 +53,7 @@ public class InitializedData
     /**
      * Tournament service.
      */
-    private TournamentService tournamentService;
+    private TournamentRepository tournamentRepository;
 
     @Inject
     private SecurityContext securityContext;
@@ -70,8 +69,8 @@ public class InitializedData
     }
 
     @EJB
-    public void setTournamentService(TournamentService tournamentService) {
-        this.tournamentService = tournamentService;
+    public void setTournamentRepository(TournamentRepository tournamentRepository) {
+        this.tournamentRepository = tournamentRepository;
     }
 
     /**
@@ -137,8 +136,8 @@ public class InitializedData
                     .location("Europe")
                     .build();
 
-            tournamentService.create(championsLeague);
-            tournamentService.create(euro);
+            tournamentRepository.create(championsLeague);
+            tournamentRepository.create(euro);
 
             Match championsLeagueMatch = Match.builder()
                     .id(UUID.fromString("20000000-0000-0000-0000-000000000001"))

@@ -10,7 +10,7 @@ import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.service.match.MatchService;
-import goralczyk.maciej.service.tournament.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentRepository;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
@@ -40,7 +40,7 @@ public class MatchRestController implements MatchController
     /**
      * Tournament service.
      */
-    private TournamentService tournamentService;
+    private TournamentRepository tournamentRepository;
 
     /**
      * Factory producing functions for conversion between DTO and entities.
@@ -82,8 +82,8 @@ public class MatchRestController implements MatchController
     }
 
     @EJB
-    private void setTournamentService(TournamentService tournamentService) {
-        this.tournamentService = tournamentService;
+    private void setTournamentService(TournamentRepository tournamentRepository) {
+        this.tournamentRepository = tournamentRepository;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class MatchRestController implements MatchController
 
     @Override
     public void putMatch(UUID tournamentId, UUID id, PutMatchRequest request) {
-        Tournament tournament = tournamentService.find(tournamentId).orElseThrow(NotFoundException::new);
+        Tournament tournament = tournamentRepository.find(tournamentId).orElseThrow(NotFoundException::new);
         request.setTournament(tournament);
         matchService.createByCaller(factory.requestToMatch().apply(id, request));
 

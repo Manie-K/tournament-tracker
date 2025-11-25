@@ -1,11 +1,7 @@
 package goralczyk.maciej.models.functions.match;
 
 import goralczyk.maciej.entity.Match;
-import goralczyk.maciej.entity.Tournament;
-import goralczyk.maciej.entity.User;
 import goralczyk.maciej.models.match.EditMatchModel;
-import goralczyk.maciej.service.tournament.TournamentService;
-import goralczyk.maciej.service.user.UserService;
 
 import java.io.Serializable;
 import java.util.function.BiFunction;

@@ -16,5 +16,6 @@ public interface MatchRepository extends Repository<Match, UUID> {
     List<Match> findAllByUser(User user);
     List<Match> findAllByTournament(Tournament tournament);
     Optional<Match> findByIdAndUser(UUID id, User user);
+    List<Match> findAllByTournamentAndUser(Tournament tournament, User user);
 
 }

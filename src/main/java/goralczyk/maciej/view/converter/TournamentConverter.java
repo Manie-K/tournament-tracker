@@ -1,7 +1,7 @@
 package goralczyk.maciej.view.converter;
 
 import goralczyk.maciej.entity.Tournament;
-import goralczyk.maciej.service.tournament.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -9,7 +9,6 @@ import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.ConverterException;
 import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ import java.util.UUID;
 public class TournamentConverter implements Converter<Tournament>
 {
     @Inject
-    private TournamentService tournamentService;
+    private TournamentRepository tournamentRepository;
 
     @Override
     public Tournament getAsObject(FacesContext context, UIComponent component, String value)
@@ -31,7 +30,7 @@ public class TournamentConverter implements Converter<Tournament>
         try
         {
             UUID id = UUID.fromString(value.trim());
-            return tournamentService.find(id).orElse(null);
+            return tournamentRepository.find(id).orElse(null);
         } catch (IllegalArgumentException e)
         {
             throw new ConverterException("Invalid tournament ID: " + value, e);

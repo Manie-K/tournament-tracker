@@ -59,6 +59,14 @@ public class MatchPersistenceRepository implements MatchRepository
     }
 
     @Override
+    public List<Match> findAllByTournamentAndUser(Tournament tournament, User user) {
+        return em.createQuery("select m from Match m where m.tournament=:tournament and m.participantA=:user", Match.class)
+                .setParameter("tournament", tournament)
+                .setParameter("user", user)
+                .getResultList();
+    }
+
+    @Override
     public void create(Match entity) {
         System.out.println("[Repo]: Create match - persisting:" +  entity);
         em.persist(entity);

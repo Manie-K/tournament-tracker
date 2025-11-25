@@ -1,12 +1,11 @@
 package goralczyk.maciej.view.tournament;
 
 import goralczyk.maciej.dto.ModelFunctionFactory;
-import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.models.match.MatchModel;
 import goralczyk.maciej.models.tournament.TournamentModel;
 import goralczyk.maciej.service.match.MatchService;
-import goralczyk.maciej.service.tournament.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentRepository;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 public class TournamentDetailView implements Serializable
 {
     @Inject
-    private TournamentService tournamentService;
+    private TournamentRepository tournamentRepository;
     @Inject
     private MatchService matchService;
     private final ModelFunctionFactory modelFunctionFactory;
@@ -44,8 +43,8 @@ public class TournamentDetailView implements Serializable
     private List<MatchModel> matches;
 
     @EJB
-    public void setTournamentService(TournamentService service) {
-        this.tournamentService = service;
+    public void setTournamentRepository(TournamentRepository service) {
+        this.tournamentRepository = service;
     }
 
     @EJB
@@ -59,21 +58,22 @@ public class TournamentDetailView implements Serializable
     }
 
     public void init() throws IOException {
-        Optional<Tournament> tournamentOptional = tournamentService.find(tournamentId);
+        Optional<Tournament> tournamentOptional = tournamentRepository.find(tournamentId);
         if (tournamentOptional.isPresent())
         {
             this.tournament = modelFunctionFactory.tournamentToModel().apply(tournamentOptional.get());
-            this.matches = matchService.findAllByTournament(tournamentId).stream()
+
+            this.matches = matchService.findAllByTournamentAndCaller(tournamentId).stream()
                 .map(modelFunctionFactory.matchToModel())
-                .collect(Collectors.toList());;
+                .collect(Collectors.toList());
+
         } else {
             FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Tournament not found");
         }
     }
 
-    public String deleteMatch(UUID matchId)
+    public void deleteMatch(UUID matchId)
     {
         matchService.delete(matchId);
-        return "tournament_detail?faces-redirect=true&amp;tournamentId=" + tournamentId;
     }
 }

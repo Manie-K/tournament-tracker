@@ -2,7 +2,7 @@ package goralczyk.maciej.view.tournament;
 
 import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.models.tournament.TournamentCreateModel;
-import goralczyk.maciej.service.tournament.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentRepository;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Named
 @NoArgsConstructor(force = true)
 public class TournamentCreateView implements Serializable {
-    private final TournamentService tournamentService;
+    private final TournamentRepository tournamentRepository;
 
     private final ModelFunctionFactory factory;
 
@@ -24,8 +24,8 @@ public class TournamentCreateView implements Serializable {
     private TournamentCreateModel tournament;
 
     @Inject
-    public TournamentCreateView(TournamentService service, ModelFunctionFactory factory) {
-        this.tournamentService = service;
+    public TournamentCreateView(TournamentRepository service, ModelFunctionFactory factory) {
+        this.tournamentRepository = service;
         this.factory = factory;
     }
 
@@ -43,7 +43,7 @@ public class TournamentCreateView implements Serializable {
     }
 
     public String save() {
-        tournamentService.create(factory.createTournamentToEntity().apply(tournament));
+        tournamentRepository.create(factory.createTournamentToEntity().apply(tournament));
         return "tournament_list.xhtml?faces-redirect=true";
     }
 }

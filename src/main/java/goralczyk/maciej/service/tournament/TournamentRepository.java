@@ -2,8 +2,6 @@ package goralczyk.maciej.service.tournament;
 
 import goralczyk.maciej.entity.Role;
 import goralczyk.maciej.entity.Tournament;
-import goralczyk.maciej.repository.tournament.api.TournamentRepository;
-import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
@@ -20,18 +18,18 @@ import java.util.UUID;
 @LocalBean
 @Stateless
 @NoArgsConstructor(force = true, access = lombok.AccessLevel.PUBLIC)
-public class TournamentService
+public class TournamentRepository
 {
     /**
      * Repository for tournament.
      */
-    private final TournamentRepository tournamentRepository;
+    private final goralczyk.maciej.repository.tournament.api.TournamentRepository tournamentRepository;
 
     /**
      * @param tournamentRepository repository for tournament entity
      */
     @Inject
-    public TournamentService(TournamentRepository tournamentRepository)
+    public TournamentRepository(goralczyk.maciej.repository.tournament.api.TournamentRepository tournamentRepository)
     {
         this.tournamentRepository = tournamentRepository;
     }

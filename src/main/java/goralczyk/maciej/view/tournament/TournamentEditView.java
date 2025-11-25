@@ -3,7 +3,7 @@ package goralczyk.maciej.view.tournament;
 import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.models.tournament.TournamentEditModel;
-import goralczyk.maciej.service.tournament.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentRepository;
 import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @Named
 public class TournamentEditView implements Serializable {
 
-    private TournamentService tournamentService;
+    private TournamentRepository tournamentRepository;
 
     private final ModelFunctionFactory factory;
 
@@ -40,12 +40,12 @@ public class TournamentEditView implements Serializable {
     }
 
     @EJB
-    public void setTournamentService(TournamentService tournamentService) {
-        this.tournamentService = tournamentService;
+    public void setTournamentRepository(TournamentRepository tournamentRepository) {
+        this.tournamentRepository = tournamentRepository;
     }
 
     public void init() throws IOException {
-        Optional<Tournament> t = tournamentService.find(tournamentId);
+        Optional<Tournament> t = tournamentRepository.find(tournamentId);
         if (t.isPresent()) {
             this.tournament = factory.tournamentToEditModel().apply(t.get());
         } else {
@@ -54,7 +54,7 @@ public class TournamentEditView implements Serializable {
     }
 
     public String save() {
-        tournamentService.update(factory.editTournamentToTournament().apply(tournamentService.find(tournamentId).orElseThrow(), tournament));
+        tournamentRepository.update(factory.editTournamentToTournament().apply(tournamentRepository.find(tournamentId).orElseThrow(), tournament));
         String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
         return viewId + "?faces-redirect=true&includeViewParams=true";
     }

@@ -44,15 +44,17 @@ public class MatchDetailView implements Serializable
         this.matchService = matchService;
     }
 
-    public void init() throws IOException {
-        Optional<Match> matchOptional = matchService.find(matchId);
+    public void init() throws IOException
+    {
+        Optional<Match> matchOptional = matchService.findByCaller(matchId);
 
         if (matchOptional.isPresent())
         {
             this.match = modelFunctionFactory.matchToModel().apply(matchOptional.get());
-        } else {
+        }
+        else
+        {
             FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Match not found");
         }
-
     }
 }

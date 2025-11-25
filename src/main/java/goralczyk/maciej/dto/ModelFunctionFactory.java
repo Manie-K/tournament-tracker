@@ -6,8 +6,6 @@ import goralczyk.maciej.models.functions.user.UserToModelFunction;
 import goralczyk.maciej.models.functions.user.UsersToModelFunction;
 import goralczyk.maciej.repository.tournament.api.TournamentRepository;
 import goralczyk.maciej.repository.user.api.UserRepository;
-import goralczyk.maciej.service.tournament.TournamentService;
-import goralczyk.maciej.service.user.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

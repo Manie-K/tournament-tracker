@@ -41,9 +41,9 @@ public class MatchListView  implements Serializable {
         return matches;
     }
 
-    public String deleteMatch(UUID id)
+    public void deleteMatch(UUID id)
     {
         boolean deleted = matchService.deleteByCaller(id);
-        return "matches_list?faces-redirect=true";
+        matches = null; // reset matches to force reload
     }
 }

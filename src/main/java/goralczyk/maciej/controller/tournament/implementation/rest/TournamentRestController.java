@@ -7,7 +7,7 @@ import goralczyk.maciej.dto.tournament.GetTournamentsResponse;
 import goralczyk.maciej.dto.tournament.PatchTournamentRequest;
 import goralczyk.maciej.dto.tournament.PutTournamentRequest;
 import goralczyk.maciej.entity.Role;
-import goralczyk.maciej.service.tournament.TournamentService;
+import goralczyk.maciej.service.tournament.TournamentRepository;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,7 +30,7 @@ public class TournamentRestController implements TournamentController
     /**
      * Tournament service.
      */
-    private final TournamentService service;
+    private final TournamentRepository service;
 
     /**
      * Factory producing functions for conversion between DTO and entities.
@@ -59,7 +59,7 @@ public class TournamentRestController implements TournamentController
      * @param factory factory producing functions for conversion between DTO and entities
      */
     @Inject
-    public TournamentRestController(TournamentService service, DtoFunctionFactory factory, UriInfo uriInfo) {
+    public TournamentRestController(TournamentRepository service, DtoFunctionFactory factory, UriInfo uriInfo) {
         this.service = service;
         this.factory = factory;
         this.uriInfo = uriInfo;
