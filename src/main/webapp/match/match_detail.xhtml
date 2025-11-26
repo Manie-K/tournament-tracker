@@ -10,7 +10,7 @@
     <ui:define name="title">Match details</ui:define>
     <ui:define name="content">
         <f:loadBundle var="message" basename="maciej.goralczyk.entities.view.i18n.messages"/>
-        <h:link outcome="/tournament/tournament_list" value="#{message.backToTournaments}" styleClass="btn" />
+        <h:link outcome="/tournament/tournament_list" value="#{message.backToTournamentList}" styleClass="btn" />
 
         <h:panelGroup rendered="#{empty matchDetailView.match}">
             <p>#{message.noMatch}</p>
