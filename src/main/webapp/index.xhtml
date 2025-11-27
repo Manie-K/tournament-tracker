@@ -6,16 +6,14 @@
                 template="/WEB-INF/template/main.xhtml">
 
     <ui:define name="content">
+        <f:loadBundle var="message" basename="goralczyk.maciej.entities.view.i18n.messages"/>
         <article class="">
             <header>
-                <h2>Home</h2>
+                <h2>#{message.home}</h2>
             </header>
             <section>
-                <p>Tournament Tracker home page.</p>
+                <p>#{message.homePage}.</p>
             </section>
         </article>
-        <p>
-            Welcome to the Tournament Tracker application! Use the navigation bar to explore tournaments and manage matches.
-        </p>
     </ui:define>
 </ui:composition>

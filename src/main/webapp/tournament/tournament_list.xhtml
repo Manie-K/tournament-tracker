@@ -4,7 +4,7 @@
 <ui:composition template="/WEB-INF/template/main.xhtml">
     <ui:define name="title">Tournaments</ui:define>
     <ui:define name="content">
-        <f:loadBundle var="message" basename="maciej.goralczyk.entities.view.i18n.messages"/>
+        <f:loadBundle var="message" basename="goralczyk.maciej.entities.view.i18n.messages"/>
         <h2>#{message.tournaments}</h2>
 
         <h:panelGroup id="tournamentListPanel">
@@ -30,7 +30,7 @@
                             <f:param name="tournamentId" value="#{tournament.id}" />
                         </h:link>
                     </h:column>
-                    <h:column>
+                    <h:column rendered="#{facesContext.externalContext.isUserInRole('admin')}">
                         <h:form style="display:inline;">
                             <h:commandButton value="#{message.delete}" styleClass="btn"
                                              action="#{tournamentListView.deleteTournament(tournament.id)}">
@@ -38,15 +38,16 @@
                             </h:commandButton>
                         </h:form>
                     </h:column>
-                    <h:column>
-                        <f:facet name="header">Action</f:facet>
+                    <h:column rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                        <f:facet name="header">#{message.action}</f:facet>
                         <h:link outcome="tournament_edit" value="#{message.edit}" styleClass="btn">
                             <f:param name="id" value="#{tournament.id}" />
                         </h:link>
                     </h:column>
 
                     <f:facet name="footer">
-                        <h:button styleClass="btn" outcome="tournament_create.xhtml"
+                        <h:button  rendered="#{facesContext.externalContext.isUserInRole('admin')}"
+                                styleClass="btn" outcome="tournament_create.xhtml"
                                   value="#{message.newTournament}"/>
                     </f:facet>
 

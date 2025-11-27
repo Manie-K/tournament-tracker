@@ -9,7 +9,7 @@
 
     <ui:define name="title">Tournament - Details</ui:define>
     <ui:define name="content">
-        <f:loadBundle var="message" basename="maciej.goralczyk.entities.view.i18n.messages"/>
+        <f:loadBundle var="message" basename="goralczyk.maciej.entities.view.i18n.messages"/>
         <h:link outcome="tournament_list" value="#{message.backToTournamentList}" styleClass="btn" />
 
         <h:panelGroup rendered="#{empty tournamentDetailView.tournament}">
@@ -38,7 +38,7 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{message.participantA}</f:facet>
-                            <h:outputText value="#{empty match.participantA ? 'No participant A' : match.participantA.name}"/>
+                            <h:outputText value="#{empty match.participantAName ? 'No participant A' : match.participantAName}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{message.action}</f:facet>

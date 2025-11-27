@@ -32,22 +32,25 @@ public class MatchService
     /**
      * Repository for matches.
      */
-    private final MatchRepository matchRepository;
+    @Inject
+    private MatchRepository matchRepository;
 
     /**
      * Repository for users.
      */
-    private final UserRepository userRepository;
+    @Inject
+    private UserRepository userRepository;
 
     /**
      * Repository for tournaments.
      */
-    private final TournamentRepository tournamentRepository;
-
-    private final SecurityContext securityContext;
-
+    @Inject
+    private TournamentRepository tournamentRepository;
 
     @Inject
+    private SecurityContext securityContext;
+
+
     public MatchService(MatchRepository matchRepository, UserRepository userRepository, TournamentRepository tournamentRepository, SecurityContext securityContext)
     {
         this.matchRepository = matchRepository;
