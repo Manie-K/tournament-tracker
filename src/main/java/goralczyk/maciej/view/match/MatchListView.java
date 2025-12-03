@@ -7,6 +7,7 @@ import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -19,6 +20,7 @@ public class MatchListView  implements Serializable {
     private MatchService matchService;
     private final ModelFunctionFactory factory;
 
+    @Getter
     private MatchesModel matches;
 
     @Inject

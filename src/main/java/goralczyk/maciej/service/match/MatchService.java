@@ -32,25 +32,25 @@ public class MatchService
     /**
      * Repository for matches.
      */
-    @Inject
+    //@Inject
     private MatchRepository matchRepository;
 
     /**
      * Repository for users.
      */
-    @Inject
+    //@Inject
     private UserRepository userRepository;
 
     /**
      * Repository for tournaments.
      */
-    @Inject
+    //@Inject
     private TournamentRepository tournamentRepository;
 
-    @Inject
+    //@Inject
     private SecurityContext securityContext;
 
-
+    @Inject
     public MatchService(MatchRepository matchRepository, UserRepository userRepository, TournamentRepository tournamentRepository, SecurityContext securityContext)
     {
         this.matchRepository = matchRepository;
@@ -140,7 +140,7 @@ public class MatchService
 
     /// CREATE =======================
 
-    @LogOperation("create_match")
+    @LogOperation("Create")
     @RolesAllowed({Role.ADMIN, Role.USER})
     public void create(Match match) {
         if(matchRepository.find(match.getId()).isPresent())
@@ -165,7 +165,7 @@ public class MatchService
 
     /// UPDATE =======================
 
-    @LogOperation("update_match")
+    @LogOperation("Update")
     @RolesAllowed({Role.USER, Role.ADMIN})
     public void update(Match match) {
 
@@ -185,7 +185,7 @@ public class MatchService
 
     /// DELETE =======================
 
-    @LogOperation("delete_match")
+    @LogOperation("Delete")
     @RolesAllowed({Role.USER, Role.ADMIN})
     public boolean delete(UUID id) {
         matchRepository.delete(matchRepository.find(id).orElseThrow(NotFoundException::new));
@@ -195,7 +195,7 @@ public class MatchService
     @RolesAllowed({Role.USER, Role.ADMIN})
     public boolean deleteByCaller(UUID id) {
         if (securityContext.isCallerInRole(Role.ADMIN)) {
-            delete(id);
+            return delete(id);
         }
 
         User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())

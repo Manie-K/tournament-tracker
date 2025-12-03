@@ -24,7 +24,7 @@
         <div class="container">
             <header class="mb-4 mt-4">
                 <h1>#{messages.pageName}</h1>
-                <h:graphicImage library="images" name="tournament_tracker_logo.png" alt="Tournament Tracker Logo" width="150" height="150"/>
+                <h:graphicImage name="img/tt_image.png" alt="Tournament Tracker Logo" width="150" height="150"/>
                 <h:form styleClass="container d-flex  align-items-center justify-content-end"
                         rendered="#{facesContext.externalContext.userPrincipal != null}">
                     #{messages.logged}: <h:outputText value="#{facesContext.externalContext.userPrincipal.name}"/>
@@ -40,12 +40,6 @@
                         <li class="nav-item">
                             <h:link styleClass="nav-link" outcome="/index.xhtml">#{messages['navigation.home']}</h:link>
                         </li>
-                        <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}">
-                            <li class="nav-item">
-                                <h:link styleClass="nav-link"
-                                        outcome="/user/user_list.xhtml">#{messages['navigation.users']}</h:link>
-                            </li>
-                        </h:panelGroup>
                         <li class="nav-item">
                             <h:link styleClass="nav-link"
                                     outcome="/tournament/tournament_list.xhtml">#{messages['navigation.tournaments']}</h:link>

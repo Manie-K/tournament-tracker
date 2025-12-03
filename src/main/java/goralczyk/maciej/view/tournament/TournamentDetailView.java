@@ -3,6 +3,7 @@ package goralczyk.maciej.view.tournament;
 import goralczyk.maciej.dto.ModelFunctionFactory;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.models.match.MatchModel;
+import goralczyk.maciej.models.match.MatchesModel;
 import goralczyk.maciej.models.tournament.TournamentModel;
 import goralczyk.maciej.service.match.MatchService;
 import goralczyk.maciej.service.tournament.TournamentRepository;
@@ -40,7 +41,7 @@ public class TournamentDetailView implements Serializable
     private TournamentModel tournament;
 
     @Getter
-    private List<MatchModel> matches;
+    private MatchesModel matches;
 
     @EJB
     public void setTournamentRepository(TournamentRepository service) {
@@ -58,22 +59,29 @@ public class TournamentDetailView implements Serializable
     }
 
     public void init() throws IOException {
+        if(this.tournamentId == null) {
+            return;
+        }
         Optional<Tournament> tournamentOptional = tournamentRepository.find(tournamentId);
         if (tournamentOptional.isPresent())
         {
             this.tournament = modelFunctionFactory.tournamentToModel().apply(tournamentOptional.get());
-
-            this.matches = matchService.findAllByTournamentAndCaller(tournamentId).stream()
-                .map(modelFunctionFactory.matchToModel())
-                .collect(Collectors.toList());
-
         } else {
             FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Tournament not found");
         }
     }
 
+    public MatchesModel getMatches() {
+        if(matches == null)
+        {
+            matches = modelFunctionFactory.matchesToModel().apply(matchService.findAllByTournamentAndCaller(tournamentId));
+        }
+        return matches;
+    }
+
     public void deleteMatch(UUID matchId)
     {
         matchService.delete(matchId);
+        matches = null;
     }
 }

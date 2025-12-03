@@ -12,25 +12,14 @@
         <f:loadBundle var="message" basename="goralczyk.maciej.entities.view.i18n.messages"/>
         <h:link outcome="tournament_list" value="#{message.backToTournamentList}" styleClass="btn" />
 
-        <h:panelGroup rendered="#{empty tournamentDetailView.tournament}">
-            <p>#{message.tournamentNotFound}!</p>
-        </h:panelGroup>
-
-        <h:panelGroup rendered="#{not empty tournamentDetailView.tournament}">
             <h2>#{message.tournamentDetails}</h2>
-            <p><strong>#{message.id}:</strong> <h:outputText value="#{tournamentDetailView.tournament.id}"/></p>
+            <p><strong>#{message.id}:</strong> <h:outputText value="#{tournamentDetailView.tournamentId}"/></p>
             <p><strong>#{message.name}:</strong> <h:outputText value="#{tournamentDetailView.tournament.name}"/></p>
             <p><strong>#{message.location}:</strong> <h:outputText value="#{tournamentDetailView.tournament.location}"/></p>
 
             <h3>#{message.matches}</h3>
 
-            <h:panelGroup id="matchListPanel">
-                <h:panelGroup rendered="#{empty tournamentDetailView.matches}">
-                    <p>#{message.noMatches}</p>
-                </h:panelGroup>
-
-                <h:panelGroup rendered="#{not empty tournamentDetailView.matches}">
-                    <h:dataTable id="matchesTable" value="#{tournamentDetailView.matches}" var="match">
+                    <h:dataTable id="matchesTable" value="#{tournamentDetailView.matches.matches}" var="match">
 
                         <h:column>
                             <f:facet name="header">#{message.id}</f:facet>
@@ -55,7 +44,7 @@
                             <h:form style="display:inline;">
                                 <h:commandButton value="#{message.delete}" styleClass="btn"
                                                  action="#{tournamentDetailView.deleteMatch(match.id)}">
-                                    <f:ajax execute="@form" render=":matchesTable"/>
+                                    <f:ajax execute="@this" render=":matchesTable"/>
                                 </h:commandButton>
                             </h:form>
 
@@ -66,9 +55,6 @@
                         </h:column>
                     </h:dataTable>
 
-                </h:panelGroup>
-            </h:panelGroup>
-        </h:panelGroup>
     </ui:define>
 </ui:composition>
 

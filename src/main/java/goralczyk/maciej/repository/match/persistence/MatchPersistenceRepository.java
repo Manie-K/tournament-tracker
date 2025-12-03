@@ -52,10 +52,14 @@ public class MatchPersistenceRepository implements MatchRepository
     @Override
     public Optional<Match> findByIdAndUser(UUID id, User user)
     {
+        try{
         return Optional.of(em.createQuery("select m from Match m where m.participantA=:user and m.id=:id", Match.class)
                 .setParameter("id", id)
-                .setParameter("user", user)
-                .getSingleResult());
+                .setParameter("user", user).getSingleResult());
+        }catch (Exception ex)
+        {
+            return Optional.empty();
+        }
     }
 
     @Override

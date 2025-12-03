@@ -14,7 +14,7 @@
             </h:panelGroup>
 
             <h:panelGroup rendered="#{not empty tournamentListView.tournaments.tournaments}">
-                <h:dataTable value="#{tournamentListView.tournaments.tournaments}" var="tournament">
+                <h:dataTable id="tournamentListTable" value="#{tournamentListView.tournaments.tournaments}" var="tournament">
                     <h:column>
                         <f:facet name="header">#{message.id}</f:facet>
                         <h:outputText value="#{tournament.id}" />
@@ -34,7 +34,7 @@
                         <h:form style="display:inline;">
                             <h:commandButton value="#{message.delete}" styleClass="btn"
                                              action="#{tournamentListView.deleteTournament(tournament.id)}">
-                                <f:ajax execute="@form"/>
+                                <f:ajax execute="@this" render=":tournamentListTable"/>
                             </h:commandButton>
                         </h:form>
                     </h:column>
@@ -45,13 +45,13 @@
                         </h:link>
                     </h:column>
 
-                    <f:facet name="footer">
-                        <h:button  rendered="#{facesContext.externalContext.isUserInRole('admin')}"
-                                styleClass="btn" outcome="tournament_create.xhtml"
-                                  value="#{message.newTournament}"/>
-                    </f:facet>
-
                 </h:dataTable>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <h:button  rendered="#{facesContext.externalContext.isUserInRole('admin')}"
+                           styleClass="btn" outcome="tournament_create.xhtml"
+                           value="#{message.newTournament}"/>
             </h:panelGroup>
         </h:panelGroup>
 

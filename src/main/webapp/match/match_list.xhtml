@@ -7,50 +7,41 @@
         <f:loadBundle var="message" basename="goralczyk.maciej.entities.view.i18n.messages"/>
         <h2>#{message.matches}</h2>
 
-        <h:panelGroup id="matchesListPanel">
+            <h:dataTable id="matchesTable" value="#{matchListView.matches.matches}" var="match">
+                <h:column>
+                    <f:facet name="header">#{message.id}</f:facet>
+                    <h:outputText value="#{match.id}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{message.participantA}: </f:facet>
+                    <h:outputText value="#{match.participantAName}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{message.tournament}: </f:facet>
+                    <h:outputText value="#{match.tournamentName}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{message.action}</f:facet>
+                    <h:link outcome="match_detail" value="#{message.viewDetails}" styleClass="btn">
+                        <f:param name="matchId" value="#{match.id}" />
+                    </h:link>
+                    <h:link outcome="match_edit.xhtml" value="#{message.edit}">
+                        <f:param name="id" value="#{match.id}"/>
+                    </h:link>
+                    <h:form style="display:inline;">
+                        <h:commandButton value="#{message.delete}" styleClass="btn"
+                                         action="#{matchListView.deleteMatch(match.id)}">
+                            <f:ajax execute="@this" render=":matchesTable"/>
+                        </h:commandButton>
+                    </h:form>
+                </h:column>
 
-            <h:panelGroup rendered="#{empty matchListView.matches.matches}">
-                <p>#{message.noMatches}</p>
-            </h:panelGroup>
+                <f:facet name="footer">
+                    <h:button styleClass="btn" outcome="match_add.xhtml"
+                              value="#{message.create}"/>
+                </f:facet>
 
-            <h:panelGroup rendered="#{not empty matchListView.matches.matches}">
-                <h:dataTable id="matchesTable" value="#{matchListView.matches.matches}" var="match">
-                    <h:column>
-                        <f:facet name="header">#{message.id}</f:facet>
-                        <h:outputText value="#{match.id}" />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{message.participantA}: </f:facet>
-                        <h:outputText value="#{match.participantAName}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{message.tournament}: </f:facet>
-                        <h:outputText value="#{match.tournamentName}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{message.action}</f:facet>
-                        <h:link outcome="match_detail" value="#{message.viewDetails}" styleClass="btn">
-                            <f:param name="matchId" value="#{match.id}" />
-                        </h:link>
-                        <h:link outcome="match_edit.xhtml" value="#{message.edit}">
-                            <f:param name="id" value="#{match.id}"/>
-                        </h:link>
-                        <h:form style="display:inline;">
-                            <h:commandButton value="#{message.delete}" styleClass="btn"
-                                             action="#{matchListView.deleteMatch(match.id)}">
-                                <f:ajax execute="@form" render=":matchesTable"/>
-                            </h:commandButton>
-                        </h:form>
-                    </h:column>
-
-                    <f:facet name="footer">
-                        <h:button styleClass="btn" outcome="match_add.xhtml"
-                                  value="#{message.create}"/>
-                    </f:facet>
-
-                </h:dataTable>
-            </h:panelGroup>
-        </h:panelGroup>
+            </h:dataTable>
 
     </ui:define>
 </ui:composition>
