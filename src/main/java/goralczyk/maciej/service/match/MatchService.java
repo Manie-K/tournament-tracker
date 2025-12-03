@@ -168,7 +168,6 @@ public class MatchService
     @LogOperation("Update")
     @RolesAllowed({Role.USER, Role.ADMIN})
     public void update(Match match) {
-
         matchRepository.update(match);
     }
 
@@ -176,6 +175,7 @@ public class MatchService
     public void updateByCaller(Match match) {
         if(securityContext.isCallerInRole(Role.ADMIN)){
             update(match);
+            return;
         }
         User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName()).orElseThrow(NotFoundException::new);
 

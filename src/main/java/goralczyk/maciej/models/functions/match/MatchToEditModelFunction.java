@@ -11,6 +11,7 @@ public class MatchToEditModelFunction implements Function<Match, EditMatchModel>
     public EditMatchModel apply(Match match) {
         return EditMatchModel.builder()
                 .date(match.getStartDateTime())
+                .version(match.getVersion())
                 .build();
     }
 }

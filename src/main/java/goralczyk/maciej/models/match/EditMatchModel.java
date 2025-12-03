@@ -15,4 +15,5 @@ import java.time.LocalDateTime;
 public class EditMatchModel implements Serializable
 {
     private LocalDateTime date;
+    private long version;
 }

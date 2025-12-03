@@ -1,12 +1,18 @@
 package goralczyk.maciej.repository.user.persistence;
 
+import goralczyk.maciej.entity.Match;
+import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
+import goralczyk.maciej.entity.User_;
 import goralczyk.maciej.repository.user.api.UserRepository;
 import goralczyk.maciej.service.match.MatchService;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,25 +41,39 @@ public class UserPersistenceRepository implements UserRepository
 
     @Override
     public Optional<User> findByName(String name) {
-        List<User> results = em.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class)
-                .setParameter("name", name)
-                .getResultList();
-
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        try{
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<User> query = cb.createQuery(User.class);
+            Root<User> root = query.from(User.class);
+            query.select(root)
+                    .where(cb.equal(root.get(User_.name), name));
+            return Optional.of(em.createQuery(query).getSingleResult());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<User> findByLogin(String login) {
-        List<User> results = em.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class)
-                .setParameter("login", login)
-                .getResultList();
-
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        try{
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<User> query = cb.createQuery(User.class);
+            Root<User> root = query.from(User.class);
+            query.select(root)
+                    .where(cb.equal(root.get(User_.login), login));
+            return Optional.of(em.createQuery(query).getSingleResult());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<User> findAll() {
-        return em.createQuery("select u from User u", User.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<User> query = cb.createQuery(User.class);
+        Root<User> root = query.from(User.class);
+        query.select(root);
+        return em.createQuery(query).getResultList();
     }
 
     @Override

@@ -16,6 +16,9 @@ public class EditMatchToEntityFunction implements BiFunction<Match, EditMatchMod
                 .participantB(entity.getParticipantB())
                 .tournament(entity.getTournament())
                 .startDateTime(editMatch.getDate())
+                .version(editMatch.getVersion())
+                .creationDateTime(entity.getCreationDateTime())
+                .modificationDateTime(entity.getModificationDateTime())
                 .build();
     }
 }

@@ -26,6 +26,10 @@
     </application>
 
     <logging consoleLogLevel="INFO"/>
+    <logging traceSpecification="eclipselink.sql=all"
+             traceFileName="stdout"
+             traceFormat="BASIC"/>
+
 
     <dataSource id="TournamentTrackerDataSource" jndiName="jdbc/TournamentTracker">
         <jdbcDriver javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource"

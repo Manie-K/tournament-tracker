@@ -5,11 +5,14 @@ import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.models.match.EditMatchModel;
 import goralczyk.maciej.service.match.MatchService;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.TransactionalException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,9 +36,12 @@ public class MatchEditView implements Serializable
     @Setter
     private EditMatchModel match;
 
+    private final FacesContext facesContext;
+
     @Inject
-    public MatchEditView(ModelFunctionFactory factory) {
+    public MatchEditView(ModelFunctionFactory factory, FacesContext facesContext) {
         this.factory = factory;
+        this.facesContext = facesContext;
     }
 
     @EJB
@@ -55,11 +61,18 @@ public class MatchEditView implements Serializable
         }
     }
 
-    public String saveMatch() {
-        matchService.updateByCaller(factory.editMatchToEntity().apply(matchService.find(matchId).orElseThrow(), match));
-
-        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        return viewId + "?faces-redirect=true&includeViewParams=true";
+    public String saveMatch() throws IOException {
+        try{
+            matchService.updateByCaller(factory.editMatchToEntity().apply(matchService.findByCaller(matchId).orElseThrow(), match));
+            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+            return viewId + "?faces-redirect=true&includeViewParams=true";
+        }catch (Exception ex) {
+            if (ex.getCause() instanceof OptimisticLockException) {
+                init();
+                facesContext.addMessage(null, new FacesMessage("Version collision."));
+            }
+            return null;
+        }
     }
 
 

@@ -2,6 +2,7 @@ package goralczyk.maciej.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,14 +13,16 @@ import java.util.UUID;
  * Model class representing a single match.
  */
 @Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="matches")
-public class Match implements Serializable {
+public class Match extends VersionAndCreationDateAuditable implements Serializable {
     /**
      * Unique ID (primary key)
      */

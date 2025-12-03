@@ -1,12 +1,17 @@
 package goralczyk.maciej.repository.match.persistence;
 
 import goralczyk.maciej.entity.Match;
+import goralczyk.maciej.entity.Match_;
 import goralczyk.maciej.entity.Tournament;
 import goralczyk.maciej.entity.User;
 import goralczyk.maciej.repository.match.api.MatchRepository;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,17 +31,25 @@ public class MatchPersistenceRepository implements MatchRepository
     }
 
     @Override
-    public List<Match> findAllByUser(User user) {
-        return em.createQuery("SELECT m FROM Match m WHERE m.participantA = :participantA", Match.class)
-                .setParameter("participantA", user)
-                .getResultList();
+    public List<Match> findAllByUser(User user)
+    {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Match> query = cb.createQuery(Match.class);
+        Root<Match> root = query.from(Match.class);
+        query.select(root).where(cb.equal(root.get(Match_.participantA), user));
+        return em.createQuery(query).getResultList();
+
     }
 
     @Override
-    public List<Match> findAllByTournament(Tournament tournament) {
-        return em.createQuery("SELECT m FROM Match m WHERE m.tournament = :tournament", Match.class)
-                .setParameter("tournament", tournament)
-                .getResultList();
+    public List<Match> findAllByTournament(Tournament tournament)
+    {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Match> query = cb.createQuery(Match.class);
+        Root<Match> root = query.from(Match.class);
+        query.select(root)
+                .where(cb.equal(root.get(Match_.tournament), tournament));
+        return em.createQuery(query).getResultList();
     }
 
     @Override
@@ -46,17 +59,28 @@ public class MatchPersistenceRepository implements MatchRepository
 
     @Override
     public List<Match> findAll() {
-        return em.createQuery("select m from Match m", Match.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Match> query = cb.createQuery(Match.class);
+        Root<Match> root = query.from(Match.class);
+        query.select(root);
+        return em.createQuery(query).getResultList();
     }
 
     @Override
     public Optional<Match> findByIdAndUser(UUID id, User user)
     {
-        try{
-        return Optional.of(em.createQuery("select m from Match m where m.participantA=:user and m.id=:id", Match.class)
-                .setParameter("id", id)
-                .setParameter("user", user).getSingleResult());
-        }catch (Exception ex)
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Match> query = cb.createQuery(Match.class);
+            Root<Match> root = query.from(Match.class);
+            query.select(root)
+                    .where(cb.and(
+                            cb.equal(root.get(Match_.participantA), user),
+                            cb.equal(root.get(Match_.id), id)
+                    ));
+            return Optional.of(em.createQuery(query).getSingleResult());
+        }
+        catch (NoResultException ex)
         {
             return Optional.empty();
         }
@@ -64,10 +88,15 @@ public class MatchPersistenceRepository implements MatchRepository
 
     @Override
     public List<Match> findAllByTournamentAndUser(Tournament tournament, User user) {
-        return em.createQuery("select m from Match m where m.tournament=:tournament and m.participantA=:user", Match.class)
-                .setParameter("tournament", tournament)
-                .setParameter("user", user)
-                .getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Match> query = cb.createQuery(Match.class);
+        Root<Match> root = query.from(Match.class);
+        query.select(root)
+                .where(cb.and(
+                        cb.equal(root.get(Match_.tournament), tournament),
+                        cb.equal(root.get(Match_.participantA), user)
+                ));
+        return em.createQuery(query).getResultList();
     }
 
     @Override

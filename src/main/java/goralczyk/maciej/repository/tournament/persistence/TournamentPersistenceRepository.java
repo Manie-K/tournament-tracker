@@ -2,12 +2,16 @@ package goralczyk.maciej.repository.tournament.persistence;
 
 import goralczyk.maciej.entity.Match;
 import goralczyk.maciej.entity.Tournament;
+import goralczyk.maciej.entity.Tournament_;
 import goralczyk.maciej.repository.tournament.api.TournamentRepository;
 import goralczyk.maciej.service.match.MatchService;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,11 +35,16 @@ public class TournamentPersistenceRepository implements TournamentRepository
 
     @Override
     public Optional<Tournament> findByName(String name) {
-        List<Tournament> results = em.createQuery("SELECT t FROM Tournament t WHERE t.name = :name", Tournament.class)
-                .setParameter("name", name)
-                .getResultList();
-
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
+        try{
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Tournament> query = cb.createQuery(Tournament.class);
+            Root<Tournament> root = query.from(Tournament.class);
+            query.select(root)
+                    .where(cb.equal(root.get(Tournament_.name), name));
+            return Optional.of(em.createQuery(query).getSingleResult());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -45,7 +54,11 @@ public class TournamentPersistenceRepository implements TournamentRepository
 
     @Override
     public List<Tournament> findAll() {
-        return em.createQuery("select t from Tournament t", Tournament.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Tournament> query = cb.createQuery(Tournament.class);
+        Root<Tournament> root = query.from(Tournament.class);
+        query.select(root);
+        return em.createQuery(query).getResultList();
     }
 
     @Override

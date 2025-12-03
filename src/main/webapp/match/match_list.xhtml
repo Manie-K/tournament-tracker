@@ -21,12 +21,32 @@
                     <h:outputText value="#{match.tournamentName}"/>
                 </h:column>
                 <h:column>
+                    <f:facet name="header">Version</f:facet>
+                    <h:outputText value="#{match.version}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Created</f:facet>
+                    <h:outputText value="#{match.creationDate}">
+                        <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd HH:mm"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Modified</f:facet>
+                    <h:outputText value="#{match.modificationDate}">
+                        <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd HH:mm"/>
+                    </h:outputText>
+                </h:column>
+
+
+                <h:column>
                     <f:facet name="header">#{message.action}</f:facet>
                     <h:link outcome="match_detail" value="#{message.viewDetails}" styleClass="btn">
                         <f:param name="matchId" value="#{match.id}" />
                     </h:link>
+                    <f:facet name="header">#{message.edit}</f:facet>
                     <h:link outcome="match_edit.xhtml" value="#{message.edit}">
-                        <f:param name="id" value="#{match.id}"/>
+                        <f:param name="matchId" value="#{match.id}"/>
                     </h:link>
                     <h:form style="display:inline;">
                         <h:commandButton value="#{message.delete}" styleClass="btn"
